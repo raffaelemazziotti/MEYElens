@@ -11,7 +11,7 @@ class ExperimentReader:
         self.video_path = os.path.join(folder_path, "pupillometry.avi")
         self.csv_path = os.path.join(folder_path, "expinfo.csv")
         self.metadata = {}
-        self.frame_info = []  # List of dicts with keys: frame_index, timestamp, signal
+        self.frame_info = []
         self.frame_info = pd.read_csv(self.csv_path, comment='#')
         self.fps = np.mean(1/self.frame_info['timestamp'].diff().loc[1:].values)
 

@@ -236,8 +236,6 @@ class Camera:
         cv2.destroyWindow("Select ROI")
 
 
-
-
 if __name__ == "__main__":
 
     cam = Camera(0,crop=[162, 249, 229, 246])

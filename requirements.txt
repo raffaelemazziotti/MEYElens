@@ -1,0 +1,10 @@
+pygame
+opencv-python
+tensorflow
+numpy
+scikit-image
+toml
+matplotlib
+pandas
+psychopy
+ffpyplayer
