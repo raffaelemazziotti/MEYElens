@@ -118,7 +118,7 @@ class Camera:
                 self.set_exposure(self.exposure - 1)
                 print(f"### CAMERA ### Current Exposure: {self.exposure}")
 
-        self.close()
+        cv2.destroyAllWindows()
 
     def get_frame(self, flip=True, if_crop=True):
         ret, frame = self.cap.read()

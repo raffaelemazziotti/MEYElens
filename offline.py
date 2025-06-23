@@ -115,17 +115,17 @@ class ExperimentReader:
         self.cap.release()
 
 class FastVideoRecorder:
-    def __init__(self, fname="experiment", dest_folder=".", fps=30.0, frame_size=(640, 480), metadata=None):
+    def __init__(self, name="experiment", dest_folder=".", fps=20.0, frame_size=(640, 480), metadata=None, filename="eye.avi"):
         # Create the destination folder if it does not exist.
         os.makedirs(dest_folder, exist_ok=True)
 
-        # Create a new folder with a timestamp and the user-defined fname.
+        # Create a new folder with a timestamp and the user-defined name.
         timestamp_str = time.strftime("%Y%m%d_%H%M%S")
-        self.output_folder = os.path.join(dest_folder, f"{timestamp_str}-{fname}")
+        self.output_folder = os.path.join(dest_folder, f"{timestamp_str}-{name}")
         os.makedirs(self.output_folder, exist_ok=True)
 
         # Hardcoded file names: pupillometri.avi for video and expinfo.csv for timestamps and signals.
-        self.video_path = os.path.join(self.output_folder, "pupillometry.avi")
+        self.video_path = os.path.join(self.output_folder, filename)
         self.timestamp_path = os.path.join(self.output_folder, "expinfo.csv")
 
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
@@ -136,35 +136,33 @@ class FastVideoRecorder:
         if metadata is not None:
             for key, value in metadata.items():
                 self.timestamp_fh.write(f"# {key}: {value}\n")
-        self.timestamp_fh.write("frame_index,timestamp,signal\n")
+        self.timestamp_fh.write("frame_index,timestamp,signal,trial\n")
         self.frame_index = 0
 
-    def record_frame(self, frame, signal):
+    def record_frame(self, frame, signal="", trial_n=""):
         current_time = time.time()
-        self.timestamp_fh.write(f"{self.frame_index},{current_time},{signal}\n")
+        self.timestamp_fh.write(f"{self.frame_index},{current_time},{signal},{trial_n}\n")
         self.frame_index += 1
 
         if len(frame.shape) == 3:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         self.writer.write(frame)
-
     def release(self):
         self.writer.release()
         self.timestamp_fh.close()
 
 class FrameRateManager:
-
-    def __init__(self,fps, duration=10):
+    def __init__(self, fps, duration=10):
         self.fps = fps
-        self.interframe = 1/fps
+        self.interframe = 1 / fps
         self.time_grab = 0
-        self.framecount=0
         self.duration = duration
 
     def start(self):
         self.nextframetime = time.time()
-        self.start_time = time.time()
-        self.loop_duration = time.time() + self.duration
+        self.start_time = self.nextframetime
+        self.loop_duration = self.nextframetime + self.duration
+        self.framecount = 0  # ← reset per-phase frame counter
 
     def is_ready(self):
         isready = time.time() >= self.nextframetime
