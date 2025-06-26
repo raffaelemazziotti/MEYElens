@@ -2,6 +2,8 @@ from camera import Camera
 from meye import Meye
 from fileio import FileWriter,BufferedFileWriter
 import time
+from pathlib import Path
+
 
 class MeyeRecorder:
     """
@@ -22,7 +24,7 @@ class MeyeRecorder:
 
     Methods:
     --------
-    - __init__(cam_ind: int = -1, model: str = r'models/meye-2022-01-24.h5', show_preview: bool = False):
+    - __init__():
         Initializes the recorder with the specified camera and model.
 
     - start():
@@ -41,7 +43,7 @@ class MeyeRecorder:
         Returns instantaneous data on pupil detection.
     """
 
-    def __init__(self, cam_ind=0, model=r'models/meye-2022-01-24.h5', show_preview=False, filename='meye', folder_path='Data', sep=';'):
+    def __init__(self, cam_ind=0, model=r'models/meye-2022-01-24.h5', show_preview=False, filename='meye', folder_path=None, sep=';'):
         """
         Initializes the MeyeRecorder with a camera and model.
 
@@ -51,11 +53,16 @@ class MeyeRecorder:
         model (str): Path to the pre-trained model file.
         show_preview (bool): Whether to display a live preview.
         filename (str): Name of the file for saving recorded data.
+        folder_path (str): file saving directory (default is '~/Documents/GazeData')
         """
         self.cam = Camera(cam_ind)
         self.filename = filename
         self.show_preview = show_preview
         self.meye = Meye(model=model)
+        if folder_path is None:
+            documents = Path.home() / 'Documents'
+            documents.mkdir(parents=True, exist_ok=True)
+            folder_path = documents / 'GazeData'
         self.folder_path = folder_path
         self.sep = sep
         self.writer = None
@@ -147,7 +154,6 @@ class MeyeRecorder:
         self.stop()
         self.close()
 
-
 class MeyeAsyncRecorder:
     """
     MeyeAsyncRecorder Class
@@ -166,7 +172,7 @@ class MeyeAsyncRecorder:
 
     Methods:
     --------
-    - __init__(cam_ind=0, model='', show_preview=False, path_to_file='.', filename='meye', buffer_size=100):
+    - __init__(cam_ind=0, model='', show_preview=False, path_to_file=None, filename='meye', buffer_size=100):
         Initializes the recorder with the specified camera, model, and file writer.
 
     - start(metadata=None):
@@ -186,7 +192,7 @@ class MeyeAsyncRecorder:
     """
 
     def __init__(self, cam_ind=0, model=r'models/meye-2022-01-24.h5', show_preview=False,
-                 path_to_file='Data', filename='meye', buffer_size=100,sep=';', cam_crop=None):
+                 path_to_file=None, filename='meye', buffer_size=100,sep=';', cam_crop=None):
         """
         Initializes the MeyeAsyncRecorder with a camera, Meye model, and asynchronous file writer.
 
@@ -199,15 +205,22 @@ class MeyeAsyncRecorder:
         filename (str): Base filename for the saved file.
         buffer_size (int): Buffer size for the asynchronous file writer.
         """
-        self.cam = Camera(cam_ind,crop=cam_crop)
+        self.cam = Camera(cam_ind, crop=cam_crop)
         self.show_preview = show_preview
         self.meye = Meye(model=model)
         self.frame = None
         self.predicted = None
         self.filename = filename
-        self.path_to_file = path_to_file
+        if path_to_file:
+            self.path_to_file = path_to_file
+        else:
+            documents = Path.home() / 'Documents'
+            documents.mkdir(parents=True, exist_ok=True)
+            folder = documents / 'GazeData'
+            self.path_to_file = folder
         self.buffer_size = buffer_size
         self.sep = sep
+        self.time_start = None
 
 
     def start(self, metadata=None):
@@ -222,7 +235,7 @@ class MeyeAsyncRecorder:
         self.writer = BufferedFileWriter(self.path_to_file, filename=self.filename, buffer_size=self.buffer_size,
                                          headers=['time', 'x', 'y', 'pupil', 'major_diameter',
                                                   'minor_diameter', 'orientation', 'trg1', 'trg2',
-                                                  'trg3', 'trg4', 'trg5', 'trg6', 'trg7', 'trg8', 'trg9'],metadata=metadata,sep=self.sep)
+                                                  'trg3', 'trg4', 'trg5', 'trg6', 'trg7', 'trg8', 'trg9'], metadata=metadata, sep=self.sep)
         self.time_start = time.time()
         print("### MEYE ASYNC RECORDER ### Start.")
 
@@ -242,6 +255,10 @@ class MeyeAsyncRecorder:
         """
         self.frame = self.cam.get_frame()
         self.predicted = self.meye.predict(self.frame)[0]
+
+        if self.time_start==None:
+            print('### MEYE ASYNCRECORDER ### Recording not started!')
+
         timestamp = time.time() - self.time_start
         self.writer.write_sv([timestamp, self.meye.centroid[1], self.meye.centroid[0], self.meye.pupil_size,
                               self.meye.major_diameter, self.meye.minor_diameter, self.meye.orientation,
@@ -293,3 +310,4 @@ class MeyeAsyncRecorder:
         print(f"### MEYE ASYNC RECORDER ### Closed.")
         self.stop()
         self.close()
+

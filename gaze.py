@@ -8,21 +8,24 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
+
 class ScreenPositions:
     """
     Generates a sequence of screen positions for gaze tracking experiments.
     """
-    def __init__(self, screen_width_deg, screen_height_deg, num_points):
+    def __init__(self, screen_width, screen_height, random_points=False, num_points=2):
         """
         Initialize the position generator.
 
         Args:
-            screen_width_deg (float): Total width of the screen in degrees.
-            screen_height_deg (float): Total height of the screen in degrees.
-            num_points (int): Total number of points to generate.
+            screen_width (float): Total width of the screen.
+            screen_height (float): Total height of the screen.
+            random_points (bool): Generate additional random points.
+            num_points (int): Total number of points random points to generate (default is 2).
         """
-        self.screen_width_deg = screen_width_deg
-        self.screen_height_deg = screen_height_deg
+        self.screen_width_deg = screen_width
+        self.screen_height_deg = screen_height
+        self.random_points = random_points
         self.num_points = num_points
         self.positions = self._generate_positions()
         self.current_index = -1
@@ -42,13 +45,16 @@ class ScreenPositions:
             (self.screen_width_deg / 2, -self.screen_height_deg / 2),  # Bottom-right
         ]
 
-        random_points = [
-            (
-                np.random.uniform(-self.screen_width_deg / 2, self.screen_width_deg / 2),
-                np.random.uniform(-self.screen_height_deg / 2, self.screen_height_deg / 2),
-            )
-            for _ in range(self.num_points - len(fixed_points))
-        ]
+        if self.random_points:
+            random_points = [
+                (
+                    np.random.uniform(-self.screen_width_deg / 2, self.screen_width_deg / 2),
+                    np.random.uniform(-self.screen_height_deg / 2, self.screen_height_deg / 2),
+                )
+                for _ in range(self.num_points - len(fixed_points))
+            ]
+        else:
+            random_points = []
 
         positions = fixed_points + random_points
         np.random.shuffle(positions)
@@ -68,7 +74,7 @@ class ScreenPositions:
 
 class GazeData:
     """
-    Handles reading, preprocessing, and managing gaze data from files.
+        Handles reading, preprocessing, and managing gaze data from files.
     """
 
     def __init__(self, folder=None):
@@ -268,14 +274,13 @@ class GazeModelPoly:
         instance.poly_features = data['poly_features']
         return instance
 
+
 if __name__ == '__main__':
-    """
-    Main function for training, saving, and predicting gaze positions.
-    """
-    gdata = GazeData()
-    gdata.list()
-    #gaze_points, positions = gdata.get_all()
-    #gmodel = GazeModelPoly()
-    #gmodel.train(gaze_points, positions)
-    #gmodel.save()
-    #print(gmodel.predict(np.array((21, 30)).reshape(1, -1)))
+    poss = ScreenPositions(10,10)
+
+    while True:
+        point = poss.next()
+        if point:
+            print(point)
+        else:
+            break

@@ -167,6 +167,7 @@ class Meye:
         """
         Launches a real-time preview of the pupil detection process.
         """
+        print('### MEYE ### Press "q" to exit preview.')
         while True:
             frame = cam.get_frame()
             predicted = self.predict(frame)[0]
@@ -468,3 +469,10 @@ class MeyeAsyncRecorder:
         print(f"### MEYE ASYNC RECORDER ### Closed.")
         self.stop()
         self.close()
+
+
+if  __name__ == '__main__':
+    from camera import Camera
+    cam = Camera(0)
+    meye = Meye()
+    meye.preview(cam)

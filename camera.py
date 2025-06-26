@@ -238,7 +238,6 @@ class Camera:
 
 if __name__ == "__main__":
 
-    cam = Camera(0,crop=[162, 249, 229, 246])
-    cam.select_roi()
+    cam = Camera(0)
     cam.preview()
     cam.close()
