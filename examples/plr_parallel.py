@@ -1,10 +1,9 @@
-import numpy as np
 import time
 import threading
 from queue import Queue, Empty
 from psychopy import visual
-from camera import Camera
-from offline import FrameRateManager, FastVideoRecorder
+from meyelens.camera import Camera
+from meyelens.offline import FrameRateManager, FastVideoRecorder
 
 # === Parameters ===
 fps = 20

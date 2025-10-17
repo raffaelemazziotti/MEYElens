@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meyelens"
+version = "0.1.0"
+description = "Gaze-tracking and pupillometry with MEYE"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "scikit-learn",
+  "scikit-image",
+  "joblib",
+  "toml",
+  "shapely",
+  "importlib_resources>=5.12 ; python_version<'3.9'"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["meyelens*"]
+
+[tool.setuptools.package-data]
+"meyelens.models" = ["*.h5"]

@@ -1,0 +1,8 @@
+scikit-learn
+scikit-image
+joblib
+toml
+shapely
+
+[:python_version < "3.9"]
+importlib_resources>=5.12

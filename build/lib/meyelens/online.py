@@ -1,6 +1,6 @@
-from camera import Camera
-from meye import Meye
-from fileio import FileWriter,BufferedFileWriter
+from .camera import Camera
+from .meye import Meye
+from .fileio import FileWriter,BufferedFileWriter
 import time
 from pathlib import Path
 
@@ -62,7 +62,7 @@ class MeyeRecorder:
         if folder_path is None:
             documents = Path.home() / 'Documents'
             documents.mkdir(parents=True, exist_ok=True)
-            folder_path = documents / 'GazeData'
+            folder_path = documents / 'MEYE/GazeData'
         self.folder_path = folder_path
         self.sep = sep
         self.writer = None
@@ -216,7 +216,7 @@ class MeyeAsyncRecorder:
         else:
             documents = Path.home() / 'Documents'
             documents.mkdir(parents=True, exist_ok=True)
-            folder = documents / 'GazeData'
+            folder = documents / 'MEYE/GazeData'
             self.path_to_file = folder
         self.buffer_size = buffer_size
         self.sep = sep

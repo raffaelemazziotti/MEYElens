@@ -1,8 +1,7 @@
-import numpy as np
 import time
 from psychopy import visual
-from camera import Camera
-from offline import FastVideoRecorder, FrameRateManager
+from meyelens.camera import Camera
+from meyelens.offline import FastVideoRecorder, FrameRateManager
 
 # === Parameters ===
 fps = 20

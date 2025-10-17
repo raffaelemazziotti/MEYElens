@@ -1,14 +1,9 @@
-import cv2
-from meye import MeyeRecorder, MeyeAsyncRecorder
+from meyelens.meye import MeyeAsyncRecorder
 from visual_lib import CountdownTimer
 from psychopy import visual, core, monitors
 from psychopy.hardware import keyboard
 import ctypes
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR
-import pickle
-import pandas as pd
 from gaze import GazeData,GazeModelPoly, ScreenPositions
 
 # gaze calibration matrix

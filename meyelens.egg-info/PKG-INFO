@@ -1,3 +1,16 @@
+Metadata-Version: 2.4
+Name: meyelens
+Version: 0.1.0
+Summary: Gaze-tracking and pupillometry with MEYE
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: scikit-learn
+Requires-Dist: scikit-image
+Requires-Dist: joblib
+Requires-Dist: toml
+Requires-Dist: shapely
+Requires-Dist: importlib_resources>=5.12; python_version < "3.9"
+
 # MEYElens
 
 

@@ -79,7 +79,7 @@ class Camera:
         return True
 
     def preview(self):
-        print("### CAMERA ### Starting preview mode. Press 'q' to exit.")
+        print("### CAMERA ### Starting preview mode. Press 'Esc' to exit.")
         print("### CAMERA ### Press 'o' to increase exposure, 'p' to decrease exposure.")
 
         frame_count = 0

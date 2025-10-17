@@ -1,10 +1,9 @@
-from gaze import ScreenPositions, GazeData, GazeModelPoly
-from psychopy import visual, core, monitors
+from meyelens.gaze import ScreenPositions, GazeData, GazeModelPoly
+from psychopy import visual, core
 from psychopy.hardware import keyboard
-from online import MeyeAsyncRecorder
-from utils import CountdownTimer
+from meyelens.online import MeyeRecorder
+from meyelens.utils import CountdownTimer
 import numpy as np
-
 
 # Initialize variables
 dot_fixation = 2
@@ -15,7 +14,7 @@ dot_radius = 12
 
 
 # MeyeRecorder setup
-meye_reco = MeyeAsyncRecorder(show_preview=False, filename='track_cal')#,cam_crop=[90,210,260,280])
+meye_reco = MeyeRecorder(show_preview=False, filename='track_cal')#,cam_crop=[90,210,260,280])
 meye_reco.preview()
 
 # Psychopy setup
