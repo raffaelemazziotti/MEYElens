@@ -481,8 +481,8 @@ class MeyeAsyncRecorder:
         self.close()
 
 
-if  __name__ == '__main__':
-    from camera import Camera
-    cam = Camera(0)
-    meye = Meye()
-    meye.preview(cam)
+#if  __name__ == '__main__':
+    #from camera import Camera
+    #cam = Camera(1,crop=[100,220,250,270])
+    #meye = Meye()
+    #meye.preview(cam)

@@ -9,7 +9,7 @@ from meyelens.offline import FrameRateManager, FastVideoRecorder
 fps = 20
 n_trials = 10
 dest_folder = "data"
-gamma = 2.177573479554467
+gamma = 2.177573479554467 # works only with one screen
 
 # Durations in seconds
 pretrial_duration = 5

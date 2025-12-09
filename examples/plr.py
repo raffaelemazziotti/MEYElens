@@ -8,7 +8,7 @@ fps = 20
 n_trials = 10
 intensity = 0 #stimulation intensity, 1 is white, -1 is black
 dest_folder = "data"
-gamma = 2.177573479554467
+#gamma = 2.177573479554467
 
 # Define durations in seconds
 pretrial_duration = 5      # 5 seconds
@@ -29,7 +29,7 @@ cam.preview()
 print("Camera preview closed. Starting PLR paradigm...")
 
 # === PsychoPy Window ===
-win = visual.Window(fullscr=True, color=black, units='pix', gamma=gamma)
+win = visual.Window(fullscr=True, color=black, units='pix') #, gamma=gamma)
 fixation = visual.Circle(win, radius=5, fillColor='red', lineColor='red', pos=(0, 0))
 flash_square = visual.Rect(win, width=square_size, height=square_size, fillColor=white, lineColor=white, pos=(0, 0))
 

@@ -6,22 +6,28 @@ build-backend = "setuptools.build_meta"
 name = "meyelens"
 version = "0.1.0"
 description = "Gaze-tracking and pupillometry with MEYE"
+authors = [
+    { name = "Raffaele Mazziotti", email = "mzzrff@gmail.com" },
+    { name = "Giacomo Vecchieschi", email = "giacomovec@gmail.com" }
+]
 readme = "README.md"
 requires-python = ">=3.8"
+
+# **light-weight runtime deps (install quickly)**
 dependencies = [
-  "scikit-learn",
-  "scikit-image",
-  "joblib",
-  "toml",
-  "shapely",
-  "importlib_resources>=5.12 ; python_version<'3.9'"
+    "numpy",
+    "opencv-python",
+    "scikit-image",
+    "pandas",
+    "toml"
 ]
 
+
 [tool.setuptools]
+packages = ["meyelens", "meyelens.models"]
 include-package-data = true
 
-[tool.setuptools.packages.find]
-include = ["meyelens*"]
-
 [tool.setuptools.package-data]
-"meyelens.models" = ["*.h5"]
+"meyelens.models" = ["meye-2022-01-24.h5"]
+
+

@@ -4,6 +4,8 @@ import time
 from psychopy import visual
 from meyelens.camera import Camera
 from meyelens.offline import FrameRateManager, FastVideoRecorder
+
+
 # === Parameters ===
 
 trial_duration = 20
@@ -13,7 +15,6 @@ gamma = 2.177573479554467
 timestamps = []
 frequencies = [1, 1.1111, 1.25, 1.4286, 1.6667, 2, 2.5, 3.3333, 5]
 randomize_frequencies = True
-
 
 
 
@@ -29,7 +30,7 @@ recorder = FastVideoRecorder(name="frequency_sweep", fps=fps, dest_folder="data"
 square_size = 800  # Square size in pixels
 
 cam.preview()
-print("Camera preview closed. Starting paradigm...")
+print("Camera preview closed. Starting the test...")
 
 # === PsychoPy Window Setup ===
 win = visual.Window(fullscr=True, color=gray, units='pix', gamma=gamma)

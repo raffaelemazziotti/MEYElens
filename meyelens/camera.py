@@ -236,8 +236,8 @@ class Camera:
         cv2.destroyWindow("Select ROI")
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
-    cam = Camera(0)
-    cam.preview()
-    cam.close()
+    #cam = Camera(1,crop=[90,210,260,280])
+    #cam.preview()
+    #cam.close()
