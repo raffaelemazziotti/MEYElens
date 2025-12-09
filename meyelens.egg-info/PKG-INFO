@@ -10,6 +10,7 @@ Requires-Dist: opencv-python
 Requires-Dist: scikit-image
 Requires-Dist: pandas
 Requires-Dist: toml
+Requires-Dist: PyQt6
 
 # MEYElens
 

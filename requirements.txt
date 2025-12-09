@@ -11,3 +11,4 @@ scikit-image
 toml
 shapely
 ffpyplayer
+PyQt6

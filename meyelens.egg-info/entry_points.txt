@@ -1,0 +1,2 @@
+[console_scripts]
+meyelens-gui = meyelens.meyelens_gui:main
