@@ -13,15 +13,19 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.8"
 
-# **light-weight runtime deps (install quickly)**
+# Pinned runtime deps to match the current environment
 dependencies = [
-    "numpy",
-    "opencv-python",
-    "scikit-image",
-    "pandas",
-    "toml",
-    "PyQt6",
+    "numpy==2.2.6",
+    "opencv-python==4.12.0.88",
+    "pandas==2.3.3",
+    "PyQt6==6.10.1",
+    "scikit-image==0.25.2",
+    "tensorflow==2.20.0 ; extra != \"no_tf\"",
+    "toml==0.10.2",
 ]
+
+[project.optional-dependencies]
+no_tf = []
 
 
 [project.scripts]
@@ -31,7 +35,7 @@ meyelens-gui = "meyelens.meyelens_gui:main"
 [tool.setuptools]
 packages = ["meyelens", "meyelens.models"]
 include-package-data = true
+py-modules = ["meyelens_offlinegui"]
 
 [tool.setuptools.package-data]
 "meyelens.models" = ["meye-2022-01-24.h5"]
-
