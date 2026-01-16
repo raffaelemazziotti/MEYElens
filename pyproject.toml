@@ -15,10 +15,14 @@ requires-python = ">=3.8"
 
 # Pinned runtime deps to match the current environment
 dependencies = [
+    "joblib==1.4.2",
+    "matplotlib==3.10.0",
     "numpy==2.2.6",
     "opencv-python==4.12.0.88",
     "pandas==2.3.3",
+    "psychopy",
     "PyQt6==6.10.1",
+    "scikit-learn==1.6.1",
     "scikit-image==0.25.2",
     "tensorflow==2.20.0 ; extra != \"no_tf\"",
     "toml==0.10.2",

@@ -1,81 +1,145 @@
-# MEYElens
+# MEYELens
+**MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**
 
+MEYELens is a low-cost, modular, 3D-printable eyewear platform for **pupillometry** and **gaze tracking**, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (`meyelens`) providing both a **Python API** and a **GUI** for offline analysis.
 
+This project is based on **MEYE** (pupil segmentation): https://github.com/fabiocarrara/meye
 
+---
 
+## 3D PRINT
+3D printing files are in the `3d_print_files/` folder.
 
-Quick checklist – fresh install of WSL + GPU-enabled TensorFlow (Windows 11 / Windows 10 21H2+)
+If you have a Bambu Lab printer, you can also find them on MakerWorld: **[ADD MAKERWORLD LINK]**
 
-    All commands are meant for PowerShell (admin) or Ubuntu 22.04 inside WSL as noted.
+We used **Bambu Lab Matte Black PLA**.
 
-1. Install WSL and Ubuntu
+Print settings (Bambu Studio baseline profile with fixed infill):
+- 0.2 mm layer height, 0.4 mm nozzle
+- Supports enabled, 2 wall loops
+- ~50% gyroid infill (lower infill may reduce print time)
+- ~55 g filament, ~3 hours (printer-dependent)
 
-    Open PowerShell as Administrator
+---
 
-    wsl --install
+## CAMERAS (TESTED CONFIGURATIONS)
+The platform supports:
+- **Single camera**: pupillometry (optionally chin-rest gaze tracking)
+- **Dual camera**: eye + world camera for naturalistic gaze tracking
 
-        Reboot when prompted.
+Tested camera modules:
+- **GC0307** (640×480, nominal 30 Hz; IR-cut removed; external 96-LED IR illuminator)
+  - AliExpress: **[ADD GC0307 LINK]**
+- **GC0308** (640×480, nominal 30 Hz; built-in IR LEDs; 50° eye lens, 80° world lens)
+  - AliExpress: **[ADD GC0308 LINK]**
 
-    Launch Ubuntu from the Start menu and create a Linux username and password.
+> Note: low-cost camera modules may not sustain the advertised FPS. In our tests, we often limited capture to **20 fps** for stability.
 
-2. Install NVIDIA WSL GPU driver on Windows
+---
 
-    Download “CUDA enabled driver for WSL” from NVIDIA’s site, run the installer, then reboot Windows.
+## ASSEMBLY
+Assembly uses mostly standard fasteners:
+- M3 × 16 mm (×3) — frame joints
+- M3 × 12 mm (×4) — ear supports, camera arm, ball joint
+- M3 nuts (×6) — except the ball-bearing anchor (as used in our build)
+- M2 × 10 mm + M2 nuts — camera mounting
 
-3. Prepare Ubuntu repositories (inside WSL)
+Exploded view / assembly diagram (replace the path with your actual file):
 
-# import NVIDIA key
-sudo mkdir -p /usr/share/keyrings
-curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-archive-keyring.gpg \
- | sudo tee /usr/share/keyrings/cuda-archive-keyring.gpg >/dev/null
+```html
+<img src="assets/exploded.png" width="900" alt="MEYELens exploded view">
+```
 
-# CUDA repo
-echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] \
-https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" \
- | sudo tee /etc/apt/sources.list.d/cuda.list
+---
 
-# cuDNN repo
-echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] \
-https://developer.download.nvidia.com/compute/cudnn/repos/ubuntu2204/x86_64/ /" \
- | sudo tee /etc/apt/sources.list.d/cudnn.list
+## MEYELens SOFTWARE
 
-sudo apt update
+### Install
+We recommend using a dedicated environment:
 
-4. Install minimal CUDA 12.4 runtime and cuDNN 8.9
+```bash
+conda create -n meyelens python=3.10 -y
+conda activate meyelens
+pip install meyelens
+```
 
-sudo apt install -y cuda-compat-12-4 libcudnn8 libcudnn8-dev
+This installs a standard TensorFlow dependency set, which may run on CPU depending on your system.
 
-Add runtime path:
+### TensorFlow GPU support (optional)
+If you want to manage TensorFlow yourself (e.g., to enable GPU support), install MEYELens without TensorFlow and then follow TensorFlow’s official installation guide:
 
-echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/lib/wsl/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
-source ~/.bashrc
-sudo ldconfig
+```bash
+pip install "meyelens[no_tf]"
+```
 
-Verify cuDNN appears:
+Then install TensorFlow following:
+- https://www.tensorflow.org/install/pip
 
-ldconfig -p | grep cudnn | head
+> GPU enablement depends on your OS, CUDA/cuDNN compatibility, and TensorFlow version. Follow the TensorFlow guide exactly for your platform.
 
-5. Install Miniconda and TensorFlow
+### Documentation
+API documentation: **[ADD DOCS LINK]**
 
-# Miniconda (run once)
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-source ~/.bashrc
+---
 
-# create env and install TF built for CUDA 12 + cuDNN 8.9
-conda create -n tf python=3.10 -y
-conda activate tf
-pip install --upgrade pip
-pip install --no-deps tensorflow==2.16.2
+## UTILIZING THE PACKAGE
+We provide examples to use the library:
 
-6. Confirm everything
+### `offline_recorder`
+Records a video and a `.csv` with trigger markers sent through keypresses.
 
-# driver visible?
-nvidia-smi
+Controls:
+- **1–9**: send trigger markers
+- **S**: start recording
+- **E**: stop recording
+- **Q**: quit
 
-# TensorFlow sees GPU?
-python - <<'PY'
-import tensorflow as tf
-print("TF:", tf.__version__)
-print("GPUs:", tf.config.list_physical_devices('GPU'))
-PY
+### `online_recorder`
+Same behavior, but runs **online prediction** and does **not** save the video.
+
+### `gaze_tracking_example`
+Runs a calibration process and then shows the predicted gaze on a gray background.
+
+---
+
+## OFFLINE GUI (PUPIL PROCESSING)
+If you recorded videos through the `offline_recorder` (or have your own IR eye videos), you can run the offline GUI:
+
+```bash
+conda activate meyelens
+python -m meyelens_offlinegui
+```
+
+GUI workflow:
+1. Select a model file (the packaged model is detected automatically when available).
+2. Select a video file.
+3. Preview a frame and adjust parameters (threshold / closing / invert / flip), then drag the ROI box.
+4. Run full processing.
+
+Outputs:
+- `*_pupil.csv` written next to the input video
+- Optional overlay QC video (if enabled)
+
+---
+
+## CITATION
+If you use MEYELens in your work, please cite the paper:
+
+**MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**  
+G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti
+
+DOI / Preprint: **[ADD LINK]**
+
+---
+
+## LICENSE
+- Code: **[ADD LICENSE, e.g., MIT/BSD-3]**
+- Hardware files: **[ADD LICENSE, e.g., CERN-OHL / CC BY-SA]**
+
+> Without explicit licenses, reuse is legally unclear even if the project is intended to be open.
+
+---
+
+## CONTACT
+Corresponding author: **Raffaele M. Mazziotti**  
+Email: raffaelemario.mazziotti@unifi.it
