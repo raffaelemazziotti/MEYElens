@@ -13,3 +13,7 @@ build/
 .env
 .DS_Store
 docs/_build/
+
+# Sphinx
+/docs/build/
+/docs/source/api/
