@@ -6,40 +6,55 @@ build-backend = "setuptools.build_meta"
 name = "meyelens"
 version = "0.2.0"
 description = "Gaze-tracking and pupillometry with MEYE"
-authors = [
-    { name = "Raffaele Mazziotti", email = "mzzrff@gmail.com" },
-    { name = "Giacomo Vecchieschi", email = "giacomovecchieschi@gmail.com" }
-]
 readme = "README.md"
 requires-python = ">=3.8"
 
-# Pinned runtime deps to match the current environment
+authors = [
+  { name = "Raffaele Mazziotti", email = "mzzrff@gmail.com" },
+  { name = "Giacomo Vecchieschi", email = "giacomovecchieschi@gmail.com" }
+]
+
+# Runtime dependencies ONLY (what users actually need when they `pip install meyelens`)
 dependencies = [
-    "joblib==1.4.2",
-    "matplotlib==3.10.0",
-    "numpy==2.2.6",
-    "opencv-python==4.12.0.88",
-    "pandas==2.3.3",
-    "psychopy",
-    "PyQt6==6.10.1",
-    "scikit-learn==1.6.1",
-    "scikit-image==0.25.2",
-    "tensorflow==2.20.0 ; extra != \"no_tf\"",
-    "toml==0.10.2",
+  "joblib==1.4.2",
+  "matplotlib==3.10.0",
+  "numpy==2.2.6",
+  "opencv-python==4.12.0.88",
+  "pandas==2.3.3",
+  "psychopy",
+  "PyQt6==6.10.1",
+  "scikit-learn==1.6.1",
+  "scikit-image==0.25.2",
+  "toml==0.10.2",
 ]
 
 [project.optional-dependencies]
+# Optional: install with `pip install "meyelens[tf]"`
+tf = ["tensorflow==2.20.0"]
+
+# (Optional alias) keep if you already referenced it somewhere; it does nothing.
 no_tf = []
 
+# Optional: install with `pip install -e ".[docs]"` or `pip install "meyelens[docs]"`
+docs = [
+  "sphinx>=7",
+  "sphinx-rtd-theme>=2",
+  "myst-parser>=2",
+  "sphinx-autobuild>=2024.0.0",
+  "sphinx-copybutton>=0.5.2",
+]
 
 [project.scripts]
 meyelens-gui = "meyelens.meyelens_gui:main"
 
-
 [tool.setuptools]
-packages = ["meyelens", "meyelens.models"]
 include-package-data = true
 py-modules = ["meyelens_offlinegui"]
+
+# More robust than hard-coding packages = [...]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["meyelens*"]
 
 [tool.setuptools.package-data]
 "meyelens.models" = ["meye-2022-01-24.h5"]

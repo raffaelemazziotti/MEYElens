@@ -60,7 +60,7 @@ We recommend using a dedicated environment:
 ```bash
 conda create -n meyelens python=3.10 -y
 conda activate meyelens
-pip install meyelens
+pip install meyelens[tf]
 ```
 
 This installs a standard TensorFlow dependency set, which may run on CPU depending on your system.
@@ -69,7 +69,7 @@ This installs a standard TensorFlow dependency set, which may run on CPU dependi
 If you want to manage TensorFlow yourself (e.g., to enable GPU support), install MEYELens without TensorFlow and then follow TensorFlow’s official installation guide:
 
 ```bash
-pip install "meyelens[no_tf]"
+pip install meyelens
 ```
 
 Then install TensorFlow following:
