@@ -17,3 +17,28 @@ docs/_build/
 # Sphinx
 /docs/build/
 /docs/source/api/
+
+# --- virtualenvs ---
+.venv/
+.venv-docs/
+venv/
+ENV/
+
+# --- python build / install artifacts ---
+__pycache__/
+*.py[cod]
+*.so
+*.dylib
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# --- Sphinx ---
+docs/build/
+docs/source/api/
+
+# --- OS / IDE ---
+.DS_Store
+.vscode/
+.idea/
