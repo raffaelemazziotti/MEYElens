@@ -7,14 +7,14 @@
 
 MEYELens is a low-cost, modular, 3D-printable eyewear platform for **pupillometry** and **gaze tracking**, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (`meyelens`) providing both a **Python API** and a **GUI** for offline analysis.
 
-This project is based on **MEYE** (pupil segmentation): https://github.com/fabiocarrara/meye
+This project is based on [MEYE](https://github.com/fabiocarrara/meye)
 
 ---
 
 ## 3D PRINT
 3D printing files are in the `3d_print_files/` folder.
 
-If you have a Bambu Lab printer, you can also find them on MakerWorld: **[ADD MAKERWORLD LINK]**
+If you have a Bambu Lab printer, you can also find them on [MakerWorld](https://github.com/fabiocarrara/meye)
 
 We used **Bambu Lab Matte Black PLA**.
 
@@ -39,9 +39,9 @@ The platform supports:
 
 Tested camera modules:
 - **GC0307** (640×480, nominal 30 Hz; IR-cut removed; external 96-LED IR illuminator)
-  - AliExpress: aliexpress.com/item/1005005748547014.html
+  - [AliExpress listing](https://aliexpress.com/item/1005005748547014.html)
 - **GC0308** (640×480, nominal 30 Hz; built-in IR LEDs; 50° eye lens, 80° world lens)
-  - AliExpress: aliexpress.com/item/1005010597889459.html
+  - [AliExpress listing](https://aliexpress.com/item/1005010597889459.html)
 
 > Note: low-cost camera modules may not sustain the advertised FPS. In our tests, we often limited capture to **20 fps** for stability.
 
@@ -153,15 +153,15 @@ DOI: **https://doi.org/10.1523/ENEURO.0122-21.2021**
 
 ## LICENSE
 - Code: GPL-3.0 license 
-- Hardware files: **[ADD LICENSE]**
+- Hardware files: GPL-3.0 license
 
 > Without explicit licenses, reuse is legally unclear even if the project is intended to be open.
 
 ---
 
 ## CONTACT
-Corresponding author: **Raffaele M. Mazziotti**  
+**Raffaele M. Mazziotti**  
 Email: raffaelemario.mazziotti@unifi.it
 
-Giacomo Vecchieschi
+**Giacomo Vecchieschi**  
 Email: giacomovecchieschi@gmail.com
