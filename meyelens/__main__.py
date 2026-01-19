@@ -1,4 +1,4 @@
-from meyelens.meyelens_gui import main
+from meyelens.meyelens_offlinegui import main
 
 
 if __name__ == "__main__":

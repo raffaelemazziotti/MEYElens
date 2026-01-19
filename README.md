@@ -1,6 +1,10 @@
 # MEYELens
 **MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**
 
+```html
+<img src="assets/intro_picture.png" width="900" alt="MEYELens">
+```
+
 MEYELens is a low-cost, modular, 3D-printable eyewear platform for **pupillometry** and **gaze tracking**, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (`meyelens`) providing both a **Python API** and a **GUI** for offline analysis.
 
 This project is based on **MEYE** (pupil segmentation): https://github.com/fabiocarrara/meye
@@ -20,6 +24,9 @@ Print settings (Bambu Studio baseline profile with fixed infill):
 - ~50% gyroid infill (lower infill may reduce print time)
 - ~55 g filament, ~3 hours (printer-dependent)
 
+```html
+<img src="assets/print.png" width="900" alt="3D Printer Bed">
+```
 ---
 
 ## CAMERAS (TESTED CONFIGURATIONS)
@@ -27,11 +34,15 @@ The platform supports:
 - **Single camera**: pupillometry (optionally chin-rest gaze tracking)
 - **Dual camera**: eye + world camera for naturalistic gaze tracking
 
+```html
+<img src="assets/cameras.png" width="900" alt="Cameras Used">
+```
+
 Tested camera modules:
 - **GC0307** (640×480, nominal 30 Hz; IR-cut removed; external 96-LED IR illuminator)
-  - AliExpress: **[ADD GC0307 LINK]**
+  - AliExpress: aliexpress.com/item/1005005748547014.html
 - **GC0308** (640×480, nominal 30 Hz; built-in IR LEDs; 50° eye lens, 80° world lens)
-  - AliExpress: **[ADD GC0308 LINK]**
+  - AliExpress: aliexpress.com/item/1005010597889459.html
 
 > Note: low-cost camera modules may not sustain the advertised FPS. In our tests, we often limited capture to **20 fps** for stability.
 
@@ -44,10 +55,10 @@ Assembly uses mostly standard fasteners:
 - M3 nuts (×6) — except the ball-bearing anchor (as used in our build)
 - M2 × 10 mm + M2 nuts — camera mounting
 
-Exploded view / assembly diagram (replace the path with your actual file):
+Exploded view / assembly diagram:
 
 ```html
-<img src="assets/exploded.png" width="900" alt="MEYELens exploded view">
+<img src="assets/gui.png" width="900" alt="MEYELens exploded view">
 ```
 
 ---
@@ -110,10 +121,14 @@ conda activate meyelens
 python -m meyelens_offlinegui
 ```
 
+
 GUI workflow:
 1. Select a model file (the packaged model is detected automatically when available).
+
 2. Select a video file.
+
 3. Preview a frame and adjust parameters (threshold / closing / invert / flip), then drag the ROI box.
+
 4. Run full processing.
 
 Outputs:
@@ -123,18 +138,23 @@ Outputs:
 ---
 
 ## CITATION
-If you use MEYELens in your work, please cite the paper:
+If you use MEYELens in your work, please cite the following papers:
 
 **MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**  
-G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti
+G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti  
+DOI: **[ADD LINK]**
 
-DOI / Preprint: **[ADD LINK]**
+**MEYE: Web App for Translational and Real-Time Pupillometry**  
+R. Mazziotti, F. Carrara, A. Viglione, L. Lupori, L. Lo Verde, A. Benedetto, G. Ricci, G. Sagona, G. Amato, T. Pizzorusso  
+eNeuro (2021) 8(5): ENEURO.0122-21.2021  
+DOI: **https://doi.org/10.1523/ENEURO.0122-21.2021**
+
 
 ---
 
 ## LICENSE
-- Code: **[ADD LICENSE, e.g., MIT/BSD-3]**
-- Hardware files: **[ADD LICENSE, e.g., CERN-OHL / CC BY-SA]**
+- Code: GPL-3.0 license 
+- Hardware files: **[ADD LICENSE]**
 
 > Without explicit licenses, reuse is legally unclear even if the project is intended to be open.
 
@@ -143,3 +163,6 @@ DOI / Preprint: **[ADD LINK]**
 ## CONTACT
 Corresponding author: **Raffaele M. Mazziotti**  
 Email: raffaelemario.mazziotti@unifi.it
+
+Giacomo Vecchieschi
+Email: giacomovecchieschi@gmail.com
