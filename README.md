@@ -1,9 +1,8 @@
 # MEYELens
 **MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**
 
-```html
-<img src="assets/intro_picture.png" width="900" alt="MEYELens">
-```
+![MEYELens](https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/assets/intro_picture.png)
+
 
 MEYELens is a low-cost, modular, 3D-printable eyewear platform for **pupillometry** and **gaze tracking**, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (`meyelens`) providing both a **Python API** and a **GUI** for offline analysis.
 
@@ -24,9 +23,8 @@ Print settings (Bambu Studio baseline profile with fixed infill):
 - ~50% gyroid infill (lower infill may reduce print time)
 - ~55 g filament, ~3 hours (printer-dependent)
 
-```html
-<img src="assets/print.png" width="900" alt="3D Printer Bed">
-```
+![MEYELens](https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/assets/print.png)
+
 ---
 
 ## CAMERAS (TESTED CONFIGURATIONS)
@@ -34,9 +32,7 @@ The platform supports:
 - **Single camera**: pupillometry (optionally chin-rest gaze tracking)
 - **Dual camera**: eye + world camera for naturalistic gaze tracking
 
-```html
-<img src="assets/cameras.png" width="900" alt="Cameras Used">
-```
+![MEYELens](https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/assets/cameras.png)
 
 Tested camera modules:
 - **GC0307** (640×480, nominal 30 Hz; IR-cut removed; external 96-LED IR illuminator)
@@ -56,10 +52,8 @@ Assembly uses mostly standard fasteners:
 - M2 × 10 mm + M2 nuts — camera mounting
 
 Exploded view / assembly diagram:
+![MEYELens](https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/assets/exploded_view.png)
 
-```html
-<img src="assets/gui.png" width="900" alt="MEYELens exploded view">
-```
 
 ---
 
@@ -121,6 +115,7 @@ conda activate meyelens
 python -m meyelens_offlinegui
 ```
 
+![MEYELens](https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/assets/gui.png)
 
 GUI workflow:
 1. Select a model file (the packaged model is detected automatically when available).
