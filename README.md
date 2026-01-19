@@ -2,7 +2,7 @@
 **MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**
 
 
-<img src="assets/intro_picture.png" width="900" alt="MEYELens">
+<img src="assets/intro_picture.png" width="700" alt="MEYELens">
 
 
 MEYELens is a low-cost, modular, 3D-printable eyewear platform for **pupillometry** and **gaze tracking**, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (`meyelens`) providing both a **Python API** and a **GUI** for offline analysis.
@@ -25,7 +25,7 @@ Print settings (Bambu Studio baseline profile with fixed infill):
 - ~55 g filament, ~3 hours (printer-dependent)
 
 
-<img src="assets/print.png" width="900" alt="3D Printer Bed">
+<img src="assets/print.png" width="400" alt="3D Printer Bed">
 
 ---
 
@@ -34,7 +34,7 @@ The platform supports:
 - **Single camera**: pupillometry (optionally chin-rest gaze tracking)
 - **Dual camera**: eye + world camera for naturalistic gaze tracking
 
-<img src="assets/cameras.png" width="900" alt="Cameras Used">
+<img src="assets/cameras.png" width="400" alt="Cameras Used">
 
 
 Tested camera modules:
@@ -57,7 +57,7 @@ Assembly uses mostly standard fasteners:
 Exploded view / assembly diagram:
 
 
-<img src="assets/exploded_view.png" width="900" alt="MEYELens exploded view">
+<img src="assets/exploded_view.png" width="700" alt="MEYELens exploded view">
 
 
 ---
