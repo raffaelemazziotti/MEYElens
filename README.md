@@ -14,7 +14,7 @@ This project is based on [MEYE](https://github.com/fabiocarrara/meye)
 ## 3D PRINT
 3D printing files are in the `3d_print_files/` folder.
 
-If you have a Bambu Lab printer, you can also find them on [MakerWorld](https://github.com/fabiocarrara/meye)
+If you have a Bambu Lab printer, you can also find them on [MakerWorld](https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking#profileId-2471837)
 
 We used **Bambu Lab Matte Black PLA**.
 
