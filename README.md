@@ -143,7 +143,7 @@ Outputs:
 ## CITATION
 If you use MEYELens in your work, please cite the following papers:
 
-**MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**  
+**MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking**  
 G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti  
 DOI: **[ADD LINK]**
 
