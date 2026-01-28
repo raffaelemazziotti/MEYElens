@@ -158,9 +158,6 @@ DOI: **https://doi.org/10.1523/ENEURO.0122-21.2021**
 ## LICENSE
 - Code: GPL-3.0 license 
 - Hardware files: CERN-OHL-P-2.0
-
-> Without explicit licenses, reuse is legally unclear even if the project is intended to be open.
-
 ---
 
 ## CONTACT
