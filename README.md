@@ -1,5 +1,5 @@
 # MEYELens
-**MEYELens: An Affordable, Open-Source, Fully 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking**
+**MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking**
 
 
 <img src="assets/intro_picture.png" width="700" alt="MEYELens">
