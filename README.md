@@ -16,6 +16,8 @@ This project is based on [MEYE](https://github.com/fabiocarrara/meye)
 
 If you have a Bambu Lab printer, you can also find them on [MakerWorld](https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking#profileId-2471837)
 
+The files are also uploaded to [NIH 3D](https://3d.nih.gov/entries/3DPX-023297)
+
 <a href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking#profileId-2471837" target="_blank" rel="noopener noreferrer">
   <img src="assets/bambulab.png" width="400" alt="Bambu Studio">
 </a>
