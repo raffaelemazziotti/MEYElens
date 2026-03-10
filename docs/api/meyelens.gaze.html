@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens.gaze &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">meyelens.gaze</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/meyelens.gaze.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-meyelens.gaze">
+<span id="meyelens-gaze"></span><h1>meyelens.gaze<a class="headerlink" href="#module-meyelens.gaze" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.gaze.ScreenPositions">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.gaze.</span></span><span class="sig-name descname"><span class="pre">ScreenPositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#ScreenPositions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.ScreenPositions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate a shuffled sequence of calibration target positions on a screen.</p>
+<p>The sequence always includes 5 fixed points:</p>
+<ul class="simple">
+<li><p>center</p></li>
+<li><p>top-left, top-right</p></li>
+<li><p>bottom-left, bottom-right</p></li>
+</ul>
+<p>Optionally, additional random points can be added within the screen bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>screen_width</strong> (<em>float</em>) – Screen width in degrees (or in any coordinate unit you consistently use).</p></li>
+<li><p><strong>screen_height</strong> (<em>float</em>) – Screen height in degrees (or in any coordinate unit you consistently use).</p></li>
+<li><p><strong>random_points</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, add random positions in addition to the fixed ones.</p></li>
+<li><p><strong>num_points</strong> (<em>int</em><em>, </em><em>optional</em>) – Total number of points in the returned sequence (including the 5 fixed points).
+If smaller than 5, only the 5 fixed points will be used.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Positions are shuffled once at initialization.</p></li>
+<li><p>Coordinates are returned as (x, y) where the origin is the center.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.ScreenPositions.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#ScreenPositions.next"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.ScreenPositions.next" title="Link to this definition"></a></dt>
+<dd><p>Return the next target position in the shuffled sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Next (x, y) position, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when the sequence is exhausted.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[float, float] or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.gaze.</span></span><span class="sig-name descname"><span class="pre">GazeData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Load, preprocess, and visualize gaze calibration recordings.</p>
+<p>This class expects recordings in a folder as <code class="docutils literal notranslate"><span class="pre">*.txt</span></code> (or any extension) with
+semicolon-separated columns, including at least:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>: gaze coordinates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trg1</span></code>: target identifier (used for plotting groups)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trg2</span></code>, <code class="docutils literal notranslate"><span class="pre">trg3</span></code>: screen target coordinates (x, y) associated with each sample</p></li>
+</ul>
+<p>By default, if no folder is provided, data is stored under:</p>
+<p><code class="docutils literal notranslate"><span class="pre">~/Documents/GazeData</span></code></p>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Missing <code class="docutils literal notranslate"><span class="pre">x</span></code>/<code class="docutils literal notranslate"><span class="pre">y</span></code> samples are linearly interpolated in both directions.</p></li>
+<li><p>File discovery is based on a filename pattern used by your acquisition
+pipeline: the second dash-separated token must equal <code class="docutils literal notranslate"><span class="pre">track_cal.txt</span></code>.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData.list" title="Link to this definition"></a></dt>
+<dd><p>Print the available recordings and their indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData.get_last">
+<span class="sig-name descname"><span class="pre">get_last</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData.get_last"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData.get_last" title="Link to this definition"></a></dt>
+<dd><p>Convenience method to load the most recent recording in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">(gaze_points,</span> <span class="pre">screen_positions)</span></code> where each has shape (n_samples, 2).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[numpy.ndarray, numpy.ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This simply calls <a class="reference internal" href="#meyelens.gaze.GazeData.get" title="meyelens.gaze.GazeData.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> with <code class="docutils literal notranslate"><span class="pre">i=-1</span></code> (last element in list).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData.get" title="Link to this definition"></a></dt>
+<dd><p>Load a specific recording by index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>i</strong> (<em>int</em><em>, </em><em>optional</em>) – Recording index (supports negative indexing).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">(gaze_points,</span> <span class="pre">screen_positions)</span></code> where each has shape (n_samples, 2).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[numpy.ndarray, numpy.ndarray]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IndexError</strong> – If <code class="docutils literal notranslate"><span class="pre">i</span></code> is out of range for the available recordings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData.get_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData.get_all" title="Link to this definition"></a></dt>
+<dd><p>Load and concatenate all recordings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">(all_gaze_points,</span> <span class="pre">all_screen_positions)</span></code> concatenated across
+recordings. Each has shape (n_total_samples, 2).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[numpy.ndarray, numpy.ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Uses the same interpolation strategy as <a class="reference internal" href="#meyelens.gaze.GazeData.get" title="meyelens.gaze.GazeData.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeData.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeData.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeData.plot" title="Link to this definition"></a></dt>
+<dd><p>Plot gaze traces grouped by target identifier for a given recording.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<em>int</em><em>, </em><em>optional</em>) – Recording index (supports negative indexing).</p></li>
+<li><p><strong>skip_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of samples to skip at the beginning of each target segment.
+This is useful to ignore the initial transient after a target switch.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">trg1</span></code> to group samples by target ID.</p></li>
+<li><p>Plots <code class="docutils literal notranslate"><span class="pre">y</span></code> on the x-axis and <code class="docutils literal notranslate"><span class="pre">x</span></code> on the y-axis (matching your current
+convention), then inverts the y-axis.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeModelPoly">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.gaze.</span></span><span class="sig-name descname"><span class="pre">GazeModelPoly</span></span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeModelPoly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeModelPoly" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Polynomial regression gaze calibration model.</p>
+<p>This model learns a mapping from raw gaze coordinates (e.g., pupil/eye
+coordinates) to screen target coordinates using polynomial feature expansion
+and linear regression.</p>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Call <a class="reference internal" href="#meyelens.gaze.GazeModelPoly.train" title="meyelens.gaze.GazeModelPoly.train"><code class="xref py py-meth docutils literal notranslate"><span class="pre">train()</span></code></a> with paired <code class="docutils literal notranslate"><span class="pre">(gaze_points,</span> <span class="pre">screen_positions)</span></code>.</p></li>
+<li><p>Call <a class="reference internal" href="#meyelens.gaze.GazeModelPoly.predict" title="meyelens.gaze.GazeModelPoly.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> to map new gaze points to calibrated screen positions.</p></li>
+<li><p>Optionally call <a class="reference internal" href="#meyelens.gaze.GazeModelPoly.save" title="meyelens.gaze.GazeModelPoly.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a> / <a class="reference internal" href="#meyelens.gaze.GazeModelPoly.load" title="meyelens.gaze.GazeModelPoly.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> to persist the trained model.</p></li>
+</ol>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Both inputs and targets are standardized using <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.preprocessing.StandardScaler</span></code>.</p></li>
+<li><p>Training metrics (MSE and R²) are printed to stdout (no logging).</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeModelPoly.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gaze_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeModelPoly.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeModelPoly.train" title="Link to this definition"></a></dt>
+<dd><p>Train the calibration model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gaze_points</strong> (<em>numpy.ndarray</em>) – Raw gaze points of shape (n_samples, 2).</p></li>
+<li><p><strong>screen_positions</strong> (<em>numpy.ndarray</em>) – Screen target positions of shape (n_samples, 2).</p></li>
+<li><p><strong>degree</strong> (<em>int</em><em>, </em><em>optional</em>) – Polynomial degree used by <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.preprocessing.PolynomialFeatures</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Training is performed in standardized space (both X and y). Reported MSE
+and R² are therefore in standardized units.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeModelPoly.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_eye_position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeModelPoly.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeModelPoly.predict" title="Link to this definition"></a></dt>
+<dd><p>Predict calibrated screen coordinates for new gaze points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_eye_position</strong> (<em>numpy.ndarray</em>) – New gaze points of shape (n_samples, 2).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted screen positions of shape (n_samples, 2), returned in the
+original (inverse-transformed) coordinate space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the model has not been trained (or loaded) yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeModelPoly.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeModelPoly.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeModelPoly.save" title="Link to this definition"></a></dt>
+<dd><p>Save the trained model and preprocessing objects to disk using joblib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_path</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Output path. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">gaze_models/gazemodel_poly.pkl</span></code>
+and creates the <code class="docutils literal notranslate"><span class="pre">gaze_models</span></code> folder if needed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The saved bundle includes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">calibration_model</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaler_features</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaler_target</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poly_features</span></code></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.gaze.GazeModelPoly.load">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/gaze.html#GazeModelPoly.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.gaze.GazeModelPoly.load" title="Link to this definition"></a></dt>
+<dd><p>Load a saved model bundle from disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_path</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Path to the saved <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to
+<code class="docutils literal notranslate"><span class="pre">gaze_models/gazemodel_poly.pkl</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance populated with the loaded model and preprocessing objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#meyelens.gaze.GazeModelPoly" title="meyelens.gaze.GazeModelPoly">GazeModelPoly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

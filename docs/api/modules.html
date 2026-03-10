@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="meyelens package" href="meyelens.html" />
+    <link rel="prev" title="MEYELens" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">meyelens</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html">meyelens package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">meyelens</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="meyelens">
+<h1>meyelens<a class="headerlink" href="#meyelens" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="meyelens.html">meyelens package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.models.html">meyelens.models package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.camera">meyelens.camera module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#camera-py">camera.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.cap"><code class="docutils literal notranslate"><span class="pre">Camera.cap</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.camera_matrix"><code class="docutils literal notranslate"><span class="pre">Camera.camera_matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.dist_coeffs"><code class="docutils literal notranslate"><span class="pre">Camera.dist_coeffs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.crop"><code class="docutils literal notranslate"><span class="pre">Camera.crop</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.load_calibration"><code class="docutils literal notranslate"><span class="pre">Camera.load_calibration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.set_resolution"><code class="docutils literal notranslate"><span class="pre">Camera.set_resolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.set_framerate"><code class="docutils literal notranslate"><span class="pre">Camera.set_framerate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.set_auto_exposure"><code class="docutils literal notranslate"><span class="pre">Camera.set_auto_exposure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.set_exposure"><code class="docutils literal notranslate"><span class="pre">Camera.set_exposure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.get_frame"><code class="docutils literal notranslate"><span class="pre">Camera.get_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.show"><code class="docutils literal notranslate"><span class="pre">Camera.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.wait_key"><code class="docutils literal notranslate"><span class="pre">Camera.wait_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.preview"><code class="docutils literal notranslate"><span class="pre">Camera.preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.close"><code class="docutils literal notranslate"><span class="pre">Camera.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.camera.Camera.select_roi"><code class="docutils literal notranslate"><span class="pre">Camera.select_roi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.fileio">meyelens.fileio module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.fileio.FileWriter"><code class="docutils literal notranslate"><span class="pre">FileWriter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.FileWriter.write"><code class="docutils literal notranslate"><span class="pre">FileWriter.write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.FileWriter.write_sv"><code class="docutils literal notranslate"><span class="pre">FileWriter.write_sv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.FileWriter.is_open"><code class="docutils literal notranslate"><span class="pre">FileWriter.is_open()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.FileWriter.close"><code class="docutils literal notranslate"><span class="pre">FileWriter.close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.fileio.BufferedFileWriter"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.BufferedFileWriter.write"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.BufferedFileWriter.write_sv"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.write_sv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.fileio.BufferedFileWriter.close"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.close()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.gaze">meyelens.gaze module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.gaze.ScreenPositions"><code class="docutils literal notranslate"><span class="pre">ScreenPositions</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.ScreenPositions.next"><code class="docutils literal notranslate"><span class="pre">ScreenPositions.next()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData"><code class="docutils literal notranslate"><span class="pre">GazeData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData.list"><code class="docutils literal notranslate"><span class="pre">GazeData.list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData.get_last"><code class="docutils literal notranslate"><span class="pre">GazeData.get_last()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData.get"><code class="docutils literal notranslate"><span class="pre">GazeData.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData.get_all"><code class="docutils literal notranslate"><span class="pre">GazeData.get_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeData.plot"><code class="docutils literal notranslate"><span class="pre">GazeData.plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeModelPoly"><code class="docutils literal notranslate"><span class="pre">GazeModelPoly</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeModelPoly.train"><code class="docutils literal notranslate"><span class="pre">GazeModelPoly.train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeModelPoly.predict"><code class="docutils literal notranslate"><span class="pre">GazeModelPoly.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeModelPoly.save"><code class="docutils literal notranslate"><span class="pre">GazeModelPoly.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.gaze.GazeModelPoly.load"><code class="docutils literal notranslate"><span class="pre">GazeModelPoly.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.meye">meyelens.meye module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye"><code class="docutils literal notranslate"><span class="pre">Meye</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.model_path"><code class="docutils literal notranslate"><span class="pre">Meye.model_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.model"><code class="docutils literal notranslate"><span class="pre">Meye.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.requiredFrameSize"><code class="docutils literal notranslate"><span class="pre">Meye.requiredFrameSize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.centroid"><code class="docutils literal notranslate"><span class="pre">Meye.centroid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.pupil_size"><code class="docutils literal notranslate"><span class="pre">Meye.pupil_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.major_diameter"><code class="docutils literal notranslate"><span class="pre">Meye.major_diameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.minor_diameter"><code class="docutils literal notranslate"><span class="pre">Meye.minor_diameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.orientation"><code class="docutils literal notranslate"><span class="pre">Meye.orientation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.predict"><code class="docutils literal notranslate"><span class="pre">Meye.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.morphProcessing"><code class="docutils literal notranslate"><span class="pre">Meye.morphProcessing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.fit_ellipse_and_fill"><code class="docutils literal notranslate"><span class="pre">Meye.fit_ellipse_and_fill()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.overlay_roi"><code class="docutils literal notranslate"><span class="pre">Meye.overlay_roi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.mask2color"><code class="docutils literal notranslate"><span class="pre">Meye.mask2color()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.Meye.preview"><code class="docutils literal notranslate"><span class="pre">Meye.preview()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.start"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.preview"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.save_frame"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.save_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.get_data"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.stop"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.close"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeRecorder.close_all"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.close_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.start"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.preview"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.save_frame"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.save_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.get_data"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.stop"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.close"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meye.MeyeAsyncRecorder.close_all"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.close_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.meyelens_offlinegui">meyelens.meyelens_offlinegui module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.morphProcessing"><code class="docutils literal notranslate"><span class="pre">morphProcessing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.preprocess_frame_for_model"><code class="docutils literal notranslate"><span class="pre">preprocess_frame_for_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIRectItem"><code class="docutils literal notranslate"><span class="pre">ROIRectItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIRectItem.itemChange"><code class="docutils literal notranslate"><span class="pre">ROIRectItem.itemChange()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView"><code class="docutils literal notranslate"><span class="pre">ROIView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView.roiChanged"><code class="docutils literal notranslate"><span class="pre">ROIView.roiChanged</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView.hasImage"><code class="docutils literal notranslate"><span class="pre">ROIView.hasImage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView.setImage"><code class="docutils literal notranslate"><span class="pre">ROIView.setImage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView.setROI"><code class="docutils literal notranslate"><span class="pre">ROIView.setROI()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.ROIView.resizeEvent"><code class="docutils literal notranslate"><span class="pre">ROIView.resizeEvent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow"><code class="docutils literal notranslate"><span class="pre">MainWindow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.get_settings"><code class="docutils literal notranslate"><span class="pre">MainWindow.get_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.ensure_model_loaded"><code class="docutils literal notranslate"><span class="pre">MainWindow.ensure_model_loaded()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_browse_model"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_browse_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_browse_video"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_browse_video()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_preview_clicked"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_preview_clicked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_run_clicked"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_run_clicked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_roi_changed"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_roi_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_crop_spin_changed"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_crop_spin_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_processing_param_changed"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_processing_param_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.on_flip_changed"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_flip_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.preview_one_frame"><code class="docutils literal notranslate"><span class="pre">MainWindow.preview_one_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.MainWindow.process_full_video"><code class="docutils literal notranslate"><span class="pre">MainWindow.process_full_video()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.meyelens_offlinegui.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.offline">meyelens.offline module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader"><code class="docutils literal notranslate"><span class="pre">ExperimentReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.folder_path"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.folder_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.video_path"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.video_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.csv_path"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.csv_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.metadata"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.metadata</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.frame_info"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.frame_info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.fps"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.fps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.cap"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.cap</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.get_metadata"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.get_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.get_frame_count"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.get_frame_count()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.get_frame"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.get_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.play_video"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.play_video()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.visualize_fps_stability"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.visualize_fps_stability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.visualize_triggers"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.visualize_triggers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.ExperimentReader.close"><code class="docutils literal notranslate"><span class="pre">ExperimentReader.close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.output_folder"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.output_folder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.video_path"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.video_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.timestamp_path"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.timestamp_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.frame_index"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.frame_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.record_frame"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.record_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FastVideoRecorder.release"><code class="docutils literal notranslate"><span class="pre">FastVideoRecorder.release()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager"><code class="docutils literal notranslate"><span class="pre">FrameRateManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.fps"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.fps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.interframe"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.interframe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.time_grab"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.time_grab</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.duration"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.duration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.framecount"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.framecount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.start"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.is_ready"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.is_ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.set_frame_time"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.set_frame_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.offline.FrameRateManager.is_finished"><code class="docutils literal notranslate"><span class="pre">FrameRateManager.is_finished()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.online">meyelens.online module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.start"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.preview"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.save_frame"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.save_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.get_data"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.stop"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.close"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeRecorder.close_all"><code class="docutils literal notranslate"><span class="pre">MeyeRecorder.close_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.start"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.preview"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.save_frame"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.save_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.get_data"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.stop"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.close"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.online.MeyeAsyncRecorder.close_all"><code class="docutils literal notranslate"><span class="pre">MeyeAsyncRecorder.close_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html#module-meyelens.utils">meyelens.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer"><code class="docutils literal notranslate"><span class="pre">CountdownTimer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.duration"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.duration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.clock"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.clock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.is_running"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.is_running</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.start"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.get_time_left"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.get_time_left()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.is_finished"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.is_finished()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="meyelens.html#meyelens.utils.CountdownTimer.stop"><code class="docutils literal notranslate"><span class="pre">CountdownTimer.stop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="MEYELens" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="meyelens.html" class="btn btn-neutral float-right" title="meyelens package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

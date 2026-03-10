@@ -1,0 +1,985 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens.meye &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">meyelens.meye</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for meyelens.meye</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.measure</span><span class="w"> </span><span class="kn">import</span> <span class="n">label</span><span class="p">,</span> <span class="n">regionprops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.camera</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.fileio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferedFileWriter</span><span class="p">,</span> <span class="n">FileWriter</span>
+
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># Py ≥ 3.9</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># Py ≤ 3.8</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+
+
+<div class="viewcode-block" id="Meye">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Meye</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pupil segmentation and basic shape extraction using a pre-trained neural network.</span>
+
+<span class="sd">    This class loads a Keras/TensorFlow segmentation model and exposes a :meth:`predict`</span>
+<span class="sd">    method that:</span>
+
+<span class="sd">    1. converts the input frame to grayscale (if needed)</span>
+<span class="sd">    2. resizes it to the model input size (hardcoded to 128x128 in this implementation)</span>
+<span class="sd">    3. runs inference to obtain a pupil mask</span>
+<span class="sd">    4. optionally performs morphological post-processing to isolate the pupil region</span>
+<span class="sd">    5. optionally fits an ellipse to estimate major/minor diameters and orientation</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model_path : str or pathlib.Path</span>
+<span class="sd">        Path to the Keras model file used for inference.</span>
+<span class="sd">    model : tensorflow.keras.Model</span>
+<span class="sd">        Loaded Keras model.</span>
+<span class="sd">    requiredFrameSize : tuple[int, int]</span>
+<span class="sd">        Expected model input frame size (height, width) derived from the model input.</span>
+<span class="sd">        Note: this implementation still resizes to 128x128 in :meth:`predict`.</span>
+<span class="sd">    centroid : tuple[float, float] or float</span>
+<span class="sd">        Centroid (row, col) of the largest detected pupil region after post-processing.</span>
+<span class="sd">        Set to ``(np.nan, np.nan)`` when no pupil is found.</span>
+<span class="sd">    pupil_size : float</span>
+<span class="sd">        Number of non-zero pixels in the resized pupil mask (in the original image size).</span>
+<span class="sd">    major_diameter : float</span>
+<span class="sd">        Major axis length from an ellipse fit (in pixels), if available.</span>
+<span class="sd">    minor_diameter : float</span>
+<span class="sd">        Minor axis length from an ellipse fit (in pixels), if available.</span>
+<span class="sd">    orientation : float</span>
+<span class="sd">        Ellipse orientation angle (degrees), if available.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - This class prints GPU availability on initialization (no logging).</span>
+<span class="sd">    - The model is assumed to return two outputs (``mask, info``). Only ``mask`` is used.</span>
+<span class="sd">    - Coordinate conventions:</span>
+<span class="sd">        - centroid from :func:`skimage.measure.regionprops` is (row, col).</span>
+<span class="sd">        - the recorders write centroid as (x=col, y=row) by swapping indices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the detector and load the segmentation model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : str or pathlib.Path or None, optional</span>
+<span class="sd">            Path to a ``.h5`` Keras model. If ``None``, loads the bundled</span>
+<span class="sd">            ``meye-2022-01-24.h5`` model from the ``meyelens.models`` package.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Num GPUs Available: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s2">&quot;GPU&quot;</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s2">&quot;meyelens.models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;meye-2022-01-24.h5&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_path</span><span class="p">)</span>
+
+        <span class="c1"># Derive required input size from the model&#39;s first input tensor.</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_shape</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requiredFrameSize</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># Public outputs (updated on every predict call).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pupil_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">major_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minor_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<div class="viewcode-block" id="Meye.predict">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.predict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">post_proc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">morph</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fill_ellipse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict a pupil mask and centroid from an input image.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : numpy.ndarray</span>
+<span class="sd">            Input frame, grayscale (H, W) or BGR (H, W, 3).</span>
+<span class="sd">        post_proc : bool, optional</span>
+<span class="sd">            If ``True``, apply :meth:`morphProcessing` to binarize, keep the</span>
+<span class="sd">            largest connected component, and perform morphological closing.</span>
+<span class="sd">            If ``False``, the raw network output is used and centroid is set to (0, 0).</span>
+<span class="sd">        morph : bool, optional</span>
+<span class="sd">            If ``True``, attempt ellipse fitting on the post-processed mask to estimate</span>
+<span class="sd">            major/minor diameters and orientation.</span>
+<span class="sd">        fill_ellipse : bool, optional</span>
+<span class="sd">            If ``True``, replace the mask with a filled ellipse fitted to the contour</span>
+<span class="sd">            (useful for smoothing irregular segmentations).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pupil_resized : numpy.ndarray</span>
+<span class="sd">            Processed pupil mask resized back to the original image size.</span>
+<span class="sd">            Pixel values are 0/255 when post-processing is enabled.</span>
+<span class="sd">        centroid : tuple[float, float]</span>
+<span class="sd">            Centroid of the detected pupil region in (row, col) format.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The model input is normalized to [0, 1] and shaped as (1, H, W, 1).</span>
+<span class="sd">        - This implementation resizes inputs to 128x128 regardless of</span>
+<span class="sd">          :attr:`requiredFrameSize`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+
+        <span class="c1"># Resize to model input size used by this implementation.</span>
+        <span class="n">crop</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">])</span>
+
+        <span class="n">networkInput</span> <span class="o">=</span> <span class="n">crop</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+        <span class="n">networkInput</span> <span class="o">=</span> <span class="n">networkInput</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="n">mask</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">networkInput</span><span class="p">)</span>  <span class="c1"># &#39;info&#39; is unused but kept for model compatibility</span>
+        <span class="n">pupil</span> <span class="o">=</span> <span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">post_proc</span><span class="p">:</span>
+            <span class="n">pupil</span><span class="p">,</span> <span class="n">centroid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">morphProcessing</span><span class="p">(</span><span class="n">pupil</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">centroid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Optional ellipse fitting to estimate geometric features.</span>
+        <span class="k">if</span> <span class="n">morph</span><span class="p">:</span>
+            <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">pupil</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_EXTERNAL</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">contours</span><span class="p">:</span>
+                <span class="n">contour</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ellipse</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+                    <span class="n">center</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">angle</span> <span class="o">=</span> <span class="n">ellipse</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">major_diameter</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">minor_diameter</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="n">angle</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">major_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">minor_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fill_ellipse</span><span class="p">:</span>
+            <span class="n">pupil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_ellipse_and_fill</span><span class="p">(</span><span class="n">pupil</span><span class="p">)</span>
+
+        <span class="c1"># Resize mask back to the original frame size.</span>
+        <span class="n">pupil_resized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">pupil</span><span class="p">,</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># Update public state.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pupil_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pupil_resized</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centroid</span> <span class="o">=</span> <span class="n">centroid</span>
+
+        <span class="k">return</span> <span class="n">pupil_resized</span><span class="p">,</span> <span class="n">centroid</span></div>
+
+
+<div class="viewcode-block" id="Meye.morphProcessing">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.morphProcessing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">morphProcessing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceImg</span><span class="p">,</span> <span class="n">thr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Post-process the raw model output to isolate the pupil region.</span>
+
+<span class="sd">        Steps</span>
+<span class="sd">        -----</span>
+<span class="sd">        1. Threshold the model output at ``thr``</span>
+<span class="sd">        2. Label connected components</span>
+<span class="sd">        3. Keep only the largest component</span>
+<span class="sd">        4. Apply morphological closing with an elliptical kernel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sourceImg : numpy.ndarray</span>
+<span class="sd">            Raw model output mask (float array in [0, 1]).</span>
+<span class="sd">        thr : float, optional</span>
+<span class="sd">            Threshold used to binarize the mask.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        morph : numpy.ndarray</span>
+<span class="sd">            Post-processed binary mask as uint8 with values 0 or 255.</span>
+<span class="sd">        centroid : tuple[float, float]</span>
+<span class="sd">            Centroid of the largest component in (row, col) format.</span>
+<span class="sd">            Returns ``(np.nan, np.nan)`` if no component is found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">binarized</span> <span class="o">=</span> <span class="n">sourceImg</span> <span class="o">&gt;</span> <span class="n">thr</span>
+        <span class="n">label_img</span> <span class="o">=</span> <span class="n">label</span><span class="p">(</span><span class="n">binarized</span><span class="p">)</span>
+        <span class="n">regions</span> <span class="o">=</span> <span class="n">regionprops</span><span class="p">(</span><span class="n">label_img</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">morph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sourceImg</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+            <span class="n">centroid</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">morph</span><span class="p">,</span> <span class="n">centroid</span>
+
+        <span class="c1"># Keep only the largest connected component.</span>
+        <span class="n">regions</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span>
+
+        <span class="k">for</span> <span class="n">rg</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">label_img</span><span class="p">[</span><span class="n">rg</span><span class="o">.</span><span class="n">coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rg</span><span class="o">.</span><span class="n">coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">label_img</span><span class="p">[</span><span class="n">label_img</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">biggest_region</span> <span class="o">=</span> <span class="p">(</span><span class="n">label_img</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getStructuringElement</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_ELLIPSE</span><span class="p">,</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span>
+        <span class="n">morph</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">biggest_region</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">morph</span><span class="p">,</span> <span class="n">centroid</span></div>
+
+
+<div class="viewcode-block" id="Meye.fit_ellipse_and_fill">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.fit_ellipse_and_fill">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_ellipse_and_fill</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit an ellipse to the pupil mask and return a filled ellipse mask.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mask : numpy.ndarray</span>
+<span class="sd">            Binary mask (uint8) typically with values 0/255.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            New mask where the pupil is represented by a filled ellipse</span>
+<span class="sd">            (0/255). If ellipse fitting is not possible, returns the input mask.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - Uses the convex hull of the largest contour to stabilize ellipse fitting.</span>
+<span class="sd">        - OpenCV requires at least 5 points to fit an ellipse.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_EXTERNAL</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">contours</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mask</span>
+
+        <span class="n">largest_contour</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">)</span>
+        <span class="n">hull</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">convexHull</span><span class="p">(</span><span class="n">largest_contour</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">ellipse</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">major_axis</span><span class="p">,</span> <span class="n">minor_axis</span><span class="p">),</span> <span class="n">angle</span> <span class="o">=</span> <span class="n">ellipse</span>
+
+            <span class="n">filled_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span>
+                <span class="n">filled_image</span><span class="p">,</span>
+                <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+                <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">major_axis</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minor_axis</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span>
+                <span class="n">angle</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">360</span><span class="p">,</span>
+                <span class="mi">255</span><span class="p">,</span>
+                <span class="n">thickness</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">filled_image</span>
+
+        <span class="k">return</span> <span class="n">mask</span></div>
+
+
+<div class="viewcode-block" id="Meye.overlay_roi">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.overlay_roi">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">overlay_roi</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">roi</span><span class="p">,</span> <span class="n">ratios</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Overlay a pupil mask over a region of interest (ROI) image.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mask : numpy.ndarray</span>
+<span class="sd">            Binary mask to overlay (expected 0/255).</span>
+<span class="sd">        roi : numpy.ndarray</span>
+<span class="sd">            Base image (typically BGR) to overlay on.</span>
+<span class="sd">        ratios : tuple[float, float], optional</span>
+<span class="sd">            Blending ratios for (roi, mask_color) passed to</span>
+<span class="sd">            :func:`cv2.addWeighted`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Blended image for visualization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">overlay</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">mask_colored</span> <span class="o">=</span> <span class="n">Meye</span><span class="o">.</span><span class="n">mask2color</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">overlay</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">overlay</span><span class="p">,</span> <span class="n">ratios</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mask_colored</span><span class="p">,</span> <span class="n">ratios</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">overlay</span></div>
+
+
+<div class="viewcode-block" id="Meye.mask2color">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.mask2color">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mask2color</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a single-channel mask into a 3-channel color image.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mask : numpy.ndarray</span>
+<span class="sd">            2D mask.</span>
+<span class="sd">        channel : int, optional</span>
+<span class="sd">            Channel to place the mask in:</span>
+<span class="sd">            - 0: red</span>
+<span class="sd">            - 1: green</span>
+<span class="sd">            - 2: blue</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            3-channel image with the mask in the selected channel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">)])</span>
+        <span class="k">elif</span> <span class="n">channel</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">mask</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="Meye.preview">
+<a class="viewcode-back" href="../../api/meyelens.meye.html#meyelens.meye.Meye.preview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a real-time preview loop showing pupil segmentation overlay.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cam : Camera</span>
+<span class="sd">            Camera instance providing frames via :meth:`Camera.get_frame`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Press &quot;q&quot; in the preview window to exit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;### MEYE ### Press &quot;q&quot; to exit preview.&#39;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+            <span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">overlay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">overlay_roi</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+            <span class="n">cam</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">overlay</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Preview&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cam</span><span class="o">.</span><span class="n">wait_key</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">):</span>
+                <span class="k">break</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">destroyWindow</span><span class="p">(</span><span class="s2">&quot;Preview&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MeyeRecorder">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MeyeRecorder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Synchronous frame-by-frame recorder using :class:`Meye` and :class:`FileWriter`.</span>
+
+<span class="sd">    This recorder captures frames from a :class:`~.camera.Camera`, runs pupil detection,</span>
+<span class="sd">    and writes one line per frame to a semicolon-separated text file.</span>
+
+<span class="sd">    The output columns are:</span>
+
+<span class="sd">    - time (seconds since start)</span>
+<span class="sd">    - x, y (centroid coordinates; written as col, row)</span>
+<span class="sd">    - pupil (mask area in pixels)</span>
+<span class="sd">    - major_diameter, minor_diameter, orientation (ellipse fit; may be NaN)</span>
+<span class="sd">    - trg1 ... trg9 (user-defined trigger values)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cam_ind : int, optional</span>
+<span class="sd">        Camera index passed to :class:`~.camera.Camera`.</span>
+<span class="sd">    model : str or pathlib.Path or None, optional</span>
+<span class="sd">        Path to the Keras model file. If ``None``, the packaged model is used.</span>
+<span class="sd">    show_preview : bool, optional</span>
+<span class="sd">        If ``True``, display an overlay window during recording.</span>
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        Base filename used by :class:`FileWriter` (timestamp is added automatically).</span>
+<span class="sd">    folder_path : str, optional</span>
+<span class="sd">        Output folder where the text file is created.</span>
+<span class="sd">    sep : str, optional</span>
+<span class="sd">        Column separator used in the output file.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This recorder writes synchronously to disk at each :meth:`save_frame` call.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cam_ind</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_preview</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;meye&quot;</span><span class="p">,</span>
+        <span class="n">folder_path</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+        <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">cam_ind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_preview</span> <span class="o">=</span> <span class="n">show_preview</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meye</span> <span class="o">=</span> <span class="n">Meye</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">folder_path</span> <span class="o">=</span> <span class="n">folder_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Trigger placeholders (kept for external code that may read these attributes).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg3</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg4</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg5</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg6</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg7</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg8</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trg9</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="MeyeRecorder.start">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start recording and initialize the output file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE RECORDER ### Start.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">FileWriter</span><span class="p">(</span><span class="n">path_to_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">folder_path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_sv</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pupil&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;major_diameter&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;minor_diameter&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;orientation&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg5&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg6&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg7&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg8&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg9&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.preview">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.preview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a live preview window (segmentation overlay).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">preview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.save_frame">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.save_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_frame</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">trg1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg3</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg4</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg5</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg6</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg7</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg8</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg9</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Capture one frame, run pupil detection, and append a row to the output file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        trg1, trg2, trg3, trg4, trg5, trg6, trg7, trg8, trg9 : int, optional</span>
+<span class="sd">            Trigger values to save alongside the measurements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE ASYNC RECORDER ### Recording not started!&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
+
+        <span class="c1"># Note: centroid is (row, col); here we store x=col, y=row.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_sv</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">timestamp</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">pupil_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">major_diameter</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">minor_diameter</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+                <span class="n">trg1</span><span class="p">,</span>
+                <span class="n">trg2</span><span class="p">,</span>
+                <span class="n">trg3</span><span class="p">,</span>
+                <span class="n">trg4</span><span class="p">,</span>
+                <span class="n">trg5</span><span class="p">,</span>
+                <span class="n">trg6</span><span class="p">,</span>
+                <span class="n">trg7</span><span class="p">,</span>
+                <span class="n">trg8</span><span class="p">,</span>
+                <span class="n">trg9</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_preview</span><span class="p">:</span>
+            <span class="n">overlay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">overlay_roi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predicted</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">overlay</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Recording&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.get_data">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Capture one frame and return instantaneous pupil metrics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing:</span>
+
+<span class="sd">            - ``centroid``: (x, y) as (col, row)</span>
+<span class="sd">            - ``size``: pupil mask area in pixels</span>
+<span class="sd">            - ``major_diameter``: ellipse major axis in pixels (or NaN)</span>
+<span class="sd">            - ``minor_diameter``: ellipse minor axis in pixels (or NaN)</span>
+<span class="sd">            - ``orientation``: ellipse angle (degrees) (or NaN)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;centroid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">pupil_size</span><span class="p">,</span>
+            <span class="s2">&quot;major_diameter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">major_diameter</span><span class="p">,</span>
+            <span class="s2">&quot;minor_diameter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">minor_diameter</span><span class="p">,</span>
+            <span class="s2">&quot;orientation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.stop">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop recording and close the output file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE RECORDER ### File Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.close">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release the camera resource.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE RECORDER ### Camera Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MeyeRecorder.close_all">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeRecorder.close_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop recording and release all resources (file + camera).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE RECORDER ### Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MeyeAsyncRecorder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Asynchronous frame-by-frame recorder using :class:`Meye` and :class:`BufferedFileWriter`.</span>
+
+<span class="sd">    This recorder is similar to :class:`MeyeRecorder`, but data rows are queued in memory and</span>
+<span class="sd">    written to disk by a background thread, reducing I/O latency inside tight loops.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cam_ind : int, optional</span>
+<span class="sd">        Camera index passed to :class:`~.camera.Camera`.</span>
+<span class="sd">    model : str or pathlib.Path or None, optional</span>
+<span class="sd">        Path to the Keras model file. If ``None``, the packaged model is used.</span>
+<span class="sd">    show_preview : bool, optional</span>
+<span class="sd">        If ``True``, display an overlay window during recording.</span>
+<span class="sd">    path_to_file : str, optional</span>
+<span class="sd">        Output folder where the text file is created.</span>
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        Base filename used by :class:`BufferedFileWriter` (timestamp is added automatically).</span>
+<span class="sd">    buffer_size : int, optional</span>
+<span class="sd">        Queue size for :class:`BufferedFileWriter`. When full, new rows are discarded and</span>
+<span class="sd">        a warning is printed by the writer (no logging).</span>
+<span class="sd">    sep : str, optional</span>
+<span class="sd">        Column separator used in the output file.</span>
+<span class="sd">    cam_crop : list[int] or tuple[int, int, int, int] or None, optional</span>
+<span class="sd">        Crop passed to :class:`~.camera.Camera` (implementation-dependent).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You must call :meth:`stop` (or :meth:`close_all`) to flush remaining queued data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cam_ind</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_preview</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">path_to_file</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;meye&quot;</span><span class="p">,</span>
+        <span class="n">buffer_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
+        <span class="n">cam_crop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">cam_ind</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="n">cam_crop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_preview</span> <span class="o">=</span> <span class="n">show_preview</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meye</span> <span class="o">=</span> <span class="n">Meye</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_to_file</span> <span class="o">=</span> <span class="n">path_to_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span> <span class="o">=</span> <span class="n">buffer_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.start">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start recording and initialize the asynchronous output writer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        metadata : dict or None, optional</span>
+<span class="sd">            Metadata passed to :class:`BufferedFileWriter` and written as comment</span>
+<span class="sd">            lines at the top of the file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">BufferedFileWriter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path_to_file</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+            <span class="n">buffer_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pupil&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;major_diameter&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;minor_diameter&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;orientation&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg5&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg6&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg7&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg8&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;trg9&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+            <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE ASYNC RECORDER ### Start.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.preview">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.preview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a live preview window (segmentation overlay).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">preview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.save_frame">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.save_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_frame</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">trg1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg3</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg4</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg5</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg6</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg7</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg8</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">trg9</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Capture one frame, run pupil detection, and queue a row for disk writing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        trg1, trg2, trg3, trg4, trg5, trg6, trg7, trg8, trg9 : int, optional</span>
+<span class="sd">            Trigger values to save alongside the measurements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
+
+        <span class="c1"># Note: centroid is (row, col); here we store x=col, y=row.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_sv</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">timestamp</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">pupil_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">major_diameter</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">minor_diameter</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+                <span class="n">trg1</span><span class="p">,</span>
+                <span class="n">trg2</span><span class="p">,</span>
+                <span class="n">trg3</span><span class="p">,</span>
+                <span class="n">trg4</span><span class="p">,</span>
+                <span class="n">trg5</span><span class="p">,</span>
+                <span class="n">trg6</span><span class="p">,</span>
+                <span class="n">trg7</span><span class="p">,</span>
+                <span class="n">trg8</span><span class="p">,</span>
+                <span class="n">trg9</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_preview</span><span class="p">:</span>
+            <span class="n">overlay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">overlay_roi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predicted</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">overlay</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Recording&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.get_data">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Capture one frame and return instantaneous pupil metrics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing:</span>
+
+<span class="sd">            - ``centroid``: (x, y) as (col, row)</span>
+<span class="sd">            - ``size``: pupil mask area in pixels</span>
+<span class="sd">            - ``major_diameter``: ellipse major axis in pixels (or NaN)</span>
+<span class="sd">            - ``minor_diameter``: ellipse minor axis in pixels (or NaN)</span>
+<span class="sd">            - ``orientation``: ellipse angle (degrees) (or NaN)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;centroid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">pupil_size</span><span class="p">,</span>
+            <span class="s2">&quot;major_diameter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">major_diameter</span><span class="p">,</span>
+            <span class="s2">&quot;minor_diameter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">minor_diameter</span><span class="p">,</span>
+            <span class="s2">&quot;orientation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meye</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.stop">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop recording and close the output file (flushes queued data).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE ASYNC RECORDER ### File Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.close">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release the camera resource.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE ASYNC RECORDER ### Camera Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MeyeAsyncRecorder.close_all">
+<a class="viewcode-back" href="../../api/meyelens.online.html#meyelens.meye.MeyeAsyncRecorder.close_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop recording and release all resources (writer + camera).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;### MEYE ASYNC RECORDER ### Closed.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
+<span class="c1">#     from camera import Camera</span>
+<span class="c1">#     cam = Camera(1, crop=[100, 220, 250, 270])</span>
+<span class="c1">#     meye = Meye()</span>
+<span class="c1">#     meye.preview(cam)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

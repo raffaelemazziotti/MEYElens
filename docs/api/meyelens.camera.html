@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens.camera &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">meyelens.camera</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/meyelens.camera.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-meyelens.camera">
+<span id="meyelens-camera"></span><h1>meyelens.camera<a class="headerlink" href="#module-meyelens.camera" title="Link to this heading"></a></h1>
+<section id="camera-py">
+<h2>camera.py<a class="headerlink" href="#camera-py" title="Link to this heading"></a></h2>
+<p>A small OpenCV-based camera wrapper with:</p>
+<ul class="simple">
+<li><p>Optional calibration loading from a TOML file.</p></li>
+<li><p>Optional frame undistortion (requires calibration).</p></li>
+<li><p>Fixed resolution / framerate configuration.</p></li>
+<li><p>Auto-exposure or manual exposure control.</p></li>
+<li><p>Interactive ROI selection and optional cropping.</p></li>
+<li><p>A simple preview window for quick diagnostics.</p></li>
+</ul>
+<p>This module is written to be friendly to Sphinx autodoc. If you use NumPy-style
+docstrings, enable <code class="docutils literal notranslate"><span class="pre">sphinx.ext.napoleon</span></code> in your <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>OpenCV camera properties (auto-exposure, exposure units, gain, FPS) can behave
+differently across operating systems, backends (DirectShow/MSMF/V4L2), and
+camera drivers. The setters in this class <em>attempt</em> to apply requested values,
+but your hardware may ignore some properties.</p>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>opencv-python</p></li>
+<li><p>numpy</p></li>
+<li><p>toml</p></li>
+</ul>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">camera</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Camera</span><span class="p">(</span><span class="n">camera_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span> <span class="n">auto_exposure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">cam</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">frame</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">get_frame</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">cam</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="s2">&quot;One frame&quot;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.camera.Camera">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.camera.</span></span><span class="sig-name descname"><span class="pre">Camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'camera_calibration.toml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undistort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(640,</span> <span class="pre">480)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>High-level wrapper around <code class="xref py py-class docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>camera_index</strong> – Index passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>. Common values are <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code>.
+Some systems support special values (e.g. <code class="docutils literal notranslate"><span class="pre">-1</span></code>) but this is backend-dependent.</p></li>
+<li><p><strong>calibration_file</strong> – Path to a TOML file containing camera calibration parameters.
+Expected keys:
+- <code class="docutils literal notranslate"><span class="pre">camera_matrix</span></code>: 3x3 array-like
+- <code class="docutils literal notranslate"><span class="pre">distortion_coefficients</span></code>: array-like (e.g. 1x5, 1x8)</p></li>
+<li><p><strong>undistort</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code> and calibration parameters are available, frames are undistorted
+on read.</p></li>
+<li><p><strong>exposure</strong> – Manual exposure value passed to OpenCV when auto-exposure is disabled.
+The numeric meaning is backend/driver-dependent.</p></li>
+<li><p><strong>framerate</strong> – Requested camera FPS. Note: many cameras ignore this, or it depends on
+resolution/exposure.</p></li>
+<li><p><strong>resolution</strong> – Requested camera resolution as <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code>.</p></li>
+<li><p><strong>auto_exposure</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code> attempt to enable auto-exposure; if <code class="docutils literal notranslate"><span class="pre">False</span></code> attempt to disable
+auto-exposure and apply manual exposure/gain settings.</p></li>
+<li><p><strong>crop</strong> – Optional crop rectangle stored as <code class="docutils literal notranslate"><span class="pre">(top,</span> <span class="pre">left,</span> <span class="pre">height,</span> <span class="pre">width)</span></code>.
+If provided, frames returned by <a class="reference internal" href="#meyelens.camera.Camera.get_frame" title="meyelens.camera.Camera.get_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_frame()</span></code></a> are cropped accordingly.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.cap">
+<span class="sig-name descname"><span class="pre">cap</span></span><a class="headerlink" href="#meyelens.camera.Camera.cap" title="Link to this definition"></a></dt>
+<dd><p>The underlying <code class="xref py py-class docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.camera_matrix">
+<span class="sig-name descname"><span class="pre">camera_matrix</span></span><a class="headerlink" href="#meyelens.camera.Camera.camera_matrix" title="Link to this definition"></a></dt>
+<dd><p>Loaded camera intrinsic matrix (or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not available).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.dist_coeffs">
+<span class="sig-name descname"><span class="pre">dist_coeffs</span></span><a class="headerlink" href="#meyelens.camera.Camera.dist_coeffs" title="Link to this definition"></a></dt>
+<dd><p>Loaded distortion coefficients (or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not available).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.crop">
+<span class="sig-name descname"><span class="pre">crop</span></span><a class="headerlink" href="#meyelens.camera.Camera.crop" title="Link to this definition"></a></dt>
+<dd><p>Crop rectangle in <code class="docutils literal notranslate"><span class="pre">(top,</span> <span class="pre">left,</span> <span class="pre">height,</span> <span class="pre">width)</span></code> format, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If the camera cannot be opened.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.load_calibration">
+<span class="sig-name descname"><span class="pre">load_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.load_calibration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.load_calibration" title="Link to this definition"></a></dt>
+<dd><p>Load camera calibration from a TOML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calibration_file</strong> – TOML file path. Must contain at least <code class="docutils literal notranslate"><span class="pre">camera_matrix</span></code> and
+<code class="docutils literal notranslate"><span class="pre">distortion_coefficients</span></code> keys.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If loading fails for any reason, the camera continues operating without
+calibration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.set_resolution">
+<span class="sig-name descname"><span class="pre">set_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.set_resolution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.set_resolution" title="Link to this definition"></a></dt>
+<dd><p>Attempt to set the capture resolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resolution</strong> – <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.set_framerate">
+<span class="sig-name descname"><span class="pre">set_framerate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framerate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.set_framerate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.set_framerate" title="Link to this definition"></a></dt>
+<dd><p>Attempt to set the capture framerate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>framerate</strong> – Requested FPS.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.set_auto_exposure">
+<span class="sig-name descname"><span class="pre">set_auto_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.set_auto_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.set_auto_exposure" title="Link to this definition"></a></dt>
+<dd><p>Attempt to enable/disable auto-exposure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enabled</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, attempt to enable auto-exposure. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, attempt to
+disable auto-exposure and apply manual exposure settings.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>OpenCV uses different conventions depending on backend:</p>
+<ul class="simple">
+<li><p>Some backends expect <code class="docutils literal notranslate"><span class="pre">CAP_PROP_AUTO_EXPOSURE</span></code> to be 0.25 for manual and
+0.75 for auto (common on V4L2).</p></li>
+<li><p>Others accept 0/1.</p></li>
+</ul>
+<p>Here we try a reasonable approach while keeping original intent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.set_exposure">
+<span class="sig-name descname"><span class="pre">set_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.set_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.set_exposure" title="Link to this definition"></a></dt>
+<dd><p>Attempt to set manual exposure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>exposure</strong> – Manual exposure value passed to OpenCV.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the camera is open and we attempted to set the property,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Many drivers require auto-exposure to be disabled for this to take effect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.get_frame">
+<span class="sig-name descname"><span class="pre">get_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flip_vertical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_crop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.get_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.get_frame" title="Link to this definition"></a></dt>
+<dd><p>Capture a frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flip_vertical</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, flip the frame vertically (OpenCV flipCode=0), matching
+the original behavior.</p></li>
+<li><p><strong>apply_crop</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code> and <a class="reference internal" href="#meyelens.camera.Camera.crop" title="meyelens.camera.Camera.crop"><code class="xref py py-attr docutils literal notranslate"><span class="pre">crop</span></code></a> is set, crop the returned frame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BGR image (H x W x 3) if successful, otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[numpy.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.show">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Frame'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.show" title="Link to this definition"></a></dt>
+<dd><p>Display a frame in an OpenCV window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – Frame to display.</p></li>
+<li><p><strong>name</strong> – Window name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.wait_key">
+<span class="sig-name descname"><span class="pre">wait_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'q'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.wait_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.wait_key" title="Link to this definition"></a></dt>
+<dd><p>Check whether a given key was pressed in the last OpenCV event loop iteration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Single character key to detect (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;q&quot;</span></code>).</p></li>
+<li><p><strong>delay_ms</strong> – Delay in milliseconds passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">cv2.waitKey()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the key was pressed, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.preview">
+<span class="sig-name descname"><span class="pre">preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Camera</span> <span class="pre">Preview'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.preview" title="Link to this definition"></a></dt>
+<dd><p>Open a live preview window with a framerate readout.</p>
+<section id="controls">
+<h2>Controls<a class="headerlink" href="#controls" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>ESC: exit preview</p></li>
+<li><p>‘o’: increase exposure by +1 (only meaningful if manual exposure is supported)</p></li>
+<li><p>‘p’: decrease exposure by -1</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">param window_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of the OpenCV window.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.close" title="Link to this definition"></a></dt>
+<dd><p>Release camera resources and close OpenCV windows.</p>
+<p class="rubric">Notes</p>
+<p>Calling <code class="xref py py-func docutils literal notranslate"><span class="pre">cv2.destroyAllWindows()</span></code> is global (it closes all OpenCV windows),
+so if you manage multiple windows externally you may prefer to destroy specific
+windows yourself.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.camera.Camera.select_roi">
+<span class="sig-name descname"><span class="pre">select_roi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Select</span> <span class="pre">ROI'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/camera.html#Camera.select_roi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.camera.Camera.select_roi" title="Link to this definition"></a></dt>
+<dd><p>Interactively select a rectangular ROI and store it in <a class="reference internal" href="#meyelens.camera.Camera.crop" title="meyelens.camera.Camera.crop"><code class="xref py py-attr docutils literal notranslate"><span class="pre">crop</span></code></a>.</p>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Drag with left mouse button to draw a rectangle.</p></li>
+<li><p>Press ‘s’ to save the selection.</p></li>
+<li><p>Press ‘r’ to reset the selection.</p></li>
+<li><p>Press ESC to exit without changing <a class="reference internal" href="#meyelens.camera.Camera.crop" title="meyelens.camera.Camera.crop"><code class="xref py py-attr docutils literal notranslate"><span class="pre">crop</span></code></a>.</p></li>
+</ul>
+<p>The selection is stored as <code class="docutils literal notranslate"><span class="pre">(top,</span> <span class="pre">left,</span> <span class="pre">height,</span> <span class="pre">width)</span></code> and will be applied
+by <a class="reference internal" href="#meyelens.camera.Camera.get_frame" title="meyelens.camera.Camera.get_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_frame()</span></code></a> when <code class="docutils literal notranslate"><span class="pre">apply_crop=True</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param window_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>OpenCV window name used for ROI selection.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

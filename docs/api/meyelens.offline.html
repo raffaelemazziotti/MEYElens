@@ -1,0 +1,566 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens.offline &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">meyelens.offline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/meyelens.offline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-meyelens.offline">
+<span id="meyelens-offline"></span><h1>meyelens.offline<a class="headerlink" href="#module-meyelens.offline" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.offline.</span></span><span class="sig-name descname"><span class="pre">ExperimentReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Read back a recorded experiment folder (video + per-frame CSV + metadata).</p>
+<p>This class is designed to mirror the output structure produced by
+<a class="reference internal" href="#meyelens.offline.FastVideoRecorder" title="meyelens.offline.FastVideoRecorder"><code class="xref py py-class docutils literal notranslate"><span class="pre">FastVideoRecorder</span></code></a>. It expects a folder containing:</p>
+<ul class="simple">
+<li><p>a video file (default name used here: <code class="docutils literal notranslate"><span class="pre">pupillometry.avi</span></code>)</p></li>
+<li><dl class="simple">
+<dt>a CSV file named <code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code> with:</dt><dd><ul>
+<li><p>optional metadata lines starting with <code class="docutils literal notranslate"><span class="pre">#</span></code> in the form <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">key:</span> <span class="pre">value</span></code></p></li>
+<li><p>a header row</p></li>
+<li><p>per-frame rows containing at least a <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> column</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder_path</strong> (<em>str</em><em> or </em><em>pathlib.Path</em>) – Folder containing the recorded video and <code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code>.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.folder_path">
+<span class="sig-name descname"><span class="pre">folder_path</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.folder_path" title="Link to this definition"></a></dt>
+<dd><p>Base folder of the recording.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.video_path">
+<span class="sig-name descname"><span class="pre">video_path</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.video_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.csv_path">
+<span class="sig-name descname"><span class="pre">csv_path</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.csv_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the CSV file with timestamps/signals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.metadata" title="Link to this definition"></a></dt>
+<dd><p>Metadata parsed from comment lines in the CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.frame_info">
+<span class="sig-name descname"><span class="pre">frame_info</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.frame_info" title="Link to this definition"></a></dt>
+<dd><p>Frame-by-frame table loaded from the CSV (comment lines ignored).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.fps">
+<span class="sig-name descname"><span class="pre">fps</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.fps" title="Link to this definition"></a></dt>
+<dd><p>Estimated FPS computed from timestamp differences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.cap">
+<span class="sig-name descname"><span class="pre">cap</span></span><a class="headerlink" href="#meyelens.offline.ExperimentReader.cap" title="Link to this definition"></a></dt>
+<dd><p>OpenCV video capture handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cv2.VideoCapture</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fps</span></code> is estimated as the mean of <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">diff(timestamp)</span></code>; this assumes
+timestamps are in seconds and monotonic.</p></li>
+<li><p>This class does not automatically close the capture: call <a class="reference internal" href="#meyelens.offline.ExperimentReader.close" title="meyelens.offline.ExperimentReader.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.get_metadata">
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.get_metadata" title="Link to this definition"></a></dt>
+<dd><p>Return parsed metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Metadata dictionary from the CSV comment lines.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.get_frame_count">
+<span class="sig-name descname"><span class="pre">get_frame_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.get_frame_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.get_frame_count" title="Link to this definition"></a></dt>
+<dd><p>Get total number of frames in the video.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of frames according to OpenCV.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.get_frame">
+<span class="sig-name descname"><span class="pre">get_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.get_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.get_frame" title="Link to this definition"></a></dt>
+<dd><p>Retrieve a frame by index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Frame index (0-based).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The frame (as returned by OpenCV), or <code class="docutils literal notranslate"><span class="pre">None</span></code> if reading fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.play_video">
+<span class="sig-name descname"><span class="pre">play_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.play_video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.play_video" title="Link to this definition"></a></dt>
+<dd><p>Play the recorded video with an overlay of the per-frame <code class="docutils literal notranslate"><span class="pre">signal</span></code> value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delay</strong> (<em>int</em><em>, </em><em>optional</em>) – Delay passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">cv2.waitKey()</span></code> in milliseconds. Smaller values play faster.</p></li>
+<li><p><strong>repeat</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, loop the video when it ends.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Press <code class="docutils literal notranslate"><span class="pre">q</span></code> to quit playback.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.visualize_fps_stability">
+<span class="sig-name descname"><span class="pre">visualize_fps_stability</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.visualize_fps_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.visualize_fps_stability" title="Link to this definition"></a></dt>
+<dd><p>Plot instantaneous FPS over time derived from recorded timestamps.</p>
+<p>This function computes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span> <span class="pre">=</span> <span class="pre">diff(timestamps)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">instantaneous_fps</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">dt</span></code></p></li>
+</ul>
+<p>Then plots instantaneous FPS against the mid-time between consecutive frames.</p>
+<p class="rubric">Notes</p>
+<p>This method expects that <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> is a numeric column in seconds.</p>
+<section id="potential-issue-in-original-code">
+<h2>Potential issue in original code<a class="headerlink" href="#potential-issue-in-original-code" title="Link to this heading"></a></h2>
+<p>The previous implementation attempted to iterate over <code class="docutils literal notranslate"><span class="pre">self.frame_info</span></code> as if it
+were a list of dicts (<code class="docutils literal notranslate"><span class="pre">entry[&quot;timestamp&quot;]</span></code>). Here we use DataFrame columns directly.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.visualize_triggers">
+<span class="sig-name descname"><span class="pre">visualize_triggers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.visualize_triggers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.visualize_triggers" title="Link to this definition"></a></dt>
+<dd><p>Plot trigger/signal values across frame indices.</p>
+<p class="rubric">Notes</p>
+<p>Potential issue in original code:
+<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">not</span> <span class="pre">self.frame_info:</span></code> is ambiguous for a DataFrame. Here we use <code class="docutils literal notranslate"><span class="pre">empty</span></code>.
+Also, the original code treated <code class="docutils literal notranslate"><span class="pre">frame_info</span></code> like a list of dicts; this version
+uses DataFrame columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.ExperimentReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#ExperimentReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.ExperimentReader.close" title="Link to this definition"></a></dt>
+<dd><p>Release the OpenCV video capture handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.offline.</span></span><span class="sig-name descname"><span class="pre">FastVideoRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'experiment'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(640,</span> <span class="pre">480)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'eye.avi'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FastVideoRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FastVideoRecorder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Simple video + CSV recorder for experiments.</p>
+<p>This class writes:</p>
+<ul class="simple">
+<li><p>a grayscale video file (MJPG codec)</p></li>
+<li><p>a CSV file named <code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code> with optional metadata comment lines and
+one row per recorded frame.</p></li>
+</ul>
+<p>The output folder is created as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">dest_folder</span><span class="o">&gt;/&lt;</span><span class="n">timestamp</span><span class="o">&gt;-&lt;</span><span class="n">name</span><span class="o">&gt;/</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name appended to the output folder.</p></li>
+<li><p><strong>dest_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Base destination directory.</p></li>
+<li><p><strong>fps</strong> (<em>float</em><em>, </em><em>optional</em>) – Target frames per second passed to OpenCV VideoWriter.</p></li>
+<li><p><strong>frame_size</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Frame size (width, height) expected by OpenCV VideoWriter.</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Optional metadata written to the top of <code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code> as <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">key:</span> <span class="pre">value</span></code>.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Video filename inside the output folder.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.output_folder">
+<span class="sig-name descname"><span class="pre">output_folder</span></span><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.output_folder" title="Link to this definition"></a></dt>
+<dd><p>Created output folder path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.video_path">
+<span class="sig-name descname"><span class="pre">video_path</span></span><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.video_path" title="Link to this definition"></a></dt>
+<dd><p>Full path to the recorded video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.timestamp_path">
+<span class="sig-name descname"><span class="pre">timestamp_path</span></span><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.timestamp_path" title="Link to this definition"></a></dt>
+<dd><p>Full path to the per-frame CSV file (<code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.frame_index">
+<span class="sig-name descname"><span class="pre">frame_index</span></span><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.frame_index" title="Link to this definition"></a></dt>
+<dd><p>Incremented each time <a class="reference internal" href="#meyelens.offline.FastVideoRecorder.record_frame" title="meyelens.offline.FastVideoRecorder.record_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">record_frame()</span></code></a> is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.record_frame">
+<span class="sig-name descname"><span class="pre">record_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FastVideoRecorder.record_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.record_frame" title="Link to this definition"></a></dt>
+<dd><p>Record a frame to video and append a row to <code class="docutils literal notranslate"><span class="pre">expinfo.csv</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>numpy.ndarray</em>) – Frame to write. If BGR, it is converted to grayscale before writing.</p></li>
+<li><p><strong>signal</strong> (<em>str</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – Signal/trigger value to store for this frame.</p></li>
+<li><p><strong>trial_n</strong> (<em>str</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – Trial identifier to store for this frame.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Timestamp is recorded using <code class="xref py py-func docutils literal notranslate"><span class="pre">time.time()</span></code> (seconds since epoch).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frame_index</span></code> starts at 0 and increments per call.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FastVideoRecorder.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FastVideoRecorder.release"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FastVideoRecorder.release" title="Link to this definition"></a></dt>
+<dd><p>Release the video writer and close the CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.offline.</span></span><span class="sig-name descname"><span class="pre">FrameRateManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FrameRateManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FrameRateManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility class to help maintain a target frame rate in a polling loop.</p>
+<section id="typical-usage">
+<h2>Typical usage<a class="headerlink" href="#typical-usage" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frm</span> <span class="o">=</span> <span class="n">FrameRateManager</span><span class="p">(</span><span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frm</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="ow">not</span> <span class="n">frm</span><span class="o">.</span><span class="n">is_finished</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">frm</span><span class="o">.</span><span class="n">is_ready</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="c1"># acquire frame / do work here</span>
+<span class="gp">... </span>        <span class="n">frm</span><span class="o">.</span><span class="n">set_frame_time</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">param fps<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Target frames per second.</p>
+</dd>
+<dt class="field-even">type fps<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+<dt class="field-odd">param duration<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Maximum loop duration in seconds for <a class="reference internal" href="#meyelens.offline.FrameRateManager.is_finished" title="meyelens.offline.FrameRateManager.is_finished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_finished()</span></code></a>.</p>
+</dd>
+<dt class="field-even">type duration<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.fps">
+<span class="sig-name descname"><span class="pre">fps</span></span><a class="headerlink" href="#meyelens.offline.FrameRateManager.fps" title="Link to this definition"></a></dt>
+<dd><p>Target FPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.interframe">
+<span class="sig-name descname"><span class="pre">interframe</span></span><a class="headerlink" href="#meyelens.offline.FrameRateManager.interframe" title="Link to this definition"></a></dt>
+<dd><p>Target inter-frame interval (seconds).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.time_grab">
+<span class="sig-name descname"><span class="pre">time_grab</span></span><a class="headerlink" href="#meyelens.offline.FrameRateManager.time_grab" title="Link to this definition"></a></dt>
+<dd><p>Timestamp saved when a new frame cycle begins (set in <a class="reference internal" href="#meyelens.offline.FrameRateManager.is_ready" title="meyelens.offline.FrameRateManager.is_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_ready()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#meyelens.offline.FrameRateManager.duration" title="Link to this definition"></a></dt>
+<dd><p>Duration used to determine loop end.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.framecount">
+<span class="sig-name descname"><span class="pre">framecount</span></span><a class="headerlink" href="#meyelens.offline.FrameRateManager.framecount" title="Link to this definition"></a></dt>
+<dd><p>Counts how many times the loop was “ready” (i.e., frames acquired).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FrameRateManager.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FrameRateManager.start" title="Link to this definition"></a></dt>
+<dd><p>Initialize timing variables and reset counters for a new run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.is_ready">
+<span class="sig-name descname"><span class="pre">is_ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/offline.html#FrameRateManager.is_ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FrameRateManager.is_ready" title="Link to this definition"></a></dt>
+<dd><p>Check if it is time to process/acquire the next frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if current time has reached the next scheduled frame time.
+When <code class="docutils literal notranslate"><span class="pre">True</span></code>, also updates internal counters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.set_frame_time">
+<span class="sig-name descname"><span class="pre">set_frame_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">overhead</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/offline.html#FrameRateManager.set_frame_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FrameRateManager.set_frame_time" title="Link to this definition"></a></dt>
+<dd><p>Schedule the next frame time based on processing overhead.</p>
+<p>This method measures time elapsed since <a class="reference internal" href="#meyelens.offline.FrameRateManager.is_ready" title="meyelens.offline.FrameRateManager.is_ready"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_ready()</span></code></a> last set
+<a class="reference internal" href="#meyelens.offline.FrameRateManager.time_grab" title="meyelens.offline.FrameRateManager.time_grab"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_grab</span></code></a> and subtracts it from the nominal inter-frame interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>overhead</strong> (<em>float</em><em>, </em><em>optional</em>) – Small constant to compensate for additional overhead (seconds).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.offline.FrameRateManager.is_finished">
+<span class="sig-name descname"><span class="pre">is_finished</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/offline.html#FrameRateManager.is_finished"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.offline.FrameRateManager.is_finished" title="Link to this definition"></a></dt>
+<dd><p>Check whether the run duration has elapsed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the current time is beyond the configured duration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>When finished, prints the actual duration and number of frames processed.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

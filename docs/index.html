@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEYELens &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="meyelens" href="api/modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MEYELens</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="meyelens">
+<h1>MEYELens<a class="headerlink" href="#meyelens" title="Link to this heading"></a></h1>
+<p><strong>MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking</strong></p>
+<img src="assets/intro_picture.png" width="700" alt="MEYELens">
+<p>MEYELens is a low-cost, modular, 3D-printable eyewear platform for <strong>pupillometry</strong> and <strong>gaze tracking</strong>, designed to be reproducible and adaptable across research and clinical contexts. The project includes printable hardware, acquisition scripts, and an open-source processing toolkit (<code class="docutils literal notranslate"><span class="pre">meyelens</span></code>) providing both a <strong>Python API</strong> and a <strong>GUI</strong> for offline analysis.</p>
+<p>This project is based on <a class="reference external" href="https://github.com/fabiocarrara/meye">MEYE</a></p>
+<hr class="docutils" />
+<section id="d-print">
+<h2>3D PRINT<a class="headerlink" href="#d-print" title="Link to this heading"></a></h2>
+<p>3D printing files are in the <code class="docutils literal notranslate"><span class="pre">3d_print_files/</span></code> folder.</p>
+<p>If you have a Bambu Lab printer, you can also find them on <a class="reference external" href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking#profileId-2471837">MakerWorld</a></p>
+<p>The files are also uploaded to <a class="reference external" href="https://3d.nih.gov/entries/3DPX-023297">NIH 3D</a></p>
+<a href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking#profileId-2471837" target="_blank" rel="noopener noreferrer">
+  <img src="assets/bambulab.png" width="400" alt="Bambu Studio">
+</a>
+<p>We used <strong>Bambu Lab Matte Black PLA</strong>.</p>
+<p>Print settings (Bambu Studio baseline profile with fixed infill):</p>
+<ul class="simple">
+<li><p>0.2 mm layer height, 0.4 mm nozzle</p></li>
+<li><p>Supports enabled, 2 wall loops</p></li>
+<li><p>~50% gyroid infill (lower infill may reduce print time)</p></li>
+<li><p>~55 g filament, ~3 hours (printer-dependent)</p></li>
+</ul>
+<img src="assets/print.png" width="400" alt="3D Printer Bed">
+</section>
+<hr class="docutils" />
+<section id="cameras-tested-configurations">
+<h2>CAMERAS (TESTED CONFIGURATIONS)<a class="headerlink" href="#cameras-tested-configurations" title="Link to this heading"></a></h2>
+<p>The platform supports:</p>
+<ul class="simple">
+<li><p><strong>Single camera</strong>: pupillometry (optionally chin-rest gaze tracking)</p></li>
+<li><p><strong>Dual camera</strong>: eye + world camera for naturalistic gaze tracking</p></li>
+</ul>
+<img src="assets/cameras.png" width="400" alt="Cameras Used">
+<p>Tested camera modules:</p>
+<ul class="simple">
+<li><p><strong>GC0307</strong> (640×480, nominal 30 Hz; IR-cut removed; external 96-LED IR illuminator)</p>
+<ul>
+<li><p><a class="reference external" href="https://aliexpress.com/item/1005005748547014.html">AliExpress listing</a></p></li>
+</ul>
+</li>
+<li><p><strong>GC0308</strong> (640×480, nominal 30 Hz; built-in IR LEDs; 50° eye lens, 80° world lens)</p>
+<ul>
+<li><p><a class="reference external" href="https://aliexpress.com/item/1005010597889459.html">AliExpress listing</a></p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><p>Note: low-cost camera modules may not sustain the advertised FPS. In our tests, we often limited capture to <strong>20 fps</strong> for stability.</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="assembly">
+<h2>ASSEMBLY<a class="headerlink" href="#assembly" title="Link to this heading"></a></h2>
+<p>Assembly uses mostly standard fasteners:</p>
+<ul class="simple">
+<li><p>M3 × 16 mm (×3) — frame joints</p></li>
+<li><p>M3 × 12 mm (×4) — ear supports, camera arm, ball joint</p></li>
+<li><p>M3 nuts (×6) — except the ball-bearing anchor (as used in our build)</p></li>
+<li><p>M2 × 10 mm + M2 nuts — camera mounting</p></li>
+</ul>
+<p>Exploded view / assembly diagram:</p>
+<img src="assets/exploded_view.png" width="700" alt="MEYELens exploded view">
+</section>
+<hr class="docutils" />
+<section id="meyelens-software">
+<h2>MEYELens SOFTWARE<a class="headerlink" href="#meyelens-software" title="Link to this heading"></a></h2>
+<section id="install">
+<h3>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h3>
+<p>We recommend using a dedicated environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>meyelens<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w"> </span>-y
+conda<span class="w"> </span>activate<span class="w"> </span>meyelens
+pip<span class="w"> </span>install<span class="w"> </span>meyelens<span class="o">[</span>tf<span class="o">]</span>
+</pre></div>
+</div>
+<p>This installs a standard TensorFlow dependency set, which may run on CPU depending on your system.</p>
+</section>
+<section id="tensorflow-gpu-support-optional">
+<h3>TensorFlow GPU support (optional)<a class="headerlink" href="#tensorflow-gpu-support-optional" title="Link to this heading"></a></h3>
+<p>If you want to manage TensorFlow yourself (e.g., to enable GPU support), install MEYELens without TensorFlow and then follow TensorFlow’s official installation guide:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>meyelens
+</pre></div>
+</div>
+<p>Then install TensorFlow following:</p>
+<ul class="simple">
+<li><p>https://www.tensorflow.org/install/pip</p></li>
+</ul>
+<blockquote>
+<div><p>GPU enablement depends on your OS, CUDA/cuDNN compatibility, and TensorFlow version. Follow the TensorFlow guide exactly for your platform.</p>
+</div></blockquote>
+</section>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h3>
+<p>API documentation: <strong><a class="reference external" href="https://raffaelemazziotti.github.io/MEYElens/">https://raffaelemazziotti.github.io/MEYElens/</a></strong></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="utilizing-the-package">
+<h2>UTILIZING THE PACKAGE<a class="headerlink" href="#utilizing-the-package" title="Link to this heading"></a></h2>
+<p>We provide examples to use the library:</p>
+<section id="offline-recorder">
+<h3><code class="docutils literal notranslate"><span class="pre">offline_recorder</span></code><a class="headerlink" href="#offline-recorder" title="Link to this heading"></a></h3>
+<p>Records a video and a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> with trigger markers sent through keypresses.</p>
+<p>Controls:</p>
+<ul class="simple">
+<li><p><strong>1–9</strong>: send trigger markers</p></li>
+<li><p><strong>S</strong>: start recording</p></li>
+<li><p><strong>E</strong>: stop recording</p></li>
+<li><p><strong>Q</strong>: quit</p></li>
+</ul>
+</section>
+<section id="online-recorder">
+<h3><code class="docutils literal notranslate"><span class="pre">online_recorder</span></code><a class="headerlink" href="#online-recorder" title="Link to this heading"></a></h3>
+<p>Same behavior, but runs <strong>online prediction</strong> and does <strong>not</strong> save the video.</p>
+</section>
+<section id="gaze-tracking-example">
+<h3><code class="docutils literal notranslate"><span class="pre">gaze_tracking_example</span></code><a class="headerlink" href="#gaze-tracking-example" title="Link to this heading"></a></h3>
+<p>Runs a calibration process and then shows the predicted gaze on a gray background.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="offline-gui-pupil-processing">
+<h2>OFFLINE GUI (PUPIL PROCESSING)<a class="headerlink" href="#offline-gui-pupil-processing" title="Link to this heading"></a></h2>
+<p>If you recorded videos through the <code class="docutils literal notranslate"><span class="pre">offline_recorder</span></code> (or have your own IR eye videos), you can run the offline GUI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>meyelens
+python<span class="w"> </span>-m<span class="w"> </span>meyelens_offlinegui
+</pre></div>
+</div>
+<img src="assets/gui.png" width="900" alt="GUI">
+<p>GUI workflow:</p>
+<ol class="arabic simple">
+<li><p>Select a model file (the packaged model is detected automatically when available).</p></li>
+<li><p>Select a video file.</p></li>
+<li><p>Preview a frame and adjust parameters (threshold / closing / invert / flip), then drag the ROI box.</p></li>
+<li><p>Run full processing.</p></li>
+</ol>
+<p>Outputs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*_pupil.csv</span></code> written next to the input video</p></li>
+<li><p>Optional overlay QC video (if enabled)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="citation">
+<h2>CITATION<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
+<p>If you use MEYELens in your work, please cite the following papers:</p>
+<p><strong>MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking</strong><br />
+G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti<br />
+DOI: <strong>[ADD LINK]</strong></p>
+<p><strong>MEYE: Web App for Translational and Real-Time Pupillometry</strong><br />
+R. Mazziotti, F. Carrara, A. Viglione, L. Lupori, L. Lo Verde, A. Benedetto, G. Ricci, G. Sagona, G. Amato, T. Pizzorusso<br />
+eNeuro (2021) 8(5): ENEURO.0122-21.2021<br />
+DOI: <strong>https://doi.org/10.1523/ENEURO.0122-21.2021</strong></p>
+</section>
+<hr class="docutils" />
+<section id="license">
+<h2>LICENSE<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Code: GPL-3.0 license</p></li>
+<li><p>Hardware files: CERN-OHL-P-2.0</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="contact">
+<h2>CONTACT<a class="headerlink" href="#contact" title="Link to this heading"></a></h2>
+<p><strong>Raffaele M. Mazziotti</strong><br />
+Email: raffaelemario.mazziotti&#64;unifi.it</p>
+<p><strong>Giacomo Vecchieschi</strong><br />
+Email: giacomovecchieschi&#64;gmail.com</p>
+</section>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="meyelens" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

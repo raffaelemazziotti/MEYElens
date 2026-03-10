@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>meyelens.online &mdash; MEYELens 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">meyelens</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">meyelens.online</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/meyelens.online.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-meyelens.online">
+<span id="meyelens-online"></span><h1>meyelens.online<a class="headerlink" href="#module-meyelens.online" title="Link to this heading"></a></h1>
+<p>Online recording helpers.</p>
+<p>This module re-exports the canonical recorders from <a class="reference internal" href="meyelens.meye.html#module-meyelens.meye" title="meyelens.meye"><code class="xref py py-mod docutils literal notranslate"><span class="pre">meyelens.meye</span></code></a> to keep
+the public API stable while avoiding duplicate implementations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.online.</span></span><span class="sig-name descname"><span class="pre">MeyeRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam_ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_preview</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'meye'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">';'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Synchronous frame-by-frame recorder using <code class="xref py py-class docutils literal notranslate"><span class="pre">Meye</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code>.</p>
+<p>This recorder captures frames from a <a class="reference internal" href="meyelens.camera.html#meyelens.camera.Camera" title="meyelens.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>, runs pupil detection,
+and writes one line per frame to a semicolon-separated text file.</p>
+<p>The output columns are:</p>
+<ul class="simple">
+<li><p>time (seconds since start)</p></li>
+<li><p>x, y (centroid coordinates; written as col, row)</p></li>
+<li><p>pupil (mask area in pixels)</p></li>
+<li><p>major_diameter, minor_diameter, orientation (ellipse fit; may be NaN)</p></li>
+<li><p>trg1 … trg9 (user-defined trigger values)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cam_ind</strong> (<em>int</em><em>, </em><em>optional</em>) – Camera index passed to <a class="reference internal" href="meyelens.camera.html#meyelens.camera.Camera" title="meyelens.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>.</p></li>
+<li><p><strong>model</strong> (<em>str</em><em> or </em><em>pathlib.Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Path to the Keras model file. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the packaged model is used.</p></li>
+<li><p><strong>show_preview</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, display an overlay window during recording.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Base filename used by <code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code> (timestamp is added automatically).</p></li>
+<li><p><strong>folder_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Output folder where the text file is created.</p></li>
+<li><p><strong>sep</strong> (<em>str</em><em>, </em><em>optional</em>) – Column separator used in the output file.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This recorder writes synchronously to disk at each <a class="reference internal" href="#meyelens.online.MeyeRecorder.save_frame" title="meyelens.online.MeyeRecorder.save_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_frame()</span></code></a> call.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.start" title="Link to this definition"></a></dt>
+<dd><p>Start recording and initialize the output file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.preview">
+<span class="sig-name descname"><span class="pre">preview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.preview" title="Link to this definition"></a></dt>
+<dd><p>Open a live preview window (segmentation overlay).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.save_frame">
+<span class="sig-name descname"><span class="pre">save_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trg1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg5</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg6</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg7</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg8</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg9</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.save_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.save_frame" title="Link to this definition"></a></dt>
+<dd><p>Capture one frame, run pupil detection, and append a row to the output file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trg1</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg2</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg3</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg4</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg5</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg6</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg7</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg8</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg9</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.get_data" title="Link to this definition"></a></dt>
+<dd><p>Capture one frame and return instantaneous pupil metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>Dictionary containing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">centroid</span></code>: (x, y) as (col, row)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code>: pupil mask area in pixels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">major_diameter</span></code>: ellipse major axis in pixels (or NaN)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minor_diameter</span></code>: ellipse minor axis in pixels (or NaN)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">orientation</span></code>: ellipse angle (degrees) (or NaN)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop recording and close the output file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.close" title="Link to this definition"></a></dt>
+<dd><p>Release the camera resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeRecorder.close_all">
+<span class="sig-name descname"><span class="pre">close_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeRecorder.close_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeRecorder.close_all" title="Link to this definition"></a></dt>
+<dd><p>Stop recording and release all resources (file + camera).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.online.</span></span><span class="sig-name descname"><span class="pre">MeyeAsyncRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam_ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_preview</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'meye'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">';'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cam_crop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Asynchronous frame-by-frame recorder using <code class="xref py py-class docutils literal notranslate"><span class="pre">Meye</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code>.</p>
+<p>This recorder is similar to <a class="reference internal" href="#meyelens.online.MeyeRecorder" title="meyelens.online.MeyeRecorder"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeyeRecorder</span></code></a>, but data rows are queued in memory and
+written to disk by a background thread, reducing I/O latency inside tight loops.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cam_ind</strong> (<em>int</em><em>, </em><em>optional</em>) – Camera index passed to <a class="reference internal" href="meyelens.camera.html#meyelens.camera.Camera" title="meyelens.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>.</p></li>
+<li><p><strong>model</strong> (<em>str</em><em> or </em><em>pathlib.Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Path to the Keras model file. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the packaged model is used.</p></li>
+<li><p><strong>show_preview</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, display an overlay window during recording.</p></li>
+<li><p><strong>path_to_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Output folder where the text file is created.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Base filename used by <code class="xref py py-class docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code> (timestamp is added automatically).</p></li>
+<li><p><strong>buffer_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Queue size for <code class="xref py py-class docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code>. When full, new rows are discarded and
+a warning is printed by the writer (no logging).</p></li>
+<li><p><strong>sep</strong> (<em>str</em><em>, </em><em>optional</em>) – Column separator used in the output file.</p></li>
+<li><p><strong>cam_crop</strong> (<em>list</em><em>[</em><em>int</em><em>] or </em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>] or </em><em>None</em><em>, </em><em>optional</em>) – Crop passed to <a class="reference internal" href="meyelens.camera.html#meyelens.camera.Camera" title="meyelens.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a> (implementation-dependent).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>You must call <a class="reference internal" href="#meyelens.online.MeyeAsyncRecorder.stop" title="meyelens.online.MeyeAsyncRecorder.stop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop()</span></code></a> (or <a class="reference internal" href="#meyelens.online.MeyeAsyncRecorder.close_all" title="meyelens.online.MeyeAsyncRecorder.close_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close_all()</span></code></a>) to flush remaining queued data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.start" title="Link to this definition"></a></dt>
+<dd><p>Start recording and initialize the asynchronous output writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metadata</strong> (<em>dict</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Metadata passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code> and written as comment
+lines at the top of the file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.preview">
+<span class="sig-name descname"><span class="pre">preview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.preview" title="Link to this definition"></a></dt>
+<dd><p>Open a live preview window (segmentation overlay).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.save_frame">
+<span class="sig-name descname"><span class="pre">save_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trg1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg5</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg6</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg7</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg8</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trg9</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.save_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.save_frame" title="Link to this definition"></a></dt>
+<dd><p>Capture one frame, run pupil detection, and queue a row for disk writing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trg1</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg2</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg3</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg4</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg5</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg6</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg7</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg8</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+<li><p><strong>trg9</strong> (<em>int</em><em>, </em><em>optional</em>) – Trigger values to save alongside the measurements.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.get_data" title="Link to this definition"></a></dt>
+<dd><p>Capture one frame and return instantaneous pupil metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>Dictionary containing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">centroid</span></code>: (x, y) as (col, row)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code>: pupil mask area in pixels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">major_diameter</span></code>: ellipse major axis in pixels (or NaN)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minor_diameter</span></code>: ellipse minor axis in pixels (or NaN)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">orientation</span></code>: ellipse angle (degrees) (or NaN)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop recording and close the output file (flushes queued data).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.close" title="Link to this definition"></a></dt>
+<dd><p>Release the camera resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.online.MeyeAsyncRecorder.close_all">
+<span class="sig-name descname"><span class="pre">close_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/meye.html#MeyeAsyncRecorder.close_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.online.MeyeAsyncRecorder.close_all" title="Link to this definition"></a></dt>
+<dd><p>Stop recording and release all resources (writer + camera).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

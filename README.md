@@ -94,7 +94,7 @@ Then install TensorFlow following:
 > GPU enablement depends on your OS, CUDA/cuDNN compatibility, and TensorFlow version. Follow the TensorFlow guide exactly for your platform.
 
 ### Documentation
-API documentation: **[ADD DOCS LINK]**
+API documentation: **[https://raffaelemazziotti.github.io/MEYElens/](https://raffaelemazziotti.github.io/MEYElens/)**
 
 ---
 
