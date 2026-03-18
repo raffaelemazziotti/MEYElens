@@ -6,9 +6,8 @@ import sys
 from datetime import datetime
 from importlib.util import find_spec
 
-# Make sure Sphinx can import your package.
-# If your package is at repo root:  MEYElens/meyelens/...
-sys.path.insert(0, os.path.abspath("../.."))
+# Make sure Sphinx can import your package from the repo root.
+sys.path.insert(0, os.path.abspath("../../.."))
 
 # If you use a src/ layout (MEYElens/src/meyelens/...), use this instead:
 # sys.path.insert(0, os.path.abspath("../../src"))
@@ -19,7 +18,7 @@ author = "Giacomo Vecchieschi, Raffaele Mario Mazziotti"
 
 
 def _read_project_version() -> str:
-    pyproject_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "pyproject.toml"))
+    pyproject_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "pyproject.toml"))
     try:
         with open(pyproject_path, "r", encoding="utf-8") as f:
             content = f.read()

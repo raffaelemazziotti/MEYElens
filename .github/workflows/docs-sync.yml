@@ -1,0 +1,66 @@
+name: Sync Docs Subfolder
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/docs-sync.yml"
+      - "README.md"
+      - "pyproject.toml"
+      - "meyelens/**"
+      - "assets/**"
+      - "docs/docs/source/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-docs:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install docs dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install sphinx sphinx-rtd-theme myst-parser sphinx-copybutton
+
+      - name: Generate API stubs
+        run: |
+          sphinx-apidoc -o docs/docs/source/api -f -M meyelens
+
+      - name: Build docs to a temporary directory
+        run: |
+          sphinx-build -b html docs/docs/source /tmp/meyelens-docs
+
+      - name: Sync built docs into docs/docs
+        run: |
+          rsync -a --delete \
+            --exclude 'source/' \
+            --exclude 'Makefile' \
+            --exclude 'make.bat' \
+            /tmp/meyelens-docs/ docs/docs/
+          mkdir -p docs/docs/assets
+          rsync -a --delete assets/ docs/docs/assets/
+          touch docs/.nojekyll
+
+      - name: Commit updated docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/docs docs/.nojekyll
+          if git diff --cached --quiet; then
+            echo "No docs changes to commit"
+            exit 0
+          fi
+          git commit -m "Sync docs subfolder [skip ci]"
+          git push
