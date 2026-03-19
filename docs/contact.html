@@ -1,253 +1,193 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
-<title>MEYELens — Contact</title>
-<meta name="description" content="Contact and collaboration information for MEYELens." />
+    <title>MEYELens — Contact</title>
+    <meta content="Contact and collaboration information for MEYELens." name="description"/>
 
-<link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link href="assets/favicon.png" rel="icon" type="image/png"/>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="contact.css">
+    <link href="styles.css" rel="stylesheet">
+    <link href="contact.css" rel="stylesheet">
 
 </head>
 
 <body class="page-contact">
 
 <header class="site-header">
-<div class="container header-inner">
+    <div class="container header-inner">
+        <a aria-label="MEYELens home" class="brand" href="index.html">
+            <img alt="MEYELens logo" class="brand-logo" src="assets/favicon.png">
 
-<a class="brand" href="index.html">
-<span class="brand-mark"></span>
-<span class="brand-text">
-<span class="brand-name">MEYELens</span>
-<span class="brand-tag">open pupillometry & gaze tracking</span>
-</span>
-</a>
+            <span class="brand-text">
+                <span class="brand-name">
+                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                </span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
 
-<nav class="nav">
-<button class="nav-toggle">
-<span class="nav-toggle-lines"></span>
-</button>
+        <nav class="nav">
+            <button class="nav-toggle">
+                <span class="nav-toggle-lines"></span>
+            </button>
 
-<div class="nav-menu">
-<a href="index.html">Home</a>
-<a href="hardware.html">Hardware</a>
-<a href="software.html">Software</a>
-<a href="resources.html">Resources</a>
-<a href="get_started.html">Get started</a>
-</div>
+            <div class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html">Software</a>
+                <a href="resources.html">Resources</a>
+                <a href="get_started.html">Get started</a>
+            </div>
 
-</nav>
-</div>
+        </nav>
+    </div>
 </header>
-
 
 
 <main>
 
-<section class="page-hero">
+    <section class="page-hero">
+
+        <div class="container contact-hero-grid">
+            <div>
+                <div class="eyebrow">Contact</div>
+                <h1>Questions, collaborations, and support.</h1>
+                <p class="lead">
+                    If you are interested in using MEYELens, collaborating on research,
+                    or contributing to the project, you can reach out using the information below.
+                </p>
+            </div>
+
+            <aside class="contact-side">
+                <div class="content-panel">
+                    <h3>Project maintainers</h3>
+                    <p>
+                        Use this space to list the main contact person or group responsible
+                        for the project.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <h2>Contact information</h2>
+                <p class="muted">
+                    Primary communication channels for questions and collaboration.
+                </p>
+            </div>
+
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Email</h3>
+                    <p>
+                        For general inquiries and research collaboration.
+                    </p>
+                    <a class="textlink" href="mailto:example@email.com">
+                        example@email.com
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Repository issues</h3>
+                    <p>
+                        Technical questions and bug reports should be submitted through
+                        the project repository.
+                    </p>
+                    <a class="textlink" href="#">
+                        Open issue tracker
+                    </a>
+                </div>
+
+
+                <div class="contact-card">
+                    <h3>Documentation</h3>
+                    <p>
+                        If you are looking for usage instructions or setup help,
+                        consult the documentation.
+                    </p>
+                    <a class="textlink" href="docs/">
+                        Open documentation
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container reading-width">
+            <div class="section-head">
+                <h2>Send a message</h2>
+                <p class="muted">
+                    You can optionally add a simple contact form here.
+                </p>
+            </div>
+
+            <form class="contact-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Name</label>
+                        <input placeholder="Your name" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label>Email</label>
+                        <input placeholder="Your email" type="email">
+                    </div>
+                </div>
+
+
+                <div class="form-field">
+                    <label>Message</label>
+                    <textarea placeholder="Your message" rows="6"></textarea>
+                </div>
+
+                <button class="btn btn-primary">Send message</button>
+            </form>
 
-<div class="container contact-hero-grid">
+        </div>
 
-<div>
+    </section>
 
-<div class="eyebrow">Contact</div>
 
-<h1>Questions, collaborations, and support.</h1>
+    <section class="section section-compact">
+        <div class="container closing">
+            <p>
+                MEYELens is an open research project. Contributions and feedback
+                from the community are always welcome.
+            </p>
+        </div>
 
-<p class="lead">
-If you are interested in using MEYELens, collaborating on research,
-or contributing to the project, you can reach out using the information below.
-</p>
-
-</div>
-
-
-<aside class="contact-side">
-
-<div class="content-panel">
-
-<h3>Project maintainers</h3>
-
-<p>
-Use this space to list the main contact person or group responsible
-for the project.
-</p>
-
-</div>
-
-</aside>
-
-</div>
-
-</section>
-
-
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-<h2>Contact information</h2>
-
-<p class="muted">
-Primary communication channels for questions and collaboration.
-</p>
-
-</div>
-
-
-<div class="contact-grid">
-
-<div class="contact-card">
-
-<h3>Email</h3>
-
-<p>
-For general inquiries and research collaboration.
-</p>
-
-<a class="textlink" href="mailto:example@email.com">
-example@email.com
-</a>
-
-</div>
-
-
-<div class="contact-card">
-
-<h3>Repository issues</h3>
-
-<p>
-Technical questions and bug reports should be submitted through
-the project repository.
-</p>
-
-<a class="textlink" href="#">
-Open issue tracker
-</a>
-
-</div>
-
-
-<div class="contact-card">
-
-<h3>Documentation</h3>
-
-<p>
-If you are looking for usage instructions or setup help,
-consult the documentation.
-</p>
-
-<a class="textlink" href="docs/">
-Open documentation
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="section">
-
-<div class="container reading-width">
-
-<div class="section-head">
-
-<h2>Send a message</h2>
-
-<p class="muted">
-You can optionally add a simple contact form here.
-</p>
-
-</div>
-
-
-<form class="contact-form">
-
-<div class="form-row">
-
-<div class="form-field">
-<label>Name</label>
-<input type="text" placeholder="Your name">
-</div>
-
-<div class="form-field">
-<label>Email</label>
-<input type="email" placeholder="Your email">
-</div>
-
-</div>
-
-
-<div class="form-field">
-
-<label>Message</label>
-
-<textarea rows="6" placeholder="Your message"></textarea>
-
-</div>
-
-<button class="btn btn-primary">Send message</button>
-
-</form>
-
-</div>
-
-</section>
-
-
-
-<section class="section section-compact">
-
-<div class="container closing">
-
-<p>
-MEYELens is an open research project. Contributions and feedback
-from the community are always welcome.
-</p>
-
-</div>
-
-</section>
-
+    </section>
 </main>
 
 
-
 <footer class="site-footer">
-
-<div class="container footer-inner">
-
-<div>
-<div class="footer-brand">MEYELens</div>
-<div class="footer-note">Contact</div>
-</div>
-
-<div class="footer-links">
-<a href="hardware.html">Hardware</a>
-<a href="software.html">Software</a>
-<a href="resources.html">Resources</a>
-<a href="get_started.html">Get started</a>
-</div>
-
-</div>
-
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">MEYELens</div>
+            <div class="footer-note">Contact</div>
+        </div>
+        <div class="footer-links">
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html">Software</a>
+            <a href="resources.html">Resources</a>
+            <a href="get_started.html">Get started</a>
+        </div>
+    </div>
 </footer>
 
 <script src="index.js"></script>

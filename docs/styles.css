@@ -15,6 +15,25 @@
 
 /* Base */
 
+.brand-accent {
+  color: var(--accent);
+}
+
+.brand-normal {
+  color: var(--text);
+}
+
+.brand-soft {
+  color: var(--text-soft);
+}
+
+.brand-logo {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  display: block;
+}
+
 *,
 *::before,
 *::after {
@@ -594,6 +613,8 @@ figcaption {
 .footer-links a:hover {
     color: var(--text);
 }
+
+
 
 /* Responsive */
 
