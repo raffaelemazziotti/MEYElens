@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MEYELens — Get Started</title>
+    <meta name="description" content="Getting started with MEYELens." />
+
+    <link rel="icon" type="image/png" href="assets/favicon_old.png" />
+    <link rel="shortcut icon" href="assets/favicon_old.png" />
+    <link rel="apple-touch-icon" href="assets/favicon_old.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="get_started.css" />
+</head>
+<body class="page-get-started">
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-text">
+          <span class="brand-name">MEYELens</span>
+          <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+        </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html">Software</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <div class="container page-hero-inner">
+            <div>
+                <div class="eyebrow">Get Started</div>
+                <h1>Set up MEYELens in modular steps.</h1>
+                <p class="lead">
+                    This page is organized as independent step modules. Each block can contain text,
+                    images, videos, and links, and can be added or removed without changing the rest of the page.
+                </p>
+            </div>
+
+            <aside class="toc-card">
+                <div class="toc-title">Contents</div>
+                <nav class="toc" aria-label="Get started contents">
+                    <a href="#step-1">1. Overview</a>
+                    <a href="#step-2">2. Requirements</a>
+                    <a href="#step-3">3. Download files</a>
+                    <a href="#step-4">4. Print parts</a>
+                    <a href="#step-5">5. Assemble</a>
+                    <a href="#step-6">6. Install software</a>
+                    <a href="#step-7">7. First recording</a>
+                </nav>
+            </aside>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="container steps-layout">
+            <div class="steps-list">
+
+                <!-- STEP 1 -->
+                <section class="step" id="step-1">
+                    <div class="step-index">01</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Overview</h2>
+                            <p>
+                                MEYELens combines modular printed hardware with an open workflow for acquisition
+                                and analysis. Start from the hardware build, then move to software setup and validation.
+                            </p>
+                        </div>
+
+                        <div class="step-content">
+                            <div class="content-block">
+                                <p>
+                                    This page is intentionally structured in independent modules. You can delete,
+                                    duplicate, or reorder any step without breaking the page layout.
+                                </p>
+                            </div>
+
+                            <div class="note note-tip">
+                                <strong>Tip:</strong> Keep each step short and task-oriented.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 2 -->
+                <section class="step" id="step-2">
+                    <div class="step-index">02</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Requirements</h2>
+                            <p>Gather the required hardware, printed parts, and software before starting assembly.</p>
+                        </div>
+
+                        <div class="step-content two-col">
+                            <div class="content-block">
+                                <h3>Hardware</h3>
+                                <ul>
+                                    <li>3D-printed frame components</li>
+                                    <li>Fasteners and nuts</li>
+                                    <li>Compatible camera module(s)</li>
+                                    <li>USB cables and host computer</li>
+                                </ul>
+                            </div>
+
+                            <div class="content-block">
+                                <h3>Software</h3>
+                                <ul>
+                                    <li>Python environment</li>
+                                    <li>MEYELens package</li>
+                                    <li>Optional documentation and example data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 3 -->
+                <section class="step" id="step-3">
+                    <div class="step-index">03</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Download the required files</h2>
+                            <p>Collect the design files, source code, and documentation in one place.</p>
+                        </div>
+
+                        <div class="step-content">
+                            <div class="content-block links-grid">
+                                <a class="resource-link" href="resources.html">
+                                    <span class="resource-title">Project resources</span>
+                                    <span class="resource-sub">Repositories, files, datasets</span>
+                                </a>
+
+                                <a class="resource-link" href="docs/">
+                                    <span class="resource-title">Documentation</span>
+                                    <span class="resource-sub">Installation and usage notes</span>
+                                </a>
+
+                                <a class="resource-link" href="#">
+                                    <span class="resource-title">3D files</span>
+                                    <span class="resource-sub">STL / GLB / print assets</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 4 -->
+                <section class="step" id="step-4">
+                    <div class="step-index">04</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Print the parts</h2>
+                            <p>Print the frame components using the recommended settings for your configuration.</p>
+                        </div>
+
+                        <div class="step-content media-right">
+                            <div class="content-block">
+                                <p>
+                                    Add a short description of the printing workflow here. Keep only the key information
+                                    on this page and move detailed print settings to a dedicated hardware page if needed.
+                                </p>
+
+                                <div class="note note-warning">
+                                    <strong>Note:</strong> This section can include a printer photo, slicer screenshot, or rendered figure.
+                                </div>
+                            </div>
+
+                            <div class="media-block video-block">
+                                <video controls preload="metadata" poster="assets/placeholder-video.jpg">
+                                    <source src="assets/printing.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="media-caption">3D printing time lapse.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 5 -->
+                <section class="step" id="step-5">
+                    <div class="step-index">05</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Assemble the headset</h2>
+                            <p>Mount the structural parts, supports, and camera modules in sequence.</p>
+                        </div>
+
+                        <div class="step-content">
+                            <div class="content-block">
+                                <ol>
+                                    <li>Prepare the printed frame and fasteners.</li>
+                                    <li>Mount arms and supports.</li>
+                                    <li>Attach the camera holder.</li>
+                                    <li>Secure the camera module.</li>
+                                    <li>Route the cables.</li>
+                                </ol>
+                            </div>
+
+                            <div class="media-block video-block">
+                                <video controls preload="metadata" poster="assets/placeholder-video.jpg">
+                                    <source src="assets/assembly-demo.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="media-caption">Optional short assembly clip.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 6 -->
+                <section class="step" id="step-6">
+                    <div class="step-index">06</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Install the software</h2>
+                            <p>Set up the environment and install the required package(s).</p>
+                        </div>
+
+                        <div class="step-content">
+                            <div class="content-block">
+                                <div class="code-block">
+                                    <pre><code>pip install meyelens</code></pre>
+                                </div>
+                                <p>
+                                    Keep command snippets short here. Detailed installation notes can live in the docs.
+                                </p>
+                            </div>
+
+                            <div class="note note-tip">
+                                <strong>Tip:</strong> Link to a longer installation guide rather than placing all technical details on this page.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 7 -->
+                <section class="step" id="step-7">
+                    <div class="step-index">07</div>
+                    <div class="step-body">
+                        <div class="step-header">
+                            <h2>Run your first recording</h2>
+                            <p>Test the system with a short acquisition and confirm that the output is valid.</p>
+                        </div>
+
+                        <div class="step-content two-col">
+                            <div class="content-block">
+                                <h3>Before starting</h3>
+                                <ul>
+                                    <li>Confirm camera detection</li>
+                                    <li>Check illumination</li>
+                                    <li>Verify framing of the eye</li>
+                                </ul>
+                            </div>
+
+                            <div class="content-block">
+                                <h3>Expected outputs</h3>
+                                <ul>
+                                    <li>Video recording</li>
+                                    <li>CSV export</li>
+                                    <li>Optional QC overlay</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">MEYELens</div>
+            <div class="footer-note">Get Started</div>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="resources.html">Resources</a>
+            <a href="docs/">Documentation</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+</body>
+</html>

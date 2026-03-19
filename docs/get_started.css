@@ -1,0 +1,114 @@
+.page-get-started .page-hero-inner {
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.page-get-started .toc {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.page-get-started .toc a {
+    color: var(--text-soft);
+    font-size: 14px;
+}
+
+.page-get-started .toc a:hover {
+    color: var(--text);
+}
+
+.page-get-started .steps-section {
+    padding: 28px 0 56px;
+}
+
+.page-get-started .steps-layout {
+    display: block;
+}
+
+.page-get-started .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.page-get-started .step {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 18px;
+    padding: 18px 0 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.page-get-started .step-index {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    padding-top: 4px;
+}
+
+.page-get-started .step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.page-get-started .step-header h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.page-get-started .step-header p {
+    margin: 0;
+    color: var(--text-soft);
+    max-width: 70ch;
+}
+
+.page-get-started .step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.page-get-started .two-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.page-get-started .media-right {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.page-get-started .links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+@media (max-width: 960px) {
+    .page-get-started .page-hero-inner,
+    .page-get-started .two-col,
+    .page-get-started .media-right,
+    .page-get-started .links-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .page-get-started .step {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .page-get-started .step-index {
+        padding-top: 0;
+    }
+}

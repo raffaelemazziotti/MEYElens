@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MEYELens — Software</title>
+    <meta name="description" content="Software overview of the MEYELens platform." />
+
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="shortcut icon" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="software.css" />
+</head>
+<body class="page-software">
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-text">
+                <span class="brand-name">MEYELens</span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="get_started.html">Get started</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <div class="container software-hero-grid">
+            <div>
+                <div class="eyebrow">Software</div>
+                <h1>Acquisition, processing, and analysis tools.</h1>
+                <p class="lead">
+                    The MEYELens software stack is designed to support acquisition, pupil analysis,
+                    gaze-related workflows, and export of reproducible outputs. This page provides
+                    a structured overview of the software environment and its main components.
+                </p>
+
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="get_started.html">Get started</a>
+                    <a class="btn" href="docs/">Documentation</a>
+                    <a class="btn" href="resources.html">Resources</a>
+                </div>
+            </div>
+
+            <aside class="toc-card">
+                <div class="toc-title">Contents</div>
+                <nav class="toc" aria-label="Software contents">
+                    <a href="#overview">Overview</a>
+                    <a href="#pipeline">Pipeline</a>
+                    <a href="#installation">Installation</a>
+                    <a href="#interfaces">Interfaces</a>
+                    <a href="#outputs">Outputs</a>
+                    <a href="#dependencies">Dependencies</a>
+                    <a href="#examples">Examples</a>
+                    <a href="#downloads">Downloads</a>
+                </nav>
+            </aside>
+        </div>
+    </section>
+
+    <section class="section" id="overview">
+        <div class="container reading-width">
+            <div class="section-head">
+                <h2>Overview</h2>
+            </div>
+
+            <div class="text-block">
+                <p>
+                    The software component of MEYELens is intended to remain open, transparent,
+                    and adaptable. It supports acquisition and offline analysis workflows while
+                    allowing integration with external experiment code and custom preprocessing steps.
+                </p>
+                <p>
+                    This page should remain concise and descriptive. Detailed technical instructions
+                    can live in the documentation, while this page acts as a structured overview of
+                    the software environment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="pipeline">
+        <div class="container">
+            <div class="section-head">
+                <h2>Processing pipeline</h2>
+                <p class="muted">
+                    Example high-level organization of the software workflow.
+                </p>
+            </div>
+
+            <div class="software-pipeline">
+                <div class="pipeline-step">
+                    <div class="pipeline-label">1</div>
+                    <h3>Acquisition</h3>
+                    <p>Capture eye-facing or dual-camera video streams.</p>
+                </div>
+
+                <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-label">2</div>
+                    <h3>Segmentation</h3>
+                    <p>Detect pupil area, centroid, and blink-related events.</p>
+                </div>
+
+                <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-label">3</div>
+                    <h3>Analysis</h3>
+                    <p>Compute derived signals and gaze-related variables.</p>
+                </div>
+
+                <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-label">4</div>
+                    <h3>Export</h3>
+                    <p>Save outputs as tables, videos, and derived artifacts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="installation">
+        <div class="container reading-width">
+            <div class="section-head">
+                <h2>Installation</h2>
+            </div>
+
+            <div class="text-block">
+                <p>
+                    Installation instructions should stay minimal here and point to a more complete
+                    guide in the documentation when needed.
+                </p>
+            </div>
+
+            <div class="content-block">
+                <div class="code-block">
+<pre><code>pip install meyelens</code></pre>
+                </div>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong> Keep this section focused on the quickest working install path.
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="interfaces">
+        <div class="container">
+            <div class="section-head">
+                <h2>Interfaces</h2>
+                <p class="muted">
+                    The software can expose multiple entry points depending on the user workflow.
+                </p>
+            </div>
+
+            <div class="software-grid">
+                <div class="content-panel">
+                    <h3>Command line / scripts</h3>
+                    <p>
+                        Suitable for reproducible batch workflows and integration into experiments.
+                    </p>
+                    <ul>
+                        <li>Automated processing</li>
+                        <li>Batch analysis</li>
+                        <li>Experiment integration</li>
+                    </ul>
+                </div>
+
+                <div class="content-panel">
+                    <h3>Graphical interface</h3>
+                    <p>
+                        Useful for exploratory analysis, ROI selection, and quick validation.
+                    </p>
+                    <ul>
+                        <li>Interactive setup</li>
+                        <li>Parameter adjustment</li>
+                        <li>Visual quality control</li>
+                    </ul>
+                </div>
+
+                <div class="content-panel">
+                    <h3>Python API</h3>
+                    <p>
+                        Suitable for custom pipelines and integration into analysis notebooks.
+                    </p>
+                    <ul>
+                        <li>Programmatic access</li>
+                        <li>Flexible workflows</li>
+                        <li>Custom extensions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="outputs">
+        <div class="container">
+            <div class="section-head">
+                <h2>Outputs</h2>
+                <p class="muted">
+                    Example output structure for a standard analysis workflow.
+                </p>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Output</th>
+                        <th>Description</th>
+                        <th>Format</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Pupil measurements</td>
+                        <td>Per-frame area and centroid variables</td>
+                        <td>CSV</td>
+                    </tr>
+                    <tr>
+                        <td>Blink information</td>
+                        <td>Frame-level blink or eye classification</td>
+                        <td>CSV</td>
+                    </tr>
+                    <tr>
+                        <td>Overlay video</td>
+                        <td>Optional quality-control visualization</td>
+                        <td>MP4 / video</td>
+                    </tr>
+                    <tr>
+                        <td>Derived gaze data</td>
+                        <td>Mapped coordinates or calibration-related values</td>
+                        <td>CSV</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="dependencies">
+        <div class="container reading-width">
+            <div class="section-head">
+                <h2>Dependencies</h2>
+            </div>
+
+            <div class="text-block">
+                <p>
+                    This section can summarize the main software stack and external libraries used
+                    by the project, while version-specific information can remain in the repository
+                    or documentation.
+                </p>
+            </div>
+
+            <div class="software-grid compact">
+                <div class="content-panel">
+                    <h3>Core environment</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>Package dependencies</li>
+                        <li>Operating-system compatibility</li>
+                    </ul>
+                </div>
+
+                <div class="content-panel">
+                    <h3>Scientific libraries</h3>
+                    <ul>
+                        <li>Computer vision tools</li>
+                        <li>Numerical computing libraries</li>
+                        <li>Data analysis packages</li>
+                    </ul>
+                </div>
+
+                <div class="content-panel">
+                    <h3>Optional tools</h3>
+                    <ul>
+                        <li>GUI frameworks</li>
+                        <li>Experiment control software</li>
+                        <li>Streaming / synchronization tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="examples">
+        <div class="container">
+            <div class="section-head">
+                <h2>Examples</h2>
+                <p class="muted">
+                    Example sections for screenshots, interface views, or workflow demonstrations.
+                </p>
+            </div>
+
+            <div class="software-media-grid">
+                <figure class="media-figure software-media-card">
+                    <img src="assets/software-gui.jpg" alt="Example GUI screenshot" />
+                    <figcaption>Placeholder screenshot of the analysis interface.</figcaption>
+                </figure>
+
+                <figure class="media-figure software-media-card">
+                    <img src="assets/software-output.jpg" alt="Example output plot or table" />
+                    <figcaption>Placeholder example of exported or processed output.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="downloads">
+        <div class="container">
+            <div class="section-head">
+                <h2>Downloads</h2>
+            </div>
+
+            <div class="software-grid compact">
+                <a class="card card-link" href="resources.html">
+                    <h3>Source code</h3>
+                    <p>Repository and package resources.</p>
+                </a>
+
+                <a class="card card-link" href="docs/">
+                    <h3>Documentation</h3>
+                    <p>Installation, API, and usage notes.</p>
+                </a>
+
+                <a class="card card-link" href="#">
+                    <h3>Example data</h3>
+                    <p>Sample inputs and outputs for testing.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">MEYELens</div>
+            <div class="footer-note">Software</div>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="get_started.html">Get started</a>
+            <a href="resources.html">Resources</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+</body>
+</html>

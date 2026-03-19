@@ -1,0 +1,83 @@
+.page-contact .contact-hero-grid{
+display:grid;
+grid-template-columns:1.2fr 0.9fr;
+gap:36px;
+align-items:start;
+}
+
+.page-contact .contact-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+.page-contact .contact-card{
+border:1px solid var(--line);
+border-radius:var(--radius);
+background:var(--bg-soft);
+padding:18px;
+}
+
+.page-contact .contact-card p{
+color:var(--text-soft);
+font-size:14px;
+margin-bottom:10px;
+}
+
+.page-contact .contact-form{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.page-contact .form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.page-contact .form-field{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.page-contact .form-field label{
+font-size:13px;
+color:var(--text-soft);
+}
+
+.page-contact input,
+.page-contact textarea{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:6px;
+padding:10px;
+color:var(--text);
+}
+
+.page-contact textarea{
+resize:vertical;
+}
+
+.page-contact input:focus,
+.page-contact textarea:focus{
+outline:none;
+border-color:var(--accent);
+}
+
+@media(max-width:960px){
+
+.page-contact .contact-hero-grid{
+grid-template-columns:1fr;
+}
+
+.page-contact .contact-grid{
+grid-template-columns:1fr;
+}
+
+.page-contact .form-row{
+grid-template-columns:1fr;
+}
+
+}

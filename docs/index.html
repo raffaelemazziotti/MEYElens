@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="MEYELens — open-source 3D-printable eyewear for pupillometry and gaze tracking." />
+    <title>MEYELens</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon_old.png" />
+    <link rel="shortcut icon" href="assets/favicon_old.png" />
+    <link rel="apple-touch-icon" href="assets/favicon_old.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- model-viewer -->
+    <script
+            type="module"
+            src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js">
+    </script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-text">
+          <span class="brand-name">MEYELens</span>
+          <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+        </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html">Software</a>
+                <a href="paper.html">Paper</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <div class="eyebrow">Affordable · Modular · Open</div>
+
+                <h1>
+                    A 3D-printable platform for
+                    pupillometry and gaze tracking.
+                </h1>
+
+                <p class="lead">
+                    MEYELens is an open-source research platform designed for accessible and customizable
+                    eye-based measurement, combining modular hardware with a transparent acquisition and
+                    analysis workflow.
+                </p>
+
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="get_started.html">Get started</a>
+                    <a class="btn" href="paper.html">Paper</a>
+                    <a class="btn" href="docs/">Documentation</a>
+                </div>
+            </div>
+
+            <aside class="hero-viewer">
+                <div class="viewer-label">3D model</div>
+
+                <model-viewer
+                        src="assets/meyelens.glb"
+                        alt="3D model of the MEYELens Eyewear"
+
+                        camera-orbit="0deg 90deg 500m"
+                        orientation="0deg -90deg 0deg"
+
+                        camera-controls
+                        auto-rotate
+                        auto-rotate-delay="0"
+                        rotation-per-second="15deg"
+
+                        interaction-prompt="none"
+                        shadow-intensity="1"
+                        exposure="1"
+
+                        class="model">
+                </model-viewer>
+
+                <p class="viewer-caption">
+                    Interactive model of the headset. Drag to rotate and scroll to zoom.
+                </p>
+            </aside>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <h2>Explore</h2>
+                <p class="muted">
+                    This landing page stays intentionally concise. Each section opens a dedicated page.
+                </p>
+            </div>
+
+            <div class="cards">
+                <article class="card">
+                    <h3>Hardware</h3>
+                    <p>Frame design, configurations, assembly, and components.</p>
+                    <a class="textlink" href="hardware.html">Open page</a>
+                </article>
+
+                <article class="card">
+                    <h3>Software</h3>
+                    <p>Acquisition, processing, interface, and exported data.</p>
+                    <a class="textlink" href="software.html">Open page</a>
+                </article>
+
+                <article class="card">
+                    <h3>Paper</h3>
+                    <p>Manuscript overview, figures, and citation information.</p>
+                    <a class="textlink" href="paper.html">Open page</a>
+                </article>
+
+                <article class="card">
+                    <h3>Resources</h3>
+                    <p>Repositories, 3D files, datasets, and downloads.</p>
+                    <a class="textlink" href="resources.html">Open page</a>
+                </article>
+
+                <article class="card">
+                    <h3>Documentation</h3>
+                    <p>Setup guides, quickstart, and usage notes.</p>
+                    <a class="textlink" href="docs/">Open docs</a>
+                </article>
+
+                <article class="card">
+                    <h3>Contact</h3>
+                    <p>Questions, collaborations, and support requests.</p>
+                    <a class="textlink" href="contact.html">Open page</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-compact">
+        <div class="container closing">
+            <p>Open tooling for reproducible and adaptable eye-based measurement.</p>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">MEYELens</div>
+            <div class="footer-note">© <span id="year"></span></div>
+        </div>
+
+        <div class="footer-links">
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html">Software</a>
+            <a href="paper.html">Paper</a>
+            <a href="resources.html">Resources</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+</body>
+</html>
