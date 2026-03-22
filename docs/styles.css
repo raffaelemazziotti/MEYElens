@@ -633,6 +633,82 @@ figcaption {
     }
 }
 
+/* Updates section */
+
+.updates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.update-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.update-media {
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+}
+
+.update-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.update-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+}
+
+.update-tag {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.update-date {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 13px;
+}
+
+.update-body h3 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.update-body p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.update-body .btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+
 @media (max-width: 760px) {
     .container {
         width: min(var(--container), calc(100% - 32px));
@@ -679,5 +755,9 @@ figcaption {
 
     .nav-menu.open {
         display: flex;
+    }
+
+    .updates-grid {
+        grid-template-columns: 1fr;
     }
 }

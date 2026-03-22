@@ -48,7 +48,7 @@
                 <a href="index.html">Home</a>
                 <a href="get_started.html">Get started</a>
                 <a href="software.html">Software</a>
-                <a href="paper.html">Paper</a>
+                <a href="#">Paper</a>
                 <a href="resources.html">Resources</a>
                 <a href="contact.html">Contact</a>
             </div>
@@ -59,84 +59,38 @@
 <main>
     <!-- Hero -->
     <section class="page-hero">
-        <div class="container hero-grid hero-grid-page">
-            <div class="hero-copy">
+        <div class="container page-hero-inner">
+            <div>
                 <div class="eyebrow">Hardware</div>
                 <h1>Hardware architecture and physical design.</h1>
                 <p class="lead">
-                    MEYELens is built around a modular 3D-printed headset designed to support low-cost
-                    eye-facing and world-facing camera configurations. The platform is intended to remain
-                    simple to reproduce while allowing flexibility in alignment, configuration, and use.
+                    Using <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> is easy. Follow these steps to build your complete 3D-printed platform for pupillometry and eye tracking.
                 </p>
             </div>
 
-            <aside class="hero-viewer">
-                <div class="viewer-label">3D model</div>
-
-                <model-viewer
-                        src="assets/meyelens.glb"
-                        alt="3D model of the MEYELens Eyewear"
-
-                        camera-orbit="30deg 90deg 500m"
-                        orientation="0deg -70deg 0deg"
-                        camera-controls
-                        interaction-prompt="none"
-                        shadow-intensity="1"
-                        exposure="1"
-
-                        class="model">
-                </model-viewer>
-
-                <p class="viewer-caption">
-                    Interactive model of the headset structure.
-                </p>
+            <aside class="toc-card">
+                <div class="toc-title">Contents</div>
+                <nav class="toc" aria-label="Get started contents">
+                    <a href="#overview">Overview</a>
+                    <a href="#components">Components</a>
+                    <a href="#configurations">Configurations</a>
+                    <a href="#bom">BOM</a>
+                    <a href="#media">Media</a>
+                    <a href="#downloads">Downloads</a>
+                </nav>
             </aside>
         </div>
     </section>
 
-    <!-- Quick nav -->
-    <section class="section section-compact">
-        <div class="container">
-            <div class="section-head">
-                <h2>Contents</h2>
-            </div>
-
-            <div class="cards cards-compact">
-                <a class="card card-link" href="#overview">
-                    <h3>Overview</h3>
-                    <p>Design goals and general structure.</p>
-                </a>
-                <a class="card card-link" href="#components">
-                    <h3>Components</h3>
-                    <p>Main physical elements of the system.</p>
-                </a>
-                <a class="card card-link" href="#configurations">
-                    <h3>Configurations</h3>
-                    <p>Supported hardware setups.</p>
-                </a>
-                <a class="card card-link" href="#bom">
-                    <h3>Bill of materials</h3>
-                    <p>Core parts and quantities.</p>
-                </a>
-                <a class="card card-link" href="#media">
-                    <h3>Images & video</h3>
-                    <p>Visual documentation and demonstrations.</p>
-                </a>
-                <a class="card card-link" href="#downloads">
-                    <h3>Downloads</h3>
-                    <p>Files, models, and resources.</p>
-                </a>
-            </div>
-        </div>
-    </section>
 
     <!-- Overview -->
     <section class="section" id="overview">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Overview</h2>
-            </div>
+    <div class="container">
+        <div class="section-head">
+            <h2>Overview</h2>
+        </div>
 
+        <div class="overview-grid">
             <div class="text-block">
                 <p>
                     The hardware is centered on a 3D-printed wearable frame that can support one or more
@@ -152,12 +106,15 @@
                 </p>
             </div>
 
-            <figure class="media-figure">
+            <figure class="media-figure overview-figure">
                 <img src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png" alt="Overview image of the MEYELens hardware" />
-                <figcaption>Exploded view of the MEYELens 3D-printed frame, showing the main printed parts and assembly hardware.</figcaption>
+                <figcaption>
+                    Exploded view of the MEYELens 3D-printed frame, showing the main printed parts and assembly hardware.
+                </figcaption>
             </figure>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Components -->
     <section class="section" id="components">
@@ -217,7 +174,7 @@
 
     <!-- Configurations -->
     <section class="section" id="configurations">
-        <div class="container reading-width">
+        <div class="container">
             <div class="section-head">
                 <h2>Hardware configurations</h2>
             </div>
@@ -271,6 +228,8 @@
                         <th>Description</th>
                         <th>Quantity</th>
                         <th>Notes</th>
+                        <th>Price per Unit(€)</th>
+                        <th>Link</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -279,40 +238,50 @@
                         <td>Main PLA structure</td>
                         <td>1</td>
                         <td>3D-printed</td>
+                        <td>1.43</td>
+                        <td><a class="btn" href="https://eu.store.bambulab.com/it/products/pla-matte?id=43992833261787" target="_blank" rel="noopener">Open</a></td>
                     </tr>
                     <tr>
                         <td>Eye-facing camera</td>
                         <td>Primary recording camera</td>
                         <td>1</td>
                         <td>Required</td>
+                        <td>7.19-14.38</td>
+                        <td><a class="btn" href="https://it.aliexpress.com/item/1005004639261673.html?gatewayAdapt=glo2ita" target="_blank" rel="noopener">Open</a></td>
                     </tr>
                     <tr>
                         <td>World-facing camera</td>
                         <td>Scene camera for gaze mapping</td>
                         <td>0–1</td>
                         <td>Optional</td>
+                        <td>7.19-14.38</td>
+                        <td><a class="btn" href="#" target="_blank" rel="noopener">Open</a></td>
                     </tr>
                     <tr>
                         <td>Fasteners</td>
-                        <td>Screws and nuts</td>
+                        <td>M3 and M2 Screws and nuts</td>
                         <td>Multiple</td>
-                        <td>Assembly hardware</td>
+                        <td>Required</td>
+                        <td>1.23</td>
+                        <td><a class="btn" href="https://www.amazon.it/-/en/FandWay-900pcs-Socket-Stainless-Washers/dp/B0F3HGKQD2?crid=6U48AATHCA6K&dib=eyJ2IjoiMSJ9.KyUmJBFuTip8K2JlPZHzfC1F9dxReVOIpjHq9LwetvFsR8LgelSm-eyN-bOQvz-vGXUsTUQAhrCbqQa6oc8TXu7wiJ5VA9PqzP7juNpYkE_oBAsgHi6Knm83faEKMaEVL8ERaRL68zfvowYIRA1tnWFcaDC-3Afc85ACm08Rc0_kuJrUJ3IF5HSWiPQGVZV35Q48R97IyEMfC6zFbRfc0INvIBVXT2knOacKqMbnyMkv_WiUEsgrZWUsPc9eMd95w5c8US2CVpEdngNeMrvaXMGn3d802NIwV2Mns3e4SBg.WSi0_kus2sHdPdOqTK5CgxCY5Y5T_PXPk5N48RneiQ0&dib_tag=se&keywords=m3%2Bm2%2Bscres%2Band%2Bnuts&qid=1774200685&s=industrial&sprefix=m3%2Bm2%2Bscres%2Band%2Bnut%2Cindustrial%2C277&sr=1-12&th=1" target="_blank" rel="noopener">Open</a></td>
                     </tr>
                     <tr>
-                        <td>Infrared illumination</td>
-                        <td>LED source</td>
-                        <td>0–1</td>
-                        <td>Depends on camera type</td>
+                        <td>IR illumination</td>
+                        <td>External LED source</td>
+                        <td>1</td>
+                        <td>Depends on the setup</td>
+                        <td>41.2</td>
+                        <td><a class="btn" href="https://www.amazon.it/-/en/Splenssy-Illuminator-Infrared-Waterproof-Security/dp/B09C8K7XB3?dib=eyJ2IjoiMSJ9.yoyCobcADknVlEKZ9NVAlLSRf8VY6RbwBvj8WyOgm7th7r-h4mN2iKP0gy9CV2sX6OcwDTzsrNuIbMilvLwmtbvo5gUGiCMVAj0PRlYJebN6Vc1CRv0LYyG4VeIzAT_mEwOHHh-bvBaQy9NDflNPEFmtwrCImPMhgZ-cZBGcrfTiFl5Ef7P-c0gqgt2kLo_Lcdl9jYoee6zQOVRtXYF-PZjK6efziAgiDVfPXQC38eEnJLMM-ws76PAPHpxwMsdJopOf9g-dD7xgtUQTUGy2HvMEy8KJ1AF6dmihVaQPKFE.pcDroyxp9vqszrn1lvPS5k_89v752Ge-Ki28MfjvgNc&dib_tag=se&keywords=infrared%2Blight%2Bsource%2Busb&qid=1774200838&sr=8-24&th=1" target="_blank" rel="noopener">Open</a></td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
+</div>
         </div>
     </section>
 
     <!-- Printed parts -->
-    <section class="section">
-        <div class="container reading-width">
+    <section class="section" id="3d-parts">
+        <div class="container">
             <div class="section-head">
                 <h2>3D-printed parts</h2>
             </div>
@@ -349,8 +318,8 @@
     </section>
 
     <!-- Cameras -->
-    <section class="section">
-        <div class="container reading-width">
+    <section class="section" id="illumination">
+        <div class="container">
             <div class="section-head">
                 <h2>Cameras and illumination</h2>
             </div>
@@ -372,8 +341,8 @@
     </section>
 
     <!-- Assembly overview -->
-    <section class="section">
-        <div class="container reading-width">
+    <section class="section" id="assembly">
+        <div class="container">
             <div class="section-head">
                 <h2>Assembly overview</h2>
             </div>
@@ -430,17 +399,17 @@
             </div>
 
             <div class="cards cards-compact">
-                <a class="card card-link" href="#">
-                    <h3>STL files</h3>
-                    <p>Printable geometry files.</p>
+                <a class="card card-link" href="models.html">
+                    <h3>3D Models</h3>
+                    <p>3D printable files and proviles.</p>
                 </a>
 
-                <a class="card card-link" href="#">
-                    <h3>Print profiles</h3>
-                    <p>Suggested slicing or print presets.</p>
+                <a class="card card-link" href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking?from=search#profileId-2471837">
+                    <h3>MakerWorld</h3>
+                    <p>Bambulab printing profiles.</p>
                 </a>
 
-                <a class="card card-link" href="#">
+                <a class="card card-link" href="https://github.com/raffaelemazziotti/MEYElens">
                     <h3>Repository</h3>
                     <p>Source files and project structure.</p>
                 </a>

@@ -63,9 +63,9 @@
             <aside class="toc-card">
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="3D models contents">
-                    <a href="#downloads">Downloads</a>
                     <a href="#parts">Model parts</a>
                     <a href="#print-files">Print files</a>
+                    <a href="#print-settings">Print settings</a>
                     <a href="#external">External repositories</a>
                 </nav>
             </aside>
@@ -151,7 +151,7 @@
                 <div class="models-row">
                     <div>
                         <h3>Printable STL package</h3>
-                        <p>Collection of core headset components in STL format.</p>
+                        <p>All the headset components in STL format (.zip file).</p>
                     </div>
                     <a class="btn" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a>
                 </div>
@@ -159,12 +159,58 @@
                 <div class="models-row">
                     <div>
                         <h3>3MF project file</h3>
-                        <p>The project is present on Bambulab MakerWorld platform.</p>
+                        <p>Bambulab MakerWorld project file.</p>
                     </div>
                     <a class="btn" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.3mf">Download</a>
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <section class="section" id="print-settings">
+        <div class="container">
+            <div class="section-head">
+                <h2>Print settings</h2>
+                <p class="muted">
+                    Reference settings used to print the MEYELens frame.
+                </p>
+            </div>
+
+            <div class="text-block">
+                <p>
+                    The prototype shown here was printed using <strong>Bambu Lab Matte Black PLA</strong>.
+                    We used the standard Bambu Studio profile as a baseline and adjusted the infill to improve
+                    part rigidity while keeping print time reasonable.
+                </p>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <tbody>
+                    <tr>
+                        <th>Filament</th>
+                        <td>Bambu Lab Matte Black PLA</td>
+                    </tr>
+                    <tr>
+                        <th>Layer height / nozzle</th>
+                        <td>0.2 mm layer height with a 0.4 mm nozzle</td>
+                    </tr>
+                    <tr>
+                        <th>Walls / supports</th>
+                        <td>2 wall loops with supports enabled</td>
+                    </tr>
+                    <tr>
+                        <th>Infill</th>
+                        <td>~50% gyroid infill</td>
+                    </tr>
+                    <tr>
+                        <th>Material use / print time</th>
+                        <td>~55 g filament and ~3 hours total, depending on printer and settings</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
@@ -179,7 +225,7 @@
 
             <div class="models-grid narrow-grid">
                 <a class="model-card" href="https://github.com/raffaelemazziotti/MEYElens">
-                    <div class="model-type">Repository</div>
+                    <div class="model-type">Main Repo</div>
                     <h3>GitHub</h3>
                     <p>Project repository containing model files and related resources.</p>
                 </a>

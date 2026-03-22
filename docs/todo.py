@@ -4,9 +4,11 @@
 # TODO integrate models.html as page
 # TODO create a github discussion place
 # TODO page of general troubleshoot
+# TODO example code
 
 
 ############## Material
+# TODO video of the eye with and without pupillometry
 # TODO video of assembling
 # TODO photo of the 3d printed camera holder (eye-facing) with and without the camera
 # TODO photo of the 3d printed camera holder (world-facing) with and without the camera
