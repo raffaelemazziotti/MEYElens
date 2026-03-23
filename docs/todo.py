@@ -1,10 +1,12 @@
-############## Page improvement
+############## Page improvements
 # TODO STL of each part and complete in a zip file
 # TODO address of NIH model
 # TODO integrate models.html as page
 # TODO create a github discussion place
 # TODO page of general troubleshoot
 # TODO example code
+# TODO insert university affiliations
+# TODO a better icon??
 
 
 ############## Material
