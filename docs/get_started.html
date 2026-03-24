@@ -226,6 +226,9 @@
                             </div>
 
                         </div>
+                        <div class="note note-tip">
+                                <strong>Tip:</strong> You can find other details on the possible hardware configurations on the <a class="textlink" href="hardware.html">hardware page</a>.
+                        </div>
                     </div>
                 </section>
 
@@ -241,17 +244,27 @@
                         <div class="step-content">
                             <div class="content-block">
                                 <div class="code-block">
-                                    <pre><code>pip install meyelens</code></pre>
+                                    <pre><code>pip install meyelens[tf]</code></pre>
                                 </div>
                                 <p>
                                     This command installs the <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
-                                    Python package, providing access to the full acquisition and analysis pipeline.
+                                    Python package (including TensorFlow), providing access to the full acquisition and analysis pipeline.
                                 </p>
                             </div>
 
                             <div class="note note-tip">
                                 <strong>Tip:</strong> For detailed installation instructions and advanced setup options,
                                 refer to the <a href="software.html" class="textlink">software page</a>.
+                            </div>
+                            <div class="note note-warning">
+                                <strong>Warning:</strong>
+                                <span class="warning-accent">
+                                    <a href="https://www.tensorflow.org/" target="_blank" rel="noopener noreferrer"><u>TensorFlow</u></a>
+                                    may affect pupillometry performance.
+                                </span>
+                                An incorrect TensorFlow setup can reduce acquisition speed and negatively impact pupillary measurements.
+                                We strongly recommend a proper TensorFlow installation, especially on systems equipped with an
+                                <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener noreferrer" class="textlink">NVIDIA GPU</a>.
                             </div>
                         </div>
                     </div>
