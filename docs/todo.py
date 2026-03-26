@@ -1,5 +1,5 @@
 ############## Page improvements
-# TODO load the STL of the  external light source
+# ✓ TODO load the STL of the  external light source
 # TODO example code
 # TODO insert university affiliations
 # TODO a better icon??
