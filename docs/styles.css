@@ -708,6 +708,51 @@ figcaption {
     align-self: flex-start;
 }
 
+.github-icon-btn {
+    padding-inline: 0.9rem;
+    min-width: auto;
+    aspect-ratio: 1 / 1;
+    color: #fff;
+}
+
+.github-icon-btn svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    fill: currentColor;
+    transition: fill 0.2s ease;
+}
+
+.github-icon-btn:hover,
+.github-icon-btn:focus-visible {
+    color: var(--accent);
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.bambu-btn {
+    padding: 0.72rem 1rem;
+    color: #fff;
+}
+
+.bambu-icon {
+    display: block;
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    flex: 0 0 auto;
+}
+
+.bambu-btn:hover,
+.bambu-btn:focus-visible {
+    color: var(--accent);
+}
+
 
 @media (max-width: 760px) {
     .container {

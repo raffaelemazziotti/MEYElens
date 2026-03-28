@@ -26,7 +26,7 @@
         <a class="brand" href="index.html" aria-label="MEYELens home">
             <span class="brand-mark" aria-hidden="true"></span>
             <span class="brand-text">
-                <span class="brand-name">MEYELens</span>
+                <span class="brand-name"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></span>
                 <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
             </span>
         </a>
@@ -54,7 +54,7 @@
                 <div class="eyebrow">3D Models</div>
                 <h1>Printable files and model assets.</h1>
                 <p class="lead">
-                    This page collects the main 3D model files for MEYELens, including printable parts,
+                    This page collects the main 3D model files for <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>, including printable parts,
                     viewable assets, and links to external repositories or model-sharing platforms.
                 </p>
             </div>
@@ -62,8 +62,8 @@
             <aside class="toc-card">
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="3D models contents">
+                    <a href="#print-files">Packages</a>
                     <a href="#parts">Model parts</a>
-                    <a href="#print-files">Print files</a>
                     <a href="#print-settings">Print settings</a>
                     <a href="#external">External repositories</a>
                 </nav>
@@ -71,72 +71,10 @@
         </div>
     </section>
 
-    <section class="section" id="parts">
-        <div class="container">
-            <div class="section-head">
-                <h2>Model parts</h2>
-                <p class="muted">
-                    You can use this section to list individual printable components.
-                </p>
-            </div>
-
-            <div class="table-wrap">
-                <table class="data-table">
-                    <thead>
-                    <tr>
-                        <th>Part</th>
-                        <th>Description</th>
-                        <th>Material</th>
-                        <th>Format</th>
-                        <th>Link</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Front frame</td>
-                        <td>Main structural front element of the headset</td>
-                        <td>PLA</td>
-                        <td>STL</td>
-                        <td><a class="textlink" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a></td>
-                    </tr>
-                    <tr>
-                        <td>Side arm</td>
-                        <td>Temple arm or support arm component</td>
-                        <td>PLA</td>
-                        <td>STL</td>
-                        <td><a class="textlink" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a></td>
-                    </tr>
-                    <tr>
-                        <td>Camera mount</td>
-                        <td>Adjustable support for the eye-facing camera</td>
-                        <td>PLA</td>
-                        <td>STL</td>
-                        <td><a class="textlink" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a></td>
-                    </tr>
-                    <tr>
-                        <td>Nose support</td>
-                        <td>Adjustable front support element</td>
-                        <td>PLA/PETG</td>
-                        <td>STL</td>
-                        <td><a class="textlink" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a></td>
-                    </tr>
-                    <tr>
-                        <td>Adjustment knob</td>
-                        <td>Manual screw adjustment knob</td>
-                        <td>PLA</td>
-                        <td>STL</td>
-                        <td><a class="textlink" href="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/3d_print_files/meyelens.stl">Download</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
     <section class="section" id="print-files">
         <div class="container">
             <div class="section-head">
-                <h2>Print files and preparation</h2>
+                <h2>Packages</h2>
             </div>
 
             <div class="text-block">
@@ -167,12 +105,140 @@
         </div>
     </section>
 
+    <section class="section" id="parts">
+    <div class="container">
+        <div class="section-head">
+            <h2>Model parts</h2>
+            <p class="muted">
+                You can use this section to list individual printable components.
+            </p>
+        </div>
+
+        <div class="table-wrap">
+    <table class="data-table parts-table">
+        <thead>
+        <tr>
+            <th>Preview</th>
+            <th>Part</th>
+            <th>Description</th>
+            <th>Material</th>
+            <th>Format</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/front_panel.jpg" alt="Preview of front frame">
+            </td>
+            <td>Front panel</td>
+            <td>Main front structure of the MEYELens platform, designed to support the camera holder and central assembly.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/front_panel.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/arm_left.jpg" alt="Preview of side arm">
+            </td>
+            <td>Left arm</td>
+            <td>Left structural arm that connects to the camera arm and supports positioning the eye-facing camera in front of the eye.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/arm_left.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/cam_arm.jpg" alt="Preview of adjustment knob">
+            </td>
+            <td>Camera arm</td>
+            <td>Adjustable support arm that connects to the left arm and carries the eye-facing camera, allowing precise positioning.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/cam_arm.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/arm_right.jpg" alt="Preview of side arm">
+            </td>
+            <td>Right arm</td>
+            <td>Right side arm that extends from the front panel to provide structural support and headset stability.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/arm_right.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/cam_holder.jpg" alt="Preview of camera mount">
+            </td>
+            <td>Camera holder</td>
+            <td>Main mounting piece used to secure and position the eye-facing camera on the platform.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/cam_holder.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/nose_support.jpg" alt="Preview of nose support">
+            </td>
+            <td>Nose support</td>
+            <td>Front contact support that improves comfort and helps stabilize the device on the user’s face.</td>
+            <td>PLA/PETG</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/nose_support.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/thumb_nut.jpg" alt="Preview of adjustment knob">
+            </td>
+            <td>Adjustment knob</td>
+            <td>Hand-tightened knob used to adjust and lock movable parts without additional tools.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/thumb_nut.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/ear_support.jpg" alt="Preview of ear support">
+            </td>
+            <td>Ear support</td>
+            <td>Left-side support element that rests near the ear to improve fit and overall wearing stability.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/ear_support_left.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview mirrored" src="assets/media/ear_support.jpg" alt="Preview of ear support">
+            </td>
+            <td>Ear support</td>
+            <td>Right-side support element that rests near the ear to improve fit and overall wearing stability.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/ear_support_right.stl">Download</a></td>
+        </tr>
+        <tr>
+            <td>
+                <img class="part-preview" src="assets/media/support_ir_external.jpg" alt="Preview of adjustment knob">
+            </td>
+            <td>External IR support</td>
+            <td>Mounting support for an external infrared light source used to improve eye illumination during recording.</td>
+            <td>PLA</td>
+            <td>STL</td>
+            <td><a class="textlink" href="assets/media/3d_files/ir_support.stl">Download</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    </div>
+</section>
+
     <section class="section" id="print-settings">
         <div class="container">
             <div class="section-head">
                 <h2>Print settings</h2>
                 <p class="muted">
-                    Reference settings used to print the MEYELens frame.
+                    Reference settings used to print the <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> frame.
                 </p>
             </div>
 
@@ -223,22 +289,22 @@
             </div>
 
             <div class="models-grid narrow-grid">
-                <a class="model-card" href="https://github.com/raffaelemazziotti/MEYElens">
+                <a class="model-card" href="https://github.com/raffaelemazziotti/MEYElens/tree/main/3d_print_files" target="_blank">
                     <div class="model-type">Main Repo</div>
                     <h3>GitHub</h3>
-                    <p>Project repository containing model files and related resources.</p>
+                    <p>Models repository on github.</p>
                 </a>
 
-                <a class="model-card" href="https://3d.nih.gov/entries/3DPX-023297">
+                <a class="model-card" href="https://3d.nih.gov/entries/3DPX-023297" target="_blank">
                     <div class="model-type">NIH</div>
                     <h3>NIH 3D</h3>
-                    <p>NIH 3D is an open, community-driven portal to share bioscientific and medical 3D models.</p>
+                    <p>Models repository on NIH 3D website</p>
                 </a>
 
-                <a class="model-card" href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking?from=search#profileId-2471837">
+                <a class="model-card" href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking?from=search#profileId-2471837" target="_blank">
                     <div class="model-type">Bambulab</div>
                     <h3>Maker World</h3>
-                    <p>Here you find updated printing profiles for Bambulab 3D printers.</p>
+                    <p>Printing profile on Bambulab Makerworld.</p>
                 </a>
             </div>
         </div>
@@ -249,7 +315,7 @@
 <footer class="site-footer">
     <div class="container footer-inner">
         <div>
-            <div class="footer-brand">MEYELens</div>
+            <div class="footer-brand"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></div>
             <div class="footer-note">3D Models</div>
         </div>
 

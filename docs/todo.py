@@ -6,10 +6,10 @@
 # TODO chin rest?
 # TODO create a github discussion place
 # TODO page of general troubleshoot
-# TODO link github in the landing page
 # TODO bambulab in the mainpage
 # TODO add chin rest reference in resources: https://3dgo.app/models/thingiverse/2968729
-
+# TODO in the list of 3d pritntable parts insert left and right ear support and other parts that are bilaterally different
+# TODO update 3mf with the correct layout of print (arms horizontal)
 
 ############## Material
 # TODO video of the eye with and without pupillometry
