@@ -163,6 +163,19 @@ pip<span class="w"> </span>install<span class="w"> </span>meyelens<span class="o
 <div><p>GPU enablement depends on your OS, CUDA/cuDNN compatibility, and TensorFlow version. Follow the TensorFlow guide exactly for your platform.</p>
 </div></blockquote>
 </section>
+<section id="headless-package">
+<h3>Headless package<a class="headerlink" href="#headless-package" title="Link to this heading"></a></h3>
+<p>If you want the core Python package without the PyQt offline GUI, install the
+separate headless distribution:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>meyelens-headless
+</pre></div>
+</div>
+<p>With TensorFlow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;meyelens-headless[tf]&quot;</span>
+</pre></div>
+</div>
+<p>Do not install <code class="docutils literal notranslate"><span class="pre">meyelens</span></code> and <code class="docutils literal notranslate"><span class="pre">meyelens-headless</span></code> into the same environment.</p>
+</section>
 <section id="documentation">
 <h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h3>
 <p>API documentation: <strong><a class="reference external" href="https://raffaelemazziotti.github.io/MEYElens/">https://raffaelemazziotti.github.io/MEYElens/</a></strong></p>
@@ -208,7 +221,7 @@ pip<span class="w"> </span>install<span class="w"> </span>meyelens<span class="o
 <h2>OFFLINE GUI (PUPIL PROCESSING)<a class="headerlink" href="#offline-gui-pupil-processing" title="Link to this heading"></a></h2>
 <p>If you recorded videos through the <code class="docutils literal notranslate"><span class="pre">offline_recorder</span></code> (or have your own IR eye videos), you can run the offline GUI:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>meyelens
-python<span class="w"> </span>-m<span class="w"> </span>meyelens_offlinegui
+meyelens-gui
 </pre></div>
 </div>
 <img src="assets/gui.png" width="900" alt="GUI">
