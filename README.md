@@ -101,6 +101,17 @@ API documentation: **[https://raffaelemazziotti.github.io/MEYElens/](https://raf
 ## UTILIZING THE PACKAGE
 We provide examples to use the library:
 
+### Quick test
+To quickly check that the camera and `Meye` model are working:
+
+```python
+from meyelens import meye, camera
+
+cam = camera.Camera(camera_ind=0)  # Select the correct camera index for your setup.
+meye = meye.Meye()
+meye.preview(cam)
+```
+
 ### `offline_recorder`
 Records a video and a `.csv` with trigger markers sent through keypresses.
 
