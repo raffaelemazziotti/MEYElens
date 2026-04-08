@@ -14,11 +14,6 @@ authors = [
   { name = "Giacomo Vecchieschi", email = "giacomovecchieschi@gmail.com" }
 ]
 
-[project.urls]
-Homepage = "https://github.com/raffaelemazziotti/MEYElens"
-Repository = "https://github.com/raffaelemazziotti/MEYElens"
-Documentation = "https://raffaelemazziotti.github.io/MEYElens"
-
 # Runtime dependencies ONLY (what users actually need when they `pip install meyelens`)
 dependencies = [
   "joblib==1.4.2",
@@ -32,6 +27,11 @@ dependencies = [
   "scikit-image==0.25.2",
   "toml==0.10.2",
 ]
+
+[project.urls]
+Homepage = "https://github.com/raffaelemazziotti/MEYElens"
+Repository = "https://github.com/raffaelemazziotti/MEYElens"
+Documentation = "https://raffaelemazziotti.github.io/MEYElens"
 
 [project.optional-dependencies]
 # Optional: install with `pip install "meyelens[tf]"`
