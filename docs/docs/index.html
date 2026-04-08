@@ -172,6 +172,17 @@ pip<span class="w"> </span>install<span class="w"> </span>meyelens<span class="o
 <section id="utilizing-the-package">
 <h2>UTILIZING THE PACKAGE<a class="headerlink" href="#utilizing-the-package" title="Link to this heading"></a></h2>
 <p>We provide examples to use the library:</p>
+<section id="quick-test">
+<h3>Quick test<a class="headerlink" href="#quick-test" title="Link to this heading"></a></h3>
+<p>To quickly check that the camera and <code class="docutils literal notranslate"><span class="pre">Meye</span></code> model are working:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">meyelens</span><span class="w"> </span><span class="kn">import</span> <span class="n">meye</span><span class="p">,</span> <span class="n">camera</span>
+
+<span class="n">cam</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">Camera</span><span class="p">(</span><span class="n">camera_ind</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Select the correct camera index for your setup.</span>
+<span class="n">meye</span> <span class="o">=</span> <span class="n">meye</span><span class="o">.</span><span class="n">Meye</span><span class="p">()</span>
+<span class="n">meye</span><span class="o">.</span><span class="n">preview</span><span class="p">(</span><span class="n">cam</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="offline-recorder">
 <h3><code class="docutils literal notranslate"><span class="pre">offline_recorder</span></code><a class="headerlink" href="#offline-recorder" title="Link to this heading"></a></h3>
 <p>Records a video and a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> with trigger markers sent through keypresses.</p>
