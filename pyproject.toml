@@ -49,11 +49,10 @@ docs = [
 ]
 
 [project.scripts]
-meyelens-gui = "meyelens.meyelens_gui:main"
+meyelens-gui = "meyelens.meyelens_offlinegui:main"
 
 [tool.setuptools]
 include-package-data = true
-py-modules = ["meyelens_offlinegui"]
 
 # More robust than hard-coding packages = [...]
 [tool.setuptools.packages.find]

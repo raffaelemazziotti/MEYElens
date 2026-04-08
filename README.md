@@ -93,6 +93,22 @@ Then install TensorFlow following:
 
 > GPU enablement depends on your OS, CUDA/cuDNN compatibility, and TensorFlow version. Follow the TensorFlow guide exactly for your platform.
 
+### Headless package
+If you want the core Python package without the PyQt offline GUI, install the
+separate headless distribution:
+
+```bash
+pip install meyelens-headless
+```
+
+With TensorFlow:
+
+```bash
+pip install "meyelens-headless[tf]"
+```
+
+Do not install `meyelens` and `meyelens-headless` into the same environment.
+
 ### Documentation
 API documentation: **[https://raffaelemazziotti.github.io/MEYElens/](https://raffaelemazziotti.github.io/MEYElens/)**
 
@@ -134,7 +150,7 @@ If you recorded videos through the `offline_recorder` (or have your own IR eye v
 
 ```bash
 conda activate meyelens
-python -m meyelens_offlinegui
+meyelens-gui
 ```
 <img src="assets/gui.png" width="900" alt="GUI">
 
