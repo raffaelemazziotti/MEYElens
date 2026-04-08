@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>meyelens.utils &mdash; MEYELens 0.2.1 documentation</title>
+  <title>meyelens.utils &mdash; MEYELens 0.2.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
+      <script src="../../_static/documentation_options.js?v=000c92bf"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -73,14 +73,9 @@
   <h1>Source code for meyelens.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">psychopy</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">psychopy_core</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">psychopy_core</span> <span class="o">=</span> <span class="kc">None</span>
-
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_PerfCounterClock</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimal fallback clock with the same API as psychopy.core.Clock.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimal clock wrapper based on ``time.perf_counter``.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
@@ -96,11 +91,11 @@
 <a class="viewcode-back" href="../../api/meyelens.utils.html#meyelens.utils.CountdownTimer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CountdownTimer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Countdown timer based on PsychoPy&#39;s high-precision clock.</span>
+<span class="sd">    Countdown timer based on a high-precision local clock.</span>
 
-<span class="sd">    This utility wraps :class:`psychopy.core.Clock` to provide a simple countdown</span>
-<span class="sd">    interface for time-limited tasks (e.g., stimulus display windows, response</span>
-<span class="sd">    deadlines, trial timeouts).</span>
+<span class="sd">    This utility wraps a ``perf_counter``-based clock to provide a simple</span>
+<span class="sd">    countdown interface for time-limited tasks (e.g., stimulus display windows,</span>
+<span class="sd">    response deadlines, trial timeouts).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -111,8 +106,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    duration : float</span>
 <span class="sd">        Total countdown duration in seconds.</span>
-<span class="sd">    clock : psychopy.core.Clock or _PerfCounterClock</span>
-<span class="sd">        PsychoPy clock (if available) or a perf_counter-based fallback.</span>
+<span class="sd">    clock : _PerfCounterClock</span>
+<span class="sd">        Perf-counter-based clock used for time tracking.</span>
 <span class="sd">    is_running : bool</span>
 <span class="sd">        ``True`` when the countdown is active.</span>
 
@@ -133,7 +128,7 @@
 <span class="sd">            Countdown duration in seconds.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">psychopy_core</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span> <span class="k">if</span> <span class="n">psychopy_core</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_PerfCounterClock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">_PerfCounterClock</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="CountdownTimer.start">
