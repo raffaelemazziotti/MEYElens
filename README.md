@@ -123,7 +123,7 @@ To quickly check that the camera and `Meye` model are working:
 ```python
 from meyelens import meye, camera
 
-cam = camera.Camera(camera_ind=0)  # Select the correct camera index for your setup.
+cam = camera.Camera(camera_index=0)  # Select the correct camera index for your setup.
 meye = meye.Meye()
 meye.preview(cam)
 ```

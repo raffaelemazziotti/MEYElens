@@ -197,7 +197,7 @@ def run_live_prediction(cam: Camera, meye: Meye, model: GazeModelPoly, screen_wi
 
 def main():
     screen_width, screen_height = get_screen_size()
-    cam = Camera(camera_ind=0)
+    cam = Camera(camera_index=0)
     meye = Meye()
 
     print('### MEYE ### Close the preview window to start calibration.')
