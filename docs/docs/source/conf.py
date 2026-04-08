@@ -75,7 +75,6 @@ autodoc_mock_imports = [
     "matplotlib",
     "numpy",
     "pandas",
-    "psychopy",
     "wx",
     "wxPython",
     "PyQt6",

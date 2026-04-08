@@ -1,13 +1,8 @@
 import time
 
-try:
-    from psychopy import core as psychopy_core
-except ImportError:
-    psychopy_core = None
-
 
 class _PerfCounterClock:
-    """Minimal fallback clock with the same API as psychopy.core.Clock."""
+    """Minimal clock wrapper based on ``time.perf_counter``."""
 
     def __init__(self):
         self._start = time.perf_counter()
@@ -21,11 +16,11 @@ class _PerfCounterClock:
 
 class CountdownTimer:
     """
-    Countdown timer based on PsychoPy's high-precision clock.
+    Countdown timer based on a high-precision local clock.
 
-    This utility wraps :class:`psychopy.core.Clock` to provide a simple countdown
-    interface for time-limited tasks (e.g., stimulus display windows, response
-    deadlines, trial timeouts).
+    This utility wraps a ``perf_counter``-based clock to provide a simple
+    countdown interface for time-limited tasks (e.g., stimulus display windows,
+    response deadlines, trial timeouts).
 
     Parameters
     ----------
@@ -36,8 +31,8 @@ class CountdownTimer:
     ----------
     duration : float
         Total countdown duration in seconds.
-    clock : psychopy.core.Clock or _PerfCounterClock
-        PsychoPy clock (if available) or a perf_counter-based fallback.
+    clock : _PerfCounterClock
+        Perf-counter-based clock used for time tracking.
     is_running : bool
         ``True`` when the countdown is active.
 
@@ -58,7 +53,7 @@ class CountdownTimer:
             Countdown duration in seconds.
         """
         self.duration = duration
-        self.clock = psychopy_core.Clock() if psychopy_core is not None else _PerfCounterClock()
+        self.clock = _PerfCounterClock()
         self.is_running = False
 
     def start(self) -> None:
