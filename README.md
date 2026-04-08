@@ -55,10 +55,10 @@ Tested camera modules:
 
 ## ASSEMBLY
 Assembly uses mostly standard fasteners:
-- M3 × 16 mm (×3) — frame joints
-- M3 × 12 mm (×4) — ear supports, camera arm, ball joint
-- M3 nuts (×6) — except the ball-bearing anchor (as used in our build)
-- M2 × 10 mm + M2 nuts — camera mounting
+- M3 × 16 mm (×3) - frame joints
+- M3 × 12 mm (×4) - ear supports, camera arm, ball joint
+- M3 nuts (×6) - except the ball-bearing anchor (as used in our build)
+- M2 × 10 mm + M2 nuts - camera mounting
 
 Exploded view / assembly diagram:
 

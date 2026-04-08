@@ -88,6 +88,27 @@
   font-size: 14px;
 }
 
+.parts-table th:first-child,
+.parts-table td:first-child {
+    width: 84px;
+    min-width: 84px;
+}
+
+.part-preview {
+    width: 52px;
+    height: 52px;
+    display: block;
+    object-fit: contain;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 4px;
+}
+
+.part-preview.mirrored {
+    transform: scaleX(-1);
+}
+
 @media (max-width: 960px) {
   .page-models .models-hero-grid,
   .page-models .models-grid,
@@ -102,3 +123,4 @@
     align-items: flex-start;
   }
 }
+

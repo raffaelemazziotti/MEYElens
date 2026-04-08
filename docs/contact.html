@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
-    <title>MEYELens — Contact</title>
+    <title>MEYELens - Contact</title>
     <meta content="Contact and collaboration information for MEYELens." name="description"/>
 
     <link href="assets/favicon.png" rel="icon" type="image/png"/>
@@ -78,6 +78,107 @@
         </div>
     </section>
 
+    <section class="section" id="maintainers">
+        <div class="container">
+            <div class="section-head">
+                <h2>Project Maintainers</h2>
+                <p class="muted">
+                    The main people currently maintaining and supporting the project.
+                </p>
+            </div>
+
+            <div class="contact-grid">
+
+                <div class="contact-card maintainer-card">
+                    <img class="maintainer-photo" src="assets/media/rm.jpg" alt="Photo">
+                    <h3>Raffaele Mazziotti</h3>
+                    <p class="maintainer-role">Project lead</p>
+                    <p class="maintainer-description">
+                        Researcher. Overall development of the MEYE and MEYELens project.
+                    </p>
+                    <div class="maintainer-links">
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="Website"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/website.svg" alt="">
+                        </a>
+
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="University"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/university.svg" alt="">
+                        </a>
+
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="Github"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/github.svg" alt="">
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="contact-card maintainer-card">
+                    <img class="maintainer-photo" src="assets/media/giacomino.jpg" alt="Photo">
+                    <h3>Giacomo Vecchieschi</h3>
+                    <p class="maintainer-role">Software and 3D design</p>
+                    <p class="maintainer-description">
+                        Ph.D. Fellow
+                    </p>
+                    <div class="maintainer-links">
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="Website"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/website.svg" alt="">
+                        </a>
+
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="University"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/university.svg" alt="">
+                        </a>
+
+                        <a
+                            class="btn icon-btn"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Website"
+                            title="Github"
+                        >
+                            <img class="cta-icon-file" src="assets/media/svg/github.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <section class="section">
         <div class="container">
@@ -90,23 +191,14 @@
 
 
             <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Email</h3>
-                    <p>
-                        For general inquiries and research collaboration.
-                    </p>
-                    <a class="textlink" href="mailto:example@email.com">
-                        example@email.com
-                    </a>
-                </div>
 
                 <div class="contact-card">
                     <h3>Repository issues</h3>
                     <p>
-                        Technical questions and bug reports should be submitted through
-                        the project repository.
+                        For bug reports, technical problems, feature requests, or code-related questions,
+                        please use the project issue tracker on GitHub.
                     </p>
-                    <a class="textlink" href="#">
+                    <a class="textlink" href="https://github.com/raffaelemazziotti/MEYElens/issues/new" target="_blank">
                         Open issue tracker
                     </a>
                 </div>
@@ -115,11 +207,22 @@
                 <div class="contact-card">
                     <h3>Documentation</h3>
                     <p>
-                        If you are looking for usage instructions or setup help,
-                        consult the documentation.
+                        If you need setup instructions, usage guidance, or help getting started,
+                        the documentation is the best place to begin.
                     </p>
-                    <a class="textlink" href="docs/">
+                    <a class="textlink" href="docs/" target="_blank">
                         Open documentation
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Contact us</h3>
+                    <p>
+                        For collaborations, general questions, educational activities, or other inquiries,
+                        you can send us a message directly through the form below.
+                    </p>
+                    <a class="textlink" href="#message-form">
+                        Send a message
                     </a>
                 </div>
 
@@ -127,46 +230,48 @@
         </div>
     </section>
 
-
-    <section class="section">
+    <section class="section" id="message-form">
         <div class="container reading-width">
             <div class="section-head">
                 <h2>Send a message</h2>
                 <p class="muted">
-                    You can optionally add a simple contact form here.
+                    We will contact you as soon as possible.
                 </p>
             </div>
 
-            <form class="contact-form">
+            <form class="contact-form" id="contactForm">
                 <div class="form-row">
                     <div class="form-field">
-                        <label>Name</label>
-                        <input placeholder="Your name" type="text">
+                        <label for="contact-name">Name</label>
+                        <input id="contact-name" name="name" placeholder="Your name" type="text">
                     </div>
                     <div class="form-field">
-                        <label>Email</label>
-                        <input placeholder="Your email" type="email">
+                        <label for="contact-email">Email</label>
+                        <input id="contact-email" name="email" placeholder="Your email" type="email">
                     </div>
                 </div>
 
-
                 <div class="form-field">
-                    <label>Message</label>
-                    <textarea placeholder="Your message" rows="6"></textarea>
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" name="message" placeholder="Your message" rows="6"></textarea>
                 </div>
 
-                <button class="btn btn-primary">Send message</button>
+                <button class="btn btn-primary" id="contact-submit" type="submit">Send message</button>
+                <div class="form-status" id="contact-status" aria-live="polite"></div>
             </form>
+
+            <p class="form-note">
+                We use the information you provide only to respond to your message. Name is optional. Email and message are required so we can reply. The data is not used for marketing and is not shared with third parties.
+            </p>
 
         </div>
 
     </section>
 
-
     <section class="section section-compact">
         <div class="container closing">
             <p>
-                MEYELens is an open research project. Contributions and feedback
+                <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> is an open research project. Contributions and feedback
                 from the community are always welcome.
             </p>
         </div>
@@ -178,7 +283,7 @@
 <footer class="site-footer">
     <div class="container footer-inner">
         <div>
-            <div class="footer-brand">MEYELens</div>
+            <div class="footer-brand"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></div>
             <div class="footer-note">Contact</div>
         </div>
         <div class="footer-links">
@@ -191,6 +296,8 @@
 </footer>
 
 <script src="index.js"></script>
+<script type="module" src="contact.js"></script>
+<script src="analytics-consent.js"></script>
 
 </body>
 </html>
