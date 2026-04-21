@@ -737,6 +737,58 @@ figcaption {
     height: 22px;
 }
 
+.affiliations {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.affiliations-label {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.affiliations-list {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.affiliations-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-soft);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.affiliations-list a:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* logo */
+.affiliations-list img {
+  width: 132px;
+  height: 132px;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(0.9);
+  opacity: 0.8;
+}
+
+/* subtle hover effect */
+.affiliations-list a:hover img {
+  filter: none;
+  opacity: 1;
+}
+
 
 @media (max-width: 760px) {
     .container {
