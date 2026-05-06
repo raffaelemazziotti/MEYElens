@@ -88,26 +88,67 @@
   font-size: 14px;
 }
 
+/* Parts table */
+
 .parts-table th:first-child,
 .parts-table td:first-child {
-    width: 84px;
-    min-width: 84px;
+  width: 84px;
+  min-width: 84px;
 }
+
+/*
+  Desktop: allow the enlarged preview image to extend outside the table.
+  This is needed because the base .table-wrap in styles.css uses overflow-x: auto.
+*/
+.page-models #parts .table-wrap {
+  overflow: visible;
+}
+
+/* Preview thumbnails */
 
 .part-preview {
-    width: 52px;
-    height: 52px;
-    display: block;
-    object-fit: contain;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--panel);
-    padding: 4px;
+  width: 52px;
+  height: 52px;
+  display: block;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 4px;
+  cursor: zoom-in;
+  position: relative;
+  z-index: 1;
+  transform-origin: center center;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
 }
 
-.part-preview.mirrored {
-    transform: scaleX(-1);
+.part-preview:hover,
+.part-preview:focus-visible {
+  transform: scale(3.2);
+  z-index: 50;
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
+
+/* Mirrored thumbnail */
+
+.part-preview.mirrored {
+  transform: scaleX(-1);
+  transform-origin: center center;
+}
+
+.part-preview.mirrored:hover,
+.part-preview.mirrored:focus-visible {
+  transform: scaleX(-1) scale(3.2);
+  z-index: 50;
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Responsive */
 
 @media (max-width: 960px) {
   .page-models .models-hero-grid,
@@ -122,5 +163,36 @@
     flex-direction: column;
     align-items: flex-start;
   }
-}
 
+  /*
+    Mobile: restore horizontal table scrolling and disable zoom.
+    Hover zoom is not useful on touch devices and can break layout.
+  */
+  .page-models #parts .table-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .part-preview {
+    cursor: default;
+    transform: none;
+    transition: none;
+  }
+
+  .part-preview:hover,
+  .part-preview:focus-visible {
+    transform: none;
+    z-index: 1;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+
+  .part-preview.mirrored,
+  .part-preview.mirrored:hover,
+  .part-preview.mirrored:focus-visible {
+    transform: scaleX(-1);
+    z-index: 1;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+}
