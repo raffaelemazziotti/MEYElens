@@ -16,10 +16,14 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="get_started.css" />
 </head>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+
 <body class="page-get-started">
 <header class="site-header">
     <div class="container header-inner">
@@ -128,7 +132,7 @@
                                 <p>
                                     The complete set of 3D models and print files is available in the
                                     <a href="models.html" class="textlink">3D models page</a>, including a 3MF file
-                                    containing the full print plate with all components and an optimized print profile
+                                    containing the full print plate with all components and an optimized <a href="models.html#print-settings" class="textlink">print profile</a>
                                     for the eyewear platform.
                                 </p>
 
@@ -161,18 +165,15 @@
                         <div class="step-header">
                             <h2>Assemble the headset</h2>
                             <p>
-                                Assemble the structural components, mount the supports, and secure the fasteners.
+                                Assemble all the components and secure the fasteners.
                             </p>
                         </div>
 
                         <div class="step-content">
-                            <div class="content-block">
-                                <ol>
-                                    <li>Prepare the printed frame components, screws, and nuts.</li>
-                                    <li>Mount the arms and structural supports onto the frame.</li>
-                                    <li>Attach the camera holder to the designated mount.</li>
-                                    <li>Secure the screws and nuts using a small amount of light-curing adhesive.</li>
-                                </ol>
+                            <div class="note note-warning">
+                                <strong>Warning:</strong>
+                                In addition to the 3D-printed parts, you will need <strong>7 M3 fasteners</strong>.
+                                Refer to the <a href="hardware.html#bom" class="textlink">Bill of Materials</a> for details.
                             </div>
 
                             <div class="media-block video-block">
@@ -213,7 +214,7 @@
 
                             <figure class="media-block">
                                 <img src="assets/media/cam_holder_cam.jpg" alt="Camera mounted on the 3D-printed support">
-                                <figcaption>Example of the camera mounted on the holder.</figcaption>
+                                <figcaption>Secure the camera with two M2 screws and matching nuts.</figcaption>
                             </figure>
                         </div>
                         <div class="note note-tip">
@@ -234,6 +235,7 @@
                         <div class="step-content">
                             <div class="content-block">
                                 <div class="code-block">
+                                    <button class="copy-btn" aria-label="Copy code">Copy</button>
                                     <pre><code>pip install meyelens[tf]</code></pre>
                                 </div>
                                 <p>
@@ -265,27 +267,29 @@
                     <div class="step-index">07</div>
                     <div class="step-body">
                         <div class="step-header">
-                            <h2>Run your first recording</h2>
-                            <p>Test the system with a short acquisition and confirm that the output is valid.</p>
+                            <h2>Run your first test</h2>
                         </div>
-
-                        <div class="step-content two-col">
+                        <div class="step-content">
                             <div class="content-block">
-                                <h3>Before starting</h3>
-                                <ul>
-                                    <li>Confirm camera detection</li>
-                                    <li>Check illumination</li>
-                                    <li>Verify framing of the eye</li>
-                                </ul>
-                            </div>
+                               <div class="code-block">
+                                   <button class="copy-btn" aria-label="Copy code">Copy</button>
+                                <pre><code class="language-python">
+                                    from meyelens import meye, camera
 
-                            <div class="content-block">
-                                <h3>Expected outputs</h3>
-                                <ul>
-                                    <li>Video recording</li>
-                                    <li>CSV export</li>
-                                    <li>Optional QC overlay</li>
-                                </ul>
+                                    cam = camera.Camera(camera_index=0)
+                                    meye = meye.Meye()
+
+                                    meye.preview(cam)
+                                </code></pre>
+                                   </div>
+                                   <p>
+                                    This example initializes the camera and launches a live preview using
+                                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>.
+                                </p>
+                        </div>
+                            <div class="note note-tip">
+                                <strong>Tip:</strong> The <a href="software.html" class="textlink">software page</a> provides
+                                detailed installation instructions, tutorials, and advanced configuration options.
                             </div>
                         </div>
                     </div>
@@ -315,6 +319,7 @@
     </div>
 </footer>
 
+<script src="get_started.js"></script>
 <script src="index.js"></script>
 <script src="analytics-consent.js"></script>
 </body>

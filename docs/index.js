@@ -112,3 +112,20 @@
         });
     }
 })();
+
+document.querySelectorAll('.copy-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const codeBlock = button.nextElementSibling.querySelector('code');
+    const text = codeBlock.innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+      button.textContent = 'Copied!';
+      button.classList.add('copied');
+
+      setTimeout(() => {
+        button.textContent = 'Copy';
+        button.classList.remove('copied');
+      }, 1500);
+    });
+  });
+});
