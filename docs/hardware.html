@@ -25,6 +25,8 @@
             src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js">
     </script>
 </head>
+
+<script type="module" src="analytics.js"></script>
 <body class="page-hardware">
 <header class="site-header">
     <div class="container header-inner">
@@ -74,7 +76,8 @@
                 <nav class="toc" aria-label="Get started contents">
                     <a href="#overview">Overview</a>
                     <a href="#bom">BOM</a>
-                    <a href="#illumination">Illumination</a>
+                    <a href="#fasteners">Fasteners</a>
+                    <a href="#cameras">Camera(s)</a>
                 </nav>
             </aside>
         </div>
@@ -87,7 +90,7 @@
             <h2>Overview</h2>
         </div>
 
-        <div class=container">
+        <div class="container">
             <div class="text-block">
                 <p>
                     The hardware is centered on a 3D-printed wearable frame that can support one or more
@@ -102,22 +105,35 @@
                     combined eye-facing and world-facing acquisition.
                 </p>
             </div>
-            <div class="step-content two-col">
-            <figure class="media-block">
-                <img src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png" alt="Overview image of the MEYELens hardware" />
-                <figcaption>
-                    Exploded view of the MEYELens 3D-printed frame, showing the main printed parts and assembly hardware.
-                </figcaption>
-            </figure>
 
-            <figure class="media-block">
+            <div class="hardware-pipeline">
+                <div class="pipeline-step">
+                    <div class="pipeline-label">1</div>
+                    <h3>Printing</h3>
+                    <img src="docs/assets/print.png" alt="Overview image of the MEYELens hardware" />
+                </div>
+
+                <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-label">2</div>
+                    <h3>Assembling</h3>
+                    <img src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png" alt="Overview image of the MEYELens hardware" />
+                </div>
+
+                <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                <div class="pipeline-step">
+                    <div class="pipeline-label">3</div>
+                    <h3>Testing</h3>
                     <img src="assets/media/intro_picture.png" alt="Camera mounted on the 3D-printed support">
-                    <figcaption>Example of the camera mounted on the holder.</figcaption>
-                </figure>
+                </div>
+
             </div>
+
         </div>
     </div>
-</section>
+    </section>
 
     <!-- BOM -->
     <section class="section" id="bom">
@@ -133,6 +149,7 @@
                 <table class="data-table">
                     <thead>
                     <tr>
+                        <th>Preview</th>
                         <th>Component</th>
                         <th>Description</th>
                         <th>Quantity</th>
@@ -143,6 +160,9 @@
                     </thead>
                     <tbody>
                     <tr>
+                        <td>
+                            <img class="bom-preview" src="assets/media/svg/spool.svg" alt="PLA filament spool">
+                        </td>
                         <td>Printing filament</td>
                         <td>PLA or TPU</td>
                         <td>1</td>
@@ -150,7 +170,11 @@
                         <td>1.43</td>
                         <td><a class="btn" href="https://eu.store.bambulab.com/it/products/pla-matte?id=43992833261787" target="_blank" rel="noopener">Open</a></td>
                     </tr>
+
                     <tr>
+                        <td>
+                            <img class="bom-preview" src="assets/media/svg/camera.svg" alt="Eye-facing camera module">
+                        </td>
                         <td>Eye-facing camera</td>
                         <td>Primary recording camera</td>
                         <td>1</td>
@@ -158,7 +182,11 @@
                         <td>7.19-14.38</td>
                         <td><a class="btn" href="https://it.aliexpress.com/item/1005004639261673.html?gatewayAdapt=glo2ita" target="_blank" rel="noopener">Open</a></td>
                     </tr>
+
                     <tr>
+                        <td>
+                            <img class="bom-preview" src="assets/media/svg/camera.svg" alt="World-facing camera module">
+                        </td>
                         <td>World-facing camera</td>
                         <td>Scene camera for gaze mapping</td>
                         <td>1</td>
@@ -166,58 +194,166 @@
                         <td>7.19-14.38</td>
                         <td><a class="btn" href="#" target="_blank" rel="noopener">Open</a></td>
                     </tr>
+
                     <tr>
+                        <td>
+                            <img class="bom-preview" src="assets/media/svg/screws.svg" alt="M2 and M3 screws and nuts">
+                        </td>
                         <td>Fasteners</td>
-                        <td>M3 and M2 Screws and nuts</td>
+                        <td>M3 and M2 screws and nuts</td>
                         <td>Multiple</td>
                         <td>Required</td>
                         <td>1.23</td>
-                        <td><a class="btn" href="https://www.amazon.it/-/en/FandWay-900pcs-Socket-Stainless-Washers/dp/B0F3HGKQD2?crid=6U48AATHCA6K&dib=eyJ2IjoiMSJ9.KyUmJBFuTip8K2JlPZHzfC1F9dxReVOIpjHq9LwetvFsR8LgelSm-eyN-bOQvz-vGXUsTUQAhrCbqQa6oc8TXu7wiJ5VA9PqzP7juNpYkE_oBAsgHi6Knm83faEKMaEVL8ERaRL68zfvowYIRA1tnWFcaDC-3Afc85ACm08Rc0_kuJrUJ3IF5HSWiPQGVZV35Q48R97IyEMfC6zFbRfc0INvIBVXT2knOacKqMbnyMkv_WiUEsgrZWUsPc9eMd95w5c8US2CVpEdngNeMrvaXMGn3d802NIwV2Mns3e4SBg.WSi0_kus2sHdPdOqTK5CgxCY5Y5T_PXPk5N48RneiQ0&dib_tag=se&keywords=m3%2Bm2%2Bscres%2Band%2Bnuts&qid=1774200685&s=industrial&sprefix=m3%2Bm2%2Bscres%2Band%2Bnut%2Cindustrial%2C277&sr=1-12&th=1" target="_blank" rel="noopener">Open</a></td>
+                        <td><a class="btn" href="https://www.amazon.it/-/en/900-M2-M3-M4-Stainless/dp/B0DSW64NMS?crid=305IW6D0EELC3&dib=eyJ2IjoiMSJ9.VcBLz4Okd4vTTxVxalgB8E_wAtpN4__xqyEIzywMwwPsVz4-K2CJ1grgBi4kWcUa9X0xHqit26unp5-E76jw5houOiKGlyp6lWqwOcFC3xie0oeWLKMimPysi62LysbZC-FG0lycOR97WhzbVwn0ei1Ll0FgLRPckcOZ5RqbuRheDVRsFjgtpXfo7F3OdwYm3llGilayV33oDg3yMZHYGAUGJ4Tbi_xCOgSqHWY9sUst1b5dr-HyoBQO-mWRbM-62CxqUMYfyjoE-6WoUjnLEh9BuUZ2sZWixsPMqLR2zb0.E482lHS3SQ7uCEDqGq9bg2Ujmi57vqPetoh307ZM1E8&dib_tag=se&keywords=m2%2Bm3%2Bviti%2Bset&qid=1778354520&sprefix=m2%2Bm3%2Bviti%2Bse%2Caps%2C207&sr=8-11&th=1" target="_blank" rel="noopener">Open</a></td>
                     </tr>
+
                     <tr>
+                        <td>
+                            <img class="bom-preview" src="assets/media/svg/illumination.svg" alt="External infrared illumination module">
+                        </td>
                         <td>IR illumination</td>
                         <td>External LED source</td>
                         <td>1</td>
                         <td>Depends on the setup</td>
                         <td>41.2</td>
-                        <td><a class="btn" href="https://www.amazon.it/-/en/Splenssy-Illuminator-Infrared-Waterproof-Security/dp/B09C8K7XB3?dib=eyJ2IjoiMSJ9.yoyCobcADknVlEKZ9NVAlLSRf8VY6RbwBvj8WyOgm7th7r-h4mN2iKP0gy9CV2sX6OcwDTzsrNuIbMilvLwmtbvo5gUGiCMVAj0PRlYJebN6Vc1CRv0LYyG4VeIzAT_mEwOHHh-bvBaQy9NDflNPEFmtwrCImPMhgZ-cZBGcrfTiFl5Ef7P-c0gqgt2kLo_Lcdl9jYoee6zQOVRtXYF-PZjK6efziAgiDVfPXQC38eEnJLMM-ws76PAPHpxwMsdJopOf9g-dD7xgtUQTUGy2HvMEy8KJ1AF6dmihVaQPKFE.pcDroyxp9vqszrn1lvPS5k_89v752Ge-Ki28MfjvgNc&dib_tag=se&keywords=infrared%2Blight%2Bsource%2Busb&qid=1774200838&sr=8-24&th=1" target="_blank" rel="noopener">Open</a></td>
+                        <td><a class="btn" href="YOUR_IR_LINK" target="_blank" rel="noopener">Open</a></td>
                     </tr>
+
                     </tbody>
                 </table>
-</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fasteners -->
+    <section class="section" id="fasteners">
+        <div class="container">
+            <div class="section-head">
+                <h2>Fasteners</h2>
+                <p class="muted">
+                    Standard fasteners are required to assemble the MEYELens frame and secure the camera module.
+                </p>
+            </div>
+
+            <div class="two-up">
+                <div class="content-block">
+                    <p>
+                        Assembly uses mostly standard screws and nuts. Make sure these parts are available before starting the build.
+                    </p>
+
+                    <ul class="list">
+                        <li>
+                            <strong>M3 × 16 mm screws ×3</strong><br>
+                            Frame joints.
+                        </li>
+                        <li>
+                            <strong>M3 × 12 mm screws ×4</strong><br>
+                            Ear supports, camera arm, and ball joint.
+                        </li>
+                        <li>
+                            <strong>M3 nuts ×6</strong><br>
+                            Used for all M3 screws except the ball-bearing anchor, as in our build.
+                        </li>
+                        <li>
+                            <strong>M2 × 10 mm screws + M2 nuts</strong><br>
+                            Camera mounting.
+                        </li>
+                    </ul>
+
+                    <div class="note note-tip">
+                        <strong>Tip:</strong> Use the exploded view as a reference while assembling the frame.
+                    </div>
+
+                    <div class="note note-warning">
+                        <strong>Warning:</strong>
+                        Before press-fitting each nut into the adjustment knob, add a small amount of cyanoacrylate <u>glue</u>.
+                        Glue the corresponding screw to the eyewear frame as well, so that only the knob rotates when adjusting the fit around the subject’s head.
+                    </div>
+
+                </div>
+
+                <figure class="media-figure">
+                    <img
+                        src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png"
+                        alt="Exploded assembly diagram showing the MEYELens fastener positions"
+                    />
+                    <figcaption>Exploded view / assembly diagram.</figcaption>
+                </figure>
+            </div>
         </div>
     </section>
 
     <!-- Cameras -->
-    <section class="section" id="illumination">
-        <div class="container">
-            <div class="section-head">
-                <h2>Cameras and illumination</h2>
-            </div>
+    <section class="section" id="cameras">
+    <div class="container">
+        <div class="section-head">
+            <h2>Camera(s)</h2>
+            <p class="muted">
+                MEYELens can be assembled with one or two camera modules depending on the intended application.
+            </p>
+        </div>
 
-            <div class="text-block">
+        <div class="two-up">
+            <div class="content-block">
                 <p>
-                    The platform is compatible with low-cost camera modules suitable for eye and scene
-                    capture. Depending on the module used, infrared illumination may be integrated or added
-                    externally. This section can later be expanded with camera specifications, field-of-view
-                    options, and example mounting arrangements.
+                    The platform supports:
                 </p>
+
+                <ul class="list">
+                    <li>
+                        <strong>Single camera:</strong> pupillometry, optionally combined with chin-rest gaze tracking.
+                    </li>
+                    <li>
+                        <strong>Dual camera:</strong> eye-facing and world-facing cameras for naturalistic gaze tracking.
+                    </li>
+                </ul>
+
+                <p>
+                    Tested camera modules:
+                </p>
+
+                <ul class="list">
+                    <li>
+                        <a class="textlink" href="https://it.aliexpress.com/item/1005005748547014.html?gatewayAdapt=glo2ita" target="_blank" rel="noopener">GC0307</a> - 640 × 480 px, nominal 30 Hz. The <u>IR-cut filter was removed</u> and the camera was used with an external 96-LED infrared illuminator.
+                    </li>
+                    <li>
+                        <a class="textlink" href="https://it.aliexpress.com/item/1005010597889459.html?gatewayAdapt=glo2ita" target="_blank" rel="noopener">GC0308</a> - 640 × 480 px, nominal 30 Hz, with built-in IR LEDs. We used a 50° lens for the eye-facing camera and an 80° lens for the world-facing camera.
+                    </li>
+                </ul>
+
+                <div class="note note-tip">
+                    <strong>Tip:</strong> Low-cost camera modules may not sustain the advertised <a class="textlink" href="https://en.wikipedia.org/wiki/Frame_rate" target="_blank">FPS</a>. In our tests, we often limited capture to 20 fps for stability.
+                </div>
+                <div class="note note-warning">
+                    <strong>Warning:</strong>
+                    For the <strong>GC0307</strong>, manual removal of the IR-cut filter can permanently damage the camera lens or sensor.
+                    If you decide to perform this modification, proceed carefully and follow a dedicated tutorial.
+                    You can watch an example video here:
+                    <a class="textlink" href="https://www.youtube.com/watch?v=CzUBjV2adHo&t=97s" target="_blank" rel="noopener">IR-cut filter removal tutorial</a>.
+                </div>
             </div>
 
-            <figure class="media-figure">
-                <img src="assets/cameras.jpg" alt="Camera modules used in the MEYELens system" />
-                <figcaption>Example camera modules and accessory components.</figcaption>
+            <figure class="media-figure panel-figure">
+                <img
+                    src="assets/media/cameras.png"
+                    alt="Camera modules used in the MEYELens system"
+                />
+                <figcaption>Example camera modules used for pupillometry and gaze tracking.</figcaption>
             </figure>
         </div>
-    </section>
+    </div>
+</section>
 
 </main>
 
 <footer class="site-footer">
     <div class="container footer-inner">
         <div>
-            <div class="footer-brand">MEYELens</div>
-            <div class="footer-note">Hardware</div>
+            <div class="footer-brand"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></div>
+            <span class="brand-tag">
+                Released under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a> (code)
+                and <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a> (hardware).
+            </span>
         </div>
 
         <div class="footer-links">

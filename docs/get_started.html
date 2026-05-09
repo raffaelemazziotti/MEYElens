@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="get_started.css" />
 </head>
+
+<script type="module" src="analytics.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 
@@ -172,8 +174,8 @@
                         <div class="step-content">
                             <div class="note note-warning">
                                 <strong>Warning:</strong>
-                                In addition to the 3D-printed parts, you will need <strong>7 M3 fasteners</strong>.
-                                Refer to the <a href="hardware.html#bom" class="textlink">Bill of Materials</a> for details.
+                                In addition to the 3D-printed parts, you will need <strong>7 <u>M3</u> fasteners</strong>.
+                                Refer to the <a href="hardware.html#fasteners" class="textlink">Fasteners section</a> for details.
                             </div>
 
                             <div class="media-block video-block">
@@ -218,7 +220,7 @@
                             </figure>
                         </div>
                         <div class="note note-tip">
-                                <strong>Tip:</strong> You can find other details on the possible hardware configurations on the <a class="textlink" href="hardware.html">hardware page</a>.
+                                <strong>Tip:</strong> You can find other details on the possible hardware configurations on the <a class="textlink" href="hardware.html#cameras">hardware page</a>.
                         </div>
                     </div>
                 </section>
@@ -304,7 +306,10 @@
     <div class="container footer-inner">
         <div>
             <div class="footer-brand"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></div>
-            <div class="footer-note">Get Started</div>
+            <span class="brand-tag">
+                Released under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a> (code)
+                and <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a> (hardware).
+            </span>
         </div>
 
         <div class="footer-links">
