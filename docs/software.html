@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="software.css" />
 </head>
 <script type="module" src="analytics.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+
 <body class="page-software">
 <header class="site-header">
     <div class="container header-inner">
@@ -165,10 +169,12 @@
                 </p>
             </div>
 
-            <div class="content-block">
-                <div class="code-block">
-<pre><code>pip install meyelens</code></pre>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Command</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
                 </div>
+                <pre><code class="language-bash">pip install meyelens[tf]</code></pre>
             </div>
 
             <div class="note note-tip">

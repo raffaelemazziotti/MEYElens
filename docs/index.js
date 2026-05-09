@@ -115,8 +115,12 @@
 
 document.querySelectorAll('.copy-btn').forEach(button => {
   button.addEventListener('click', () => {
-    const codeBlock = button.nextElementSibling.querySelector('code');
-    const text = codeBlock.innerText;
+    const codeBlock = button.closest('.code-block');
+    const code = codeBlock ? codeBlock.querySelector('pre code') : null;
+
+    if (!code) return;
+
+    const text = code.innerText;
 
     navigator.clipboard.writeText(text).then(() => {
       button.textContent = 'Copied!';
@@ -128,4 +132,67 @@ document.querySelectorAll('.copy-btn').forEach(button => {
       }, 1500);
     });
   });
+});
+
+function normalizeCodeBlocks() {
+  document.querySelectorAll('pre code').forEach(block => {
+    const lines = block.textContent.split('\n');
+
+    while (lines.length && lines[0].trim() === '') {
+      lines.shift();
+    }
+
+    while (lines.length && lines[lines.length - 1].trim() === '') {
+      lines.pop();
+    }
+
+    const indents = lines
+      .filter(line => line.trim())
+      .map(line => line.match(/^(\s*)/)[0].length);
+
+    if (indents.length === 0) {
+      return;
+    }
+
+    const minIndent = Math.min(...indents);
+
+    block.textContent = lines
+      .map(line => line.slice(minIndent))
+      .join('\n');
+  });
+}
+
+function setupCopyButtons() {
+  document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const codeBlock = button.closest('.code-block');
+      const code = codeBlock ? codeBlock.querySelector('pre code') : null;
+
+      if (!code) {
+        return;
+      }
+
+      navigator.clipboard.writeText(code.innerText).then(() => {
+        const originalText = button.textContent;
+
+        button.textContent = 'Copied!';
+        button.classList.add('copied');
+
+        setTimeout(() => {
+          button.textContent = originalText || 'Copy';
+          button.classList.remove('copied');
+        }, 1500);
+      });
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  normalizeCodeBlocks();
+
+  if (window.Prism) {
+    Prism.highlightAll();
+  }
+
+  setupCopyButtons();
 });

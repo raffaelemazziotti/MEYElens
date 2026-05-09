@@ -206,4 +206,29 @@
   .page-hardware .pipeline-step img {
     aspect-ratio: 16 / 9;
   }
+
+  .page-hardware .hardware-pipeline {
+    overflow: hidden;
+  }
+
+  .page-hardware .pipeline-step {
+    overflow: hidden;
+  }
+
+  .page-hardware .pipeline-step:hover {
+    z-index: 1;
+  }
+
+  .page-hardware .pipeline-step:hover img,
+  .page-hardware .pipeline-step:focus-visible img {
+    object-fit: cover;
+    transform: none;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+
+  .page-hardware .pipeline-step img {
+    cursor: default;
+    transition: none;
+  }
 }
