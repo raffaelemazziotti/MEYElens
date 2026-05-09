@@ -24,9 +24,9 @@ async function recordPageView() {
     return
   }
 
-  const { error } = await supabase
-    .from('page_views')
-    .insert([{ path }])
+  const { error } = await supabase.rpc('increment_page_view', {
+    page_path: path
+  })
 
   if (error) {
     console.warn('Page view not recorded:', error.message)
