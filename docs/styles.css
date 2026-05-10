@@ -458,6 +458,10 @@ figcaption {
     font-size: 15px;
 }
 
+.content-block > h3:not(:first-child) {
+  margin-top: 24px;
+}
+
 .note,
 .note-box {
     color: var(--text-soft);
@@ -482,6 +486,16 @@ figcaption {
     border-left: 3px solid var(--accent);
     padding: 14px 16px;
     margin-top: 18px;
+}
+
+.section .code-block,
+.section .note {
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+.section .text-block h3:not(:first-child) {
+  margin-top: 26px;
 }
 
 

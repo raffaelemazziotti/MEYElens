@@ -136,7 +136,9 @@ document.querySelectorAll('.copy-btn').forEach(button => {
 
 function normalizeCodeBlocks() {
   document.querySelectorAll('pre code').forEach(block => {
-    const lines = block.textContent.split('\n');
+    const lines = block.textContent
+      .replace(/\t/g, '    ')
+      .split('\n');
 
     while (lines.length && lines[0].trim() === '') {
       lines.shift();
@@ -148,9 +150,13 @@ function normalizeCodeBlocks() {
 
     const indents = lines
       .filter(line => line.trim())
-      .map(line => line.match(/^(\s*)/)[0].length);
+      .map(line => {
+        const match = line.match(/^ */);
+        return match ? match[0].length : 0;
+      });
 
     if (indents.length === 0) {
+      block.textContent = '';
       return;
     }
 

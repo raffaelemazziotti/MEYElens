@@ -62,9 +62,9 @@
         <div class="container software-hero-grid">
             <div>
                 <div class="eyebrow">Software</div>
-                <h1>Acquisition, processing, and analysis tools.</h1>
+                <h1>Software setup, tutorials, and configuration.</h1>
                 <p class="lead">
-                    The MEYELens software stack is designed to support acquisition, pupil analysis,
+                    The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> software stack is designed to support acquisition, pupil detection,
                     gaze-related workflows, and export of reproducible outputs. This page provides
                     a structured overview of the software environment and its main components.
                 </p>
@@ -92,96 +92,113 @@
         </div>
     </section>
 
-    <section class="section" id="overview">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Overview</h2>
-            </div>
-
-            <div class="text-block">
-                <p>
-                    The software component of MEYELens is intended to remain open, transparent,
-                    and adaptable. It supports acquisition and offline analysis workflows while
-                    allowing integration with external experiment code and custom preprocessing steps.
-                </p>
-                <p>
-                    This page should remain concise and descriptive. Detailed technical instructions
-                    can live in the documentation, while this page acts as a structured overview of
-                    the software environment.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="pipeline">
-        <div class="container">
-            <div class="section-head">
-                <h2>Processing pipeline</h2>
-                <p class="muted">
-                    Example high-level organization of the software workflow.
-                </p>
-            </div>
-
-            <div class="software-pipeline">
-                <div class="pipeline-step">
-                    <div class="pipeline-label">1</div>
-                    <h3>Acquisition</h3>
-                    <p>Capture eye-facing or dual-camera video streams.</p>
-                </div>
-
-                <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                <div class="pipeline-step">
-                    <div class="pipeline-label">2</div>
-                    <h3>Segmentation</h3>
-                    <p>Detect pupil area, centroid, and blink-related events.</p>
-                </div>
-
-                <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                <div class="pipeline-step">
-                    <div class="pipeline-label">3</div>
-                    <h3>Analysis</h3>
-                    <p>Compute derived signals and gaze-related variables.</p>
-                </div>
-
-                <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                <div class="pipeline-step">
-                    <div class="pipeline-label">4</div>
-                    <h3>Export</h3>
-                    <p>Save outputs as tables, videos, and derived artifacts.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="section" id="installation">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Installation</h2>
-            </div>
-
-            <div class="text-block">
-                <p>
-                    Installation instructions should stay minimal here and point to a more complete
-                    guide in the documentation when needed.
-                </p>
-            </div>
-
-            <div class="code-block">
-                <div class="code-header">
-                    <span class="code-label">Command</span>
-                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
-                </div>
-                <pre><code class="language-bash">pip install meyelens[tf]</code></pre>
-            </div>
-
-            <div class="note note-tip">
-                <strong>Tip:</strong> Keep this section focused on the quickest working install path.
-            </div>
+    <div class="container">
+        <div class="section-head">
+            <h2>Installation</h2>
+            <p class="muted">
+                We recommend installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> in a dedicated Python environment to avoid dependency conflicts.
+            </p>
         </div>
-    </section>
+
+        <div class="text-block">
+            <h3>Recommended install</h3>
+            <p>
+                Create and activate a dedicated Conda environment, then install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> with the standard TensorFlow dependency set.
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">conda create -n meyelens python=3.10 -y
+conda activate meyelens
+pip install meyelens[tf]</code></pre>
+        </div>
+
+        <div class="note note-tip">
+            <strong>Tip:</strong>
+            This installs <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> together with a standard TensorFlow dependency set.
+            Depending on your system, TensorFlow may run on <u>CPU</u> unless <u>GPU</u> support is configured separately.
+        </div>
+
+        <div class="text-block">
+            <h3>TensorFlow GPU support <span class="brand-soft">(optional)</span></h3>
+            <p>
+                If you want GPU acceleration, configure TensorFlow first by following the official TensorFlow installation guide for your platform.
+                After verifying that TensorFlow can access the GPU, install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> without the TensorFlow extra.
+            </p>
+        </div>
+
+        <div class="note note-warning">
+            <strong>Warning:</strong>
+            GPU enablement depends on your operating system, CUDA/cuDNN compatibility, and TensorFlow version.
+            Follow the
+            <a class="textlink" href="https://www.tensorflow.org/install/pip" target="_blank" rel="noopener">
+                official TensorFlow installation guide
+            </a>
+            exactly for your platform before installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>.
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install meyelens</code></pre>
+        </div>
+
+        <div class="note note-tip">
+            <strong>Tip:</strong>
+            This keeps your manually configured TensorFlow installation intact and avoids replacing it with the default dependency set from <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span><code>[tf]</code>.
+        </div>
+
+        <div class="text-block">
+            <h3>Headless package</h3>
+            <p>
+                If you want only the core Python package without the PyQt offline GUI, install the separate headless distribution.
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install meyelens-headless</code></pre>
+        </div>
+
+        <div class="text-block">
+            <p>
+                To install the headless package with TensorFlow dependencies:
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install "meyelens-headless[tf]"</code></pre>
+        </div>
+
+        <div class="note note-warning">
+            <strong>Warning:</strong>
+            Do not install <code>meyelens</code> and <code>meyelens-headless</code> into the same environment.
+            Use separate environments if you need to test both distributions.
+        </div>
+
+        <div class="note note-tip">
+            <strong>Documentation:</strong>
+            API documentation is available
+            <a class="textlink" href="docs/" target="_blank" rel="noopener">
+                here
+            </a>.
+        </div>
+    </div>
+</section>
 
     <section class="section" id="interfaces">
         <div class="container">
