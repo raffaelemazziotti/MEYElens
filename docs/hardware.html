@@ -76,8 +76,10 @@
                 <nav class="toc" aria-label="Get started contents">
                     <a href="#overview">Overview</a>
                     <a href="#bom">BOM</a>
-                    <a href="#fasteners">Fasteners</a>
+                    <a href="#filament">Filament</a>
                     <a href="#cameras">Camera(s)</a>
+                    <a href="#fasteners">Fasteners</a>
+                    <a href="#illumination">Illumination</a>
                 </nav>
             </aside>
         </div>
@@ -216,7 +218,7 @@
                         <td>1</td>
                         <td>Depends on the setup</td>
                         <td>41.2</td>
-                        <td><a class="btn" href="YOUR_IR_LINK" target="_blank" rel="noopener">Open</a></td>
+                        <td><a class="btn" href="https://www.amazon.it/-/en/Infrared-Illuminator-Vision-Outdoor-Waterproof/dp/B0CF9WWLRB?crid=395TQWVFY8LLR&dib=eyJ2IjoiMSJ9.u8z-M-CeMeWqssOSgb7iC9wv_Iva3eK0DIYniLiDKJqRzyUf7M9zhYZ_DHGiewmzCXm91sy00SAkQyslnxXcFnqwXia4-ochY-7ew3lhVPIMfHJlxoV02L1e1waj8278lGO7VnB3oNo2EO-LuRdiI4kJMGOPzA24OPVqoT1vbWqQ4wcY46hwJbbQ5cYxMlwZUspLQsvaxSSo9_hQsXjlAwEXtFBOBVZQC1glOs2QWoWXkXvPivQoXyrkbH5HXZq-GgHlgjuXNSE_yxTHKhPtPbqR5hPLVs87gVqsc7fzoqY.rX3zkQwcnRh4KLc9uCBofNc3gxClYc6siBE8hG9jcck&dib_tag=se&keywords=ir+light+source&qid=1778432144&sprefix=ir+light+source%2Caps%2C174&sr=8-56" target="_blank" rel="noopener">Open</a></td>
                     </tr>
 
                     </tbody>
@@ -225,59 +227,59 @@
         </div>
     </section>
 
-    <!-- Fasteners -->
-    <section class="section" id="fasteners">
+    <!-- Filament -->
+    <section class="section" id="filament">
         <div class="container">
             <div class="section-head">
-                <h2>Fasteners</h2>
+                <h2>Filament</h2>
                 <p class="muted">
-                    Standard fasteners are required to assemble the MEYELens frame and secure the camera module.
+                    The eyewear frame can be printed with standard 3D-printing filaments, with PLA and TPU being the main tested materials.
                 </p>
             </div>
 
             <div class="two-up">
                 <div class="content-block">
                     <p>
-                        Assembly uses mostly standard screws and nuts. Make sure these parts are available before starting the build.
+                        We mostly used Bambu Lab <a class="textlink" href="https://en.wikipedia.org/wiki/Polylactic_acid" target="_blank">PLA</a> filaments and <a class="textlink" href="https://en.wikipedia.org/wiki/Thermoplastic_polyurethane" target="_blank">TPU</a> to print the MEYELens eyewear components.
+                        In our builds, we used <strong>Bambu Lab Matte Black PLA</strong>.
+                    </p>
+
+                    <p>
+                        TPU is generally preferable when mechanical resilience is important, because the resulting parts are more elastic
+                        and more resistant to forces. With PLA, the eyewear is more rigid and the probability of breaking printed parts
+                        is higher, particularly around the left arm.
                     </p>
 
                     <ul class="list">
                         <li>
-                            <strong>M3 × 16 mm screws ×3</strong><br>
-                            Frame joints.
+                            <strong>PLA:</strong> easier to print and rigid, but more brittle under stress.
                         </li>
                         <li>
-                            <strong>M3 × 12 mm screws ×4</strong><br>
-                            Ear supports, camera arm, and ball joint.
-                        </li>
-                        <li>
-                            <strong>M3 nuts ×6</strong><br>
-                            Used for all M3 screws except the ball-bearing anchor, as in our build.
-                        </li>
-                        <li>
-                            <strong>M2 × 10 mm screws + M2 nuts</strong><br>
-                            Camera mounting.
+                            <strong>TPU:</strong> more flexible and force-resistant, but may require more careful print settings.
                         </li>
                     </ul>
 
                     <div class="note note-tip">
-                        <strong>Tip:</strong> Use the exploded view as a reference while assembling the frame.
+                        <strong>Tip:</strong>
+                        If you have a Bambu Lab printer, you can also find the MEYELens files on
+                        <a class="textlink" href="https://makerworld.com/en/models/2267867-meyelens-3d-printed-pupillometry-gaze-tracking?from=search#profileId-2471837" target="_blank" rel="noopener">MakerWorld</a>.
+                        The files are also uploaded to
+                        <a class="textlink" href="https://3d.nih.gov/entries/3DPX-023297" target="_blank" rel="noopener">NIH 3D</a>.
                     </div>
 
-                    <div class="note note-warning">
-                        <strong>Warning:</strong>
-                        Before press-fitting each nut into the adjustment knob, add a small amount of cyanoacrylate <u>glue</u>.
-                        Glue the corresponding screw to the eyewear frame as well, so that only the knob rotates when adjusting the fit around the subject’s head.
+                    <div class="note note-tip">
+                        <strong>Print settings:</strong>
+                        More details on recommended print settings are available in the
+                        <a class="textlink" href="models.html#print-settings">3D Models page</a>.
                     </div>
-
                 </div>
 
-                <figure class="media-figure">
+                <figure class="media-figure panel-figure">
                     <img
-                        src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png"
-                        alt="Exploded assembly diagram showing the MEYELens fastener positions"
+                        src="assets/media/bambulab.png"
+                        alt="PLA and TPU filament used to print the MEYELens eyewear"
                     />
-                    <figcaption>Exploded view / assembly diagram.</figcaption>
+                    <figcaption>Bambulab GUI with the open project.</figcaption>
                 </figure>
             </div>
         </div>
@@ -343,6 +345,122 @@
         </div>
     </div>
 </section>
+
+    <!-- Fasteners -->
+    <section class="section" id="fasteners">
+        <div class="container">
+            <div class="section-head">
+                <h2>Fasteners</h2>
+                <p class="muted">
+                    Standard fasteners are required to assemble the MEYELens frame and secure the camera module.
+                </p>
+            </div>
+
+            <div class="two-up">
+                <div class="content-block">
+                    <p>
+                        Assembly uses mostly standard screws and nuts. Make sure these parts are available before starting the build.
+                    </p>
+
+                    <ul class="list">
+                        <li>
+                            <strong>M3 × 16 mm screws ×3</strong><br>
+                            Frame joints.
+                        </li>
+                        <li>
+                            <strong>M3 × 12 mm screws ×4</strong><br>
+                            Ear supports, camera arm, and ball joint.
+                        </li>
+                        <li>
+                            <strong>M3 nuts ×6</strong><br>
+                            Used for all M3 screws except the ball-bearing anchor, as in our build.
+                        </li>
+                        <li>
+                            <strong>M2 × 10 mm screws + M2 nuts</strong><br>
+                            Camera mounting.
+                        </li>
+                    </ul>
+
+                    <div class="note note-tip">
+                        <strong>Tip:</strong> Use the exploded view as a reference while assembling the frame.
+                    </div>
+
+                    <div class="note note-warning">
+                        <strong>Warning:</strong>
+                        Before press-fitting each nut into the adjustment knob, add a small amount of cyanoacrylate <u>glue</u>.
+                        Glue the corresponding screw to the eyewear frame as well, so that only the knob rotates when adjusting the fit around the subject’s head.
+                    </div>
+
+                </div>
+
+                <figure class="media-figure">
+                    <img
+                        src="https://raw.githubusercontent.com/raffaelemazziotti/MEYElens/main/assets/exploded_view.png"
+                        alt="Exploded assembly diagram showing the MEYELens fastener positions"
+                    />
+                    <figcaption>Exploded view / assembly diagram.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Illumination -->
+    <section class="section" id="illumination">
+        <div class="container">
+            <div class="section-head">
+                <h2>Illumination</h2>
+                <p class="muted">
+                    Infrared illumination can be configured in different ways depending on the experimental setup and portability requirements.
+                </p>
+            </div>
+
+            <div class="two-up">
+                <div class="content-block">
+                    <p>
+                        The illumination configuration can vary depending on the camera module, the required image quality,
+                        and whether the setup is intended mainly for laboratory use or portable recordings.
+                    </p>
+
+                    <ul class="list">
+                        <li>
+                            <strong>External IR light source:</strong>
+                            the simplest option is to use an external infrared
+                            <a class="textlink" href="https://www.amazon.it/-/en/Infrared-Illuminator-Vision-Outdoor-Waterproof/dp/B0CF9WWLRB?crid=395TQWVFY8LLR&dib=eyJ2IjoiMSJ9.u8z-M-CeMeWqssOSgb7iC9wv_Iva3eK0DIYniLiDKJqRzyUf7M9zhYZ_DHGiewmzCXm91sy00SAkQyslnxXcFnqwXia4-ochY-7ew3lhVPIMfHJlxoV02L1e1waj8278lGO7VnB3oNo2EO-LuRdiI4kJMGOPzA24OPVqoT1vbWqQ4wcY46hwJbbQ5cYxMlwZUspLQsvaxSSo9_hQsXjlAwEXtFBOBVZQC1glOs2QWoWXkXvPivQoXyrkbH5HXZq-GgHlgjuXNSE_yxTHKhPtPbqR5hPLVs87gVqsc7fzoqY.rX3zkQwcnRh4KLc9uCBofNc3gxClYc6siBE8hG9jcck&dib_tag=se&keywords=ir+light+source&qid=1778432144&sprefix=ir+light+source%2Caps%2C174&sr=8-56" target="_blank" rel="noopener">light source</a>.
+                            This is easy to set up and can provide strong illumination, but it is less portable.
+                        </li>
+                        <li>
+                            <strong>SMD LED configuration:</strong>
+                            a more difficult but portable option is to use small
+                            <a class="textlink" href="YOUR_SMD_LED_LINK" target="_blank" rel="noopener">SMD LEDs</a>
+                            soldered onto wires and positioned close to the camera lens.
+                            In our configuration, five LEDs were placed around the lens to illuminate the eye.
+                        </li>
+                    </ul>
+
+                    <div class="note note-tip">
+                        <strong>Tip:</strong>
+                        For the external illuminator, we provide a dedicated 3D-printable <a class="textlink" href="models.html#parts" target="_blank" rel="noopener">IR external support</a> that helps position the light source during recordings.
+                    </div>
+
+                    <div class="note note-warning">
+                        <strong>Warning:</strong>
+                        When building custom infrared illumination, verify the electrical connections and avoid excessive light intensity close to the eye.
+                    </div>
+                </div>
+
+                <figure class="media-figure panel-figure">
+                    <img
+                        class="illumination-img-small"
+                        src="assets/media/illumination_config.png"
+                        alt="Infrared illumination configurations for MEYELens"
+                    />
+                    <figcaption>
+                        Top: external infrared illuminator with the 3D-printable stand. Bottom: portable LED configuration with the objective and five LEDs.
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
 
 </main>
 
