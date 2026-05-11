@@ -85,6 +85,186 @@
   text-align: center;
 }
 
+.page-software .tutorial-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.page-software .tutorial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    var(--bg-soft);
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.page-software .tutorial-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at top left, rgba(226, 183, 20, 0.18), transparent 42%),
+    linear-gradient(135deg, rgba(226, 183, 20, 0.08), transparent 40%);
+  transition: opacity 0.18s ease;
+}
+
+.page-software .tutorial-card:hover,
+.page-software .tutorial-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(226, 183, 20, 0.65);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26);
+  outline: none;
+}
+
+.page-software .tutorial-card:hover::before,
+.page-software .tutorial-card:focus-visible::before {
+  opacity: 1;
+}
+
+.page-software .tutorial-thumb {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.page-software .tutorial-thumb::after {
+  content: "Open tutorial →";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  padding: 5px 8px;
+  border: 1px solid rgba(226, 183, 20, 0.45);
+  border-radius: 999px;
+  background: rgba(31, 35, 40, 0.78);
+  color: var(--accent);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.page-software .tutorial-card:hover .tutorial-thumb::after,
+.page-software .tutorial-card:focus-visible .tutorial-thumb::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-software .tutorial-thumb img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.01);
+  filter: saturate(0.92) contrast(0.96);
+  transition:
+    transform 0.22s ease,
+    filter 0.22s ease;
+}
+
+.page-software .tutorial-card:hover .tutorial-thumb img,
+.page-software .tutorial-card:focus-visible .tutorial-thumb img {
+  transform: scale(1.06);
+  filter: saturate(1.08) contrast(1.04);
+}
+
+.page-software .tutorial-body {
+  position: relative;
+  z-index: 1;
+  padding: 13px;
+}
+
+.page-software .tutorial-type {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.page-software .tutorial-type::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(226, 183, 20, 0.65);
+}
+
+.page-software .tutorial-body h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.page-software .tutorial-body p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 1100px) {
+  .page-software .tutorial-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .page-software .tutorial-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-software .tutorial-card:hover,
+  .page-software .tutorial-card:focus-visible {
+    transform: none;
+  }
+
+  .page-software .tutorial-thumb::after {
+    display: none;
+  }
+
+  .page-software .tutorial-body p {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-software .tutorial-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .page-software .tutorial-body p {
+    display: block;
+  }
+}
+
 @media (max-width: 960px) {
   .page-software .software-hero-grid,
   .page-software .software-grid,

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Record video with triggers - MEYELens tutorial</title>
+    <meta name="description" content="Tutorial for recording a camera stream to video with synchronized trigger CSV using MEYELens." />
+
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="software.css" />
+
+    <script>
+        window.Prism = window.Prism || {};
+        window.Prism.manual = true;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+
+<script type="module" src="analytics.js"></script>
+
+<body class="page-software">
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <img src="assets/favicon.png" alt="MEYELens logo" class="brand-logo">
+
+            <span class="brand-text">
+                <span class="brand-name">
+                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                </span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="get_started.html">Get Started</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html"><span class="brand-accent">Software</span></a>
+                <a href="models.html">3D Models</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <div class="container reading-width">
+            <div class="eyebrow">Tutorial</div>
+            <h1>Record video with triggers.</h1>
+            <p class="lead">
+                Save the camera stream to a video file while recording frame-level timestamps and keyboard trigger pulses to a synchronized CSV file.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container reading-width">
+
+            <div class="text-block">
+                <h2>Goal</h2>
+                <p>
+                    This tutorial shows how to record a camera stream using the <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> camera interface.
+                    Unlike the online prediction tutorial, this script does not run pupil segmentation during acquisition.
+                    It records the raw video stream and stores trigger information in a separate CSV file.
+                </p>
+                <p>
+                    This is useful when you want a lightweight acquisition script and plan to run pupil detection offline later.
+                </p>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Keyboard controls:</strong>
+                press <code>s</code> to start recording, <code>e</code> to stop recording, <code>1-9</code> to send a trigger pulse, and <code>q</code> to quit.
+            </div>
+
+            <div class="text-block">
+                <h2>Requirements</h2>
+                <p>
+                    Install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> before running this tutorial.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Command</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">pip install meyelens</code></pre>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Because this script only records video and trigger information, it does not require TensorFlow during acquisition.
+                TensorFlow is only needed later if you want to run pupil segmentation with the MEYE model.
+            </div>
+
+            <div class="text-block">
+                <h2>Video and trigger recording script</h2>
+                <p>
+                    Save the script below as <code>video_trigger_recording.py</code>.
+                    Each session creates a timestamped folder containing a video file and a trigger CSV file.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Python</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-python">#!/usr/bin/env python3
+"""
+Record a camera stream to video + trigger CSV with keyboard control.
+
+This script opens the selected camera, shows a live preview, records the raw
+camera stream to a video file, and writes frame-level trigger information to
+a CSV file while recording is active.
+
+Keys:
+  s   start recording in a new timestamped folder
+  e   stop recording and finalize the files
+  1-9 send a one-frame trigger pulse to the selected trigger channel
+  q   quit the script
+"""
+
+import time
+from pathlib import Path
+
+import cv2
+
+from meyelens.camera import Camera
+from meyelens.fileio import FileWriter
+from meyelens.offline import FrameRateManager
+from meyelens.utils import CountdownTimer
+
+
+# Folder where all recording sessions will be saved.
+# Each recording creates a timestamped subfolder inside this directory.
+OUTPUT_DIR = Path("recordings")
+
+# Target recording frame rate.
+# The FrameRateManager limits the loop so that frames are sampled at this rate.
+TARGET_FPS = 30.0
+
+# Optional maximum recording duration.
+# Keep this as None for manual stop with the "e" key.
+# Set to a number, for example 60, to stop automatically after 60 seconds.
+MAX_DURATION_SEC = None
+
+# Set to True if the camera image appears upside down.
+FLIP_VERTICAL = False
+
+
+def _draw_hud(frame, is_recording: bool) -> None:
+    """
+    Draw simple on-screen instructions over the live camera preview.
+
+    Parameters
+    ----------
+    frame:
+        The image shown in the OpenCV preview window.
+    is_recording:
+        Whether the video and trigger CSV are currently being saved.
+    """
+    lines = [
+        f"Recording: {'ON' if is_recording else 'OFF'}",
+        "s: start  e: stop  q: quit",
+        "1-9: trigger pulse",
+    ]
+
+    y = 25
+    for line in lines:
+        # Draw a thick black version first to improve contrast.
+        cv2.putText(
+            frame,
+            line,
+            (10, y),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 0),
+            3,
+        )
+
+        # Draw thin white text on top.
+        cv2.putText(
+            frame,
+            line,
+            (10, y),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (255, 255, 255),
+            1,
+        )
+
+        y += 22
+
+
+def _start_session(frame_shape, output_dir: Path):
+    """
+    Create a new recording session folder and open the output files.
+
+    The function creates:
+      1. expinfo.csv    frame-level timestamps and trigger channels
+      2. pupillometry.avi    raw camera video
+
+    Parameters
+    ----------
+    frame_shape:
+        Shape of the first camera frame, used to initialize the video writer.
+    output_dir:
+        Base folder where timestamped session folders are created.
+    """
+    session_stamp = time.strftime("%Y%m%d_%H%M%S")
+    session_dir = output_dir / session_stamp
+    session_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create the trigger CSV writer.
+    # FileWriter initially writes to an internal path; at stop, we rename it
+    # to expinfo.csv for consistency with other MEYELens workflows.
+    trigger_writer = FileWriter(session_dir, filename="expinfo", sep=",")
+
+    # Store metadata as a commented first line.
+    trigger_writer.write(f"# fps: {TARGET_FPS}")
+
+    # CSV columns:
+    # frame_index: sequential frame number within the recording
+    # timestamp: seconds from recording start
+    # signal: compact trigger code, 0 when no trigger is active
+    # trial: placeholder column, useful for later experimental annotations
+    # trg1-trg9: one-frame trigger channels controlled by keys 1-9
+    trigger_writer.write_sv(
+        [
+            "frame_index",
+            "timestamp",
+            "signal",
+            "trial",
+            "trg1",
+            "trg2",
+            "trg3",
+            "trg4",
+            "trg5",
+            "trg6",
+            "trg7",
+            "trg8",
+            "trg9",
+        ]
+    )
+
+    # Create the video writer.
+    video_path = session_dir / "pupillometry.avi"
+
+    height, width = frame_shape[:2]
+    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+    video_writer = cv2.VideoWriter(
+        str(video_path),
+        fourcc,
+        TARGET_FPS,
+        (width, height),
+        isColor=True,
+    )
+
+    return session_dir, trigger_writer, video_writer, video_path
+
+
+def _stop_session(session_dir: Path, trigger_writer, video_writer) -> None:
+    """
+    Close the output files and rename the trigger CSV to expinfo.csv.
+
+    This should always be called before exiting if recording is active.
+    """
+    video_writer.release()
+    trigger_writer.close()
+
+    csv_path = session_dir / "expinfo.csv"
+
+    if trigger_writer.path.exists():
+        if csv_path.exists():
+            csv_path.unlink()
+
+        trigger_writer.path.rename(csv_path)
+
+
+def main() -> None:
+    """
+    Main recording loop.
+
+    The loop has two states:
+      1. Preview mode: frames are shown but not saved.
+      2. Recording mode: frames are written to video and triggers to CSV.
+    """
+    # Open the first available camera.
+    # Change camera_index to 1, 2, ... if the wrong camera opens.
+    cam = Camera(camera_index=0)
+
+    # Create a frame-rate controller for stable sampling.
+    # duration is set to a very large number because we control stopping manually.
+    frame_manager = FrameRateManager(fps=TARGET_FPS, duration=1e9)
+    frame_manager.start()
+
+    # Recording state and output handles.
+    is_recording = False
+    frame_index = 0
+    session_dir = None
+    trigger_writer = None
+    video_writer = None
+
+    # Time reference for frame timestamps.
+    record_start = 0.0
+
+    # Optional auto-stop timer.
+    record_timer = None
+
+    # Trigger channels.
+    # Pressing keys 1-9 sets the corresponding channel to 1 for exactly one
+    # recorded frame. The vector is reset to zero after it is written.
+    trigger_pulse = [0] * 9
+
+    print("### RECORDER ### Press 's' to start, 'e' to stop, 'q' to quit.")
+
+    while True:
+        # Wait until the next frame should be sampled.
+        if not frame_manager.is_ready():
+            cv2.waitKey(1)
+            continue
+
+        # Acquire a frame from the camera.
+        frame = cam.get_frame(flip_vertical=FLIP_VERTICAL)
+
+        if frame is None:
+            frame_manager.set_frame_time()
+            continue
+
+        if is_recording:
+            # Timestamp relative to the beginning of the recording.
+            timestamp = time.time() - record_start
+
+            # Compact trigger code.
+            # If no trigger is active, signal remains 0.
+            # If trigger channel N is active, signal becomes N.
+            signal = 0
+            for idx, val in enumerate(trigger_pulse):
+                if val:
+                    signal = idx + 1
+                    break
+
+            # Write one trigger row for this frame.
+            trigger_writer.write_sv(
+                [frame_index, f"{timestamp:.6f}", signal, 0] + trigger_pulse
+            )
+
+            # Write the raw camera frame to the video file.
+            video_writer.write(frame)
+
+            # Advance the frame counter.
+            frame_index += 1
+
+            # Reset triggers immediately after saving.
+            # This makes each trigger a one-frame pulse.
+            trigger_pulse = [0] * 9
+
+            # Auto-stop when the optional timer reaches the requested duration.
+            if record_timer is not None and record_timer.is_finished():
+                _stop_session(session_dir, trigger_writer, video_writer)
+                is_recording = False
+                record_timer = None
+
+        # Draw the heads-up display after writing the raw frame.
+        # This keeps the saved video clean, without the text overlay.
+        _draw_hud(frame, is_recording)
+
+        # Show the live preview.
+        cam.show(frame, name="Recorder")
+
+        # Read keyboard input from the OpenCV preview window.
+        key = cv2.waitKey(1) & 0xFF
+
+        if key == ord("q"):
+            # Quit the loop.
+            break
+
+        if key == ord("s") and not is_recording:
+            # Start a new session using the current frame size.
+            session_dir, trigger_writer, video_writer, _ = _start_session(
+                frame.shape,
+                OUTPUT_DIR,
+            )
+
+            record_start = time.time()
+            frame_index = 0
+            is_recording = True
+
+            # Start the optional auto-stop timer.
+            if MAX_DURATION_SEC:
+                record_timer = CountdownTimer(MAX_DURATION_SEC)
+                record_timer.start()
+
+        elif key == ord("e") and is_recording:
+            # Stop recording manually and finalize files.
+            _stop_session(session_dir, trigger_writer, video_writer)
+            is_recording = False
+            record_timer = None
+
+        elif is_recording and ord("1") <= key <= ord("9"):
+            # Convert the pressed key into a trigger-channel index.
+            # "1" -> index 0, "2" -> index 1, ..., "9" -> index 8.
+            trigger_index = key - ord("1")
+            trigger_pulse[trigger_index] = 1
+
+        # Update the frame-rate manager timestamp at the end of the loop.
+        frame_manager.set_frame_time()
+
+    # If the user quits while recording is active, close the files safely.
+    if is_recording:
+        _stop_session(session_dir, trigger_writer, video_writer)
+
+    # Release camera resources and close OpenCV windows.
+    cam.close()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+            </div>
+
+            <div class="text-block">
+                <h2>Run the script</h2>
+                <p>
+                    From the folder where you saved the script, run:
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Command</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">python video_trigger_recording.py</code></pre>
+            </div>
+
+            <div class="text-block">
+                <h2>Output</h2>
+                <p>
+                    Each recording session creates a timestamped folder inside <code>recordings/</code>.
+                    The folder contains the raw video and the trigger CSV.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Output</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">recordings/
+└── 20260511_153012/
+    ├── pupillometry.avi
+    └── expinfo.csv</code></pre>
+            </div>
+
+            <div class="text-block">
+                <h2>CSV structure</h2>
+                <p>
+                    The trigger CSV contains one row per recorded frame. The <code>signal</code> column stores a compact trigger value, while <code>trg1</code> to <code>trg9</code> store the individual one-frame trigger channels.
+                </p>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Set <code>TARGET_FPS</code> to the frame rate you want to record. Low-cost camera modules may not sustain their advertised frame rate, so lowering this value can improve stability.
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Set <code>MAX_DURATION_SEC</code> to a number, for example <code>60</code>, if you want the recording to stop automatically after a fixed duration.
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Set <code>FLIP_VERTICAL = True</code> if your camera image appears upside down.
+            </div>
+
+            <div class="note note-warning">
+                <strong>Warning:</strong>
+                The trigger keys <code>1-9</code> create one-frame trigger pulses. The pulse is recorded on the next saved frame and then reset to zero.
+            </div>
+
+            <div class="cta-row">
+                <a class="btn" href="software.html#tutorials">Back to tutorials</a>
+                <a class="btn btn-primary" href="software.html#installation">Installation instructions</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">
+                <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+            </div>
+            <span class="brand-tag">
+                Released under
+                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a>
+                (code) and
+                <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a>
+                (hardware).
+            </span>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="get_started.html">Get Started</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html"><span class="brand-accent">Software</span></a>
+            <a href="models.html">3D Models</a>
+            <a href="resources.html">Resources</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+<script src="analytics-consent.js"></script>
+</body>
+</html>

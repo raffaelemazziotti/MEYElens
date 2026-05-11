@@ -64,28 +64,16 @@
                 <div class="eyebrow">Software</div>
                 <h1>Software setup, tutorials, and configuration.</h1>
                 <p class="lead">
-                    The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> software stack is designed to support acquisition, pupil detection,
-                    gaze-related workflows, and export of reproducible outputs. This page provides
-                    a structured overview of the software environment and its main components.
+                    The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> library is designed to support acquisition, pupil detection,
+                    gaze-related workflows, and export of reproducible outputs.
                 </p>
-
-                <div class="cta-row">
-                    <a class="btn btn-primary" href="get_started.html">Get started</a>
-                    <a class="btn" href="docs/">Documentation</a>
-                    <a class="btn" href="resources.html">Resources</a>
-                </div>
             </div>
 
             <aside class="toc-card">
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="Software contents">
-                    <a href="#overview">Overview</a>
-                    <a href="#pipeline">Pipeline</a>
                     <a href="#installation">Installation</a>
-                    <a href="#interfaces">Interfaces</a>
-                    <a href="#outputs">Outputs</a>
-                    <a href="#dependencies">Dependencies</a>
-                    <a href="#examples">Examples</a>
+                    <a href="#tutorials">Tutorials</a>
                     <a href="#downloads">Downloads</a>
                 </nav>
             </aside>
@@ -200,164 +188,50 @@ pip install meyelens[tf]</code></pre>
     </div>
 </section>
 
-    <section class="section" id="interfaces">
+    <section class="section" id="tutorials">
         <div class="container">
             <div class="section-head">
-                <h2>Interfaces</h2>
+                <h2>Tutorials</h2>
                 <p class="muted">
-                    The software can expose multiple entry points depending on the user workflow.
+                    Step-by-step examples for acquisition, pupillometry, gaze tracking, and analysis workflows.
                 </p>
             </div>
 
-            <div class="software-grid">
-                <div class="content-panel">
-                    <h3>Command line / scripts</h3>
-                    <p>
-                        Suitable for reproducible batch workflows and integration into experiments.
-                    </p>
-                    <ul>
-                        <li>Automated processing</li>
-                        <li>Batch analysis</li>
-                        <li>Experiment integration</li>
-                    </ul>
-                </div>
+            <div class="tutorial-gallery">
 
-                <div class="content-panel">
-                    <h3>Graphical interface</h3>
-                    <p>
-                        Useful for exploratory analysis, ROI selection, and quick validation.
-                    </p>
-                    <ul>
-                        <li>Interactive setup</li>
-                        <li>Parameter adjustment</li>
-                        <li>Visual quality control</li>
-                    </ul>
-                </div>
+                <a class="tutorial-card" href="tutorial_preview.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/media/tutorial_preview_crop.gif" alt="First recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Basic</div>
+                        <h3>First camera preview</h3>
+                        <p>Initialize a camera and open a live preview using the Python API.</p>
+                    </div>
+                </a>
 
-                <div class="content-panel">
-                    <h3>Python API</h3>
-                    <p>
-                        Suitable for custom pipelines and integration into analysis notebooks.
-                    </p>
-                    <ul>
-                        <li>Programmatic access</li>
-                        <li>Flexible workflows</li>
-                        <li>Custom extensions</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+                <a class="tutorial-card" href="tutorial_online_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/favicon.png" alt="Online pupil recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Online recording</div>
+                        <h3>Record online pupil predictions</h3>
+                        <p>Start and stop live pupil prediction, save CSV files, and send keyboard trigger pulses.</p>
+                    </div>
+                </a>
 
-    <section class="section" id="outputs">
-        <div class="container">
-            <div class="section-head">
-                <h2>Outputs</h2>
-                <p class="muted">
-                    Example output structure for a standard analysis workflow.
-                </p>
-            </div>
+                <a class="tutorial-card" href="tutorial_offline_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/favicon.png" alt="Video and trigger recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Offline Recording</div>
+                        <h3>Record video with triggers</h3>
+                        <p>Save a camera stream to video while recording synchronized keyboard trigger pulses to CSV.</p>
+                    </div>
+                </a>
 
-            <div class="table-wrap">
-                <table class="data-table">
-                    <thead>
-                    <tr>
-                        <th>Output</th>
-                        <th>Description</th>
-                        <th>Format</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Pupil measurements</td>
-                        <td>Per-frame area and centroid variables</td>
-                        <td>CSV</td>
-                    </tr>
-                    <tr>
-                        <td>Blink information</td>
-                        <td>Frame-level blink or eye classification</td>
-                        <td>CSV</td>
-                    </tr>
-                    <tr>
-                        <td>Overlay video</td>
-                        <td>Optional quality-control visualization</td>
-                        <td>MP4 / video</td>
-                    </tr>
-                    <tr>
-                        <td>Derived gaze data</td>
-                        <td>Mapped coordinates or calibration-related values</td>
-                        <td>CSV</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="dependencies">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Dependencies</h2>
-            </div>
-
-            <div class="text-block">
-                <p>
-                    This section can summarize the main software stack and external libraries used
-                    by the project, while version-specific information can remain in the repository
-                    or documentation.
-                </p>
-            </div>
-
-            <div class="software-grid compact">
-                <div class="content-panel">
-                    <h3>Core environment</h3>
-                    <ul>
-                        <li>Python</li>
-                        <li>Package dependencies</li>
-                        <li>Operating-system compatibility</li>
-                    </ul>
-                </div>
-
-                <div class="content-panel">
-                    <h3>Scientific libraries</h3>
-                    <ul>
-                        <li>Computer vision tools</li>
-                        <li>Numerical computing libraries</li>
-                        <li>Data analysis packages</li>
-                    </ul>
-                </div>
-
-                <div class="content-panel">
-                    <h3>Optional tools</h3>
-                    <ul>
-                        <li>GUI frameworks</li>
-                        <li>Experiment control software</li>
-                        <li>Streaming / synchronization tools</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="examples">
-        <div class="container">
-            <div class="section-head">
-                <h2>Examples</h2>
-                <p class="muted">
-                    Example sections for screenshots, interface views, or workflow demonstrations.
-                </p>
-            </div>
-
-            <div class="software-media-grid">
-                <figure class="media-figure software-media-card">
-                    <img src="assets/software-gui.jpg" alt="Example GUI screenshot" />
-                    <figcaption>Placeholder screenshot of the analysis interface.</figcaption>
-                </figure>
-
-                <figure class="media-figure software-media-card">
-                    <img src="assets/software-output.jpg" alt="Example output plot or table" />
-                    <figcaption>Placeholder example of exported or processed output.</figcaption>
-                </figure>
             </div>
         </div>
     </section>

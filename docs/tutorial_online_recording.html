@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Record online pupil predictions - MEYELens tutorial</title>
+    <meta name="description" content="Tutorial for recording online pupil predictions with MEYELens and keyboard triggers." />
+
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="software.css" />
+
+    <script>
+        window.Prism = window.Prism || {};
+        window.Prism.manual = true;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+
+<script type="module" src="analytics.js"></script>
+
+<body class="page-software">
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <img src="assets/favicon.png" alt="MEYELens logo" class="brand-logo">
+
+            <span class="brand-text">
+                <span class="brand-name">
+                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                </span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="get_started.html">Get Started</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html"><span class="brand-accent">Software</span></a>
+                <a href="models.html">3D Models</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <div class="container reading-width">
+            <div class="eyebrow">Tutorial</div>
+            <h1>Record online pupil predictions.</h1>
+            <p class="lead">
+                Use the <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> online recorder to preview live pupil predictions, save frame-by-frame CSV data, and send keyboard trigger pulses during acquisition.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container reading-width">
+
+            <div class="text-block">
+                <h2>Goal</h2>
+                <p>
+                    This tutorial shows how to run an online recording loop using <code>MeyeAsyncRecorder</code>.
+                    The script opens the camera, performs online pupil prediction, displays a live overlay, and saves prediction data to CSV while recording is active.
+                </p>
+                <p>
+                    The script also supports simple keyboard triggers. Pressing keys <code>1</code> to <code>9</code> creates one-frame trigger pulses that are stored in the output CSV.
+                </p>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Keyboard controls:</strong>
+                press <code>s</code> to start recording, <code>e</code> to stop recording, <code>1-9</code> to send a trigger pulse, and <code>q</code> to quit.
+            </div>
+
+            <div class="text-block">
+                <h2>Requirements</h2>
+                <p>
+                    Install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> with TensorFlow support before running this tutorial.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Command</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">pip install meyelens[tf]</code></pre>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                We recommend running this tutorial inside a dedicated environment. See the installation section on the software page for the full setup instructions.
+            </div>
+
+            <div class="text-block">
+                <h2>Online recording script</h2>
+                <p>
+                    Save the script below as <code>online_recording.py</code>. By default, each recording session creates a timestamped folder inside <code>recordings/</code>.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Python</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-python">#!/usr/bin/env python3
+"""
+Record online pupil predictions to CSV with keyboard control.
+
+This script opens the camera, runs online pupil prediction, displays a live
+preview with the predicted pupil overlay, and writes frame-by-frame results
+to a CSV file while recording is active.
+
+Keys:
+  s   start recording in a new timestamped folder
+  e   stop recording and rename the CSV file to expinfo.csv
+  1-9 send a one-frame trigger pulse to the selected trigger channel
+  q   quit the script
+"""
+
+import time
+from pathlib import Path
+
+import cv2
+
+from meyelens.online import MeyeAsyncRecorder
+from meyelens.utils import CountdownTimer
+
+
+# Folder where all recording sessions will be saved.
+# Each recording will create a timestamped subfolder inside this directory.
+OUTPUT_DIR = Path("recordings")
+
+# Optional maximum recording duration.
+# Keep this as None for manual stop with the "e" key.
+# Set to a number, for example 60, to stop automatically after 60 seconds.
+MAX_DURATION_SEC = None
+
+# Set to True if the camera image appears upside down.
+FLIP_VERTICAL = False
+
+
+def _draw_hud(frame, is_recording: bool) -> None:
+    """
+    Draw simple on-screen instructions over the live preview.
+
+    Parameters
+    ----------
+    frame:
+        The image shown in the OpenCV preview window.
+    is_recording:
+        Whether data are currently being saved to CSV.
+    """
+    lines = [
+        f"Recording: {'ON' if is_recording else 'OFF'}",
+        "s: start  e: stop  q: quit",
+        "1-9: trigger pulse",
+    ]
+
+    y = 25
+    for line in lines:
+        # Draw black thick text first to create contrast.
+        cv2.putText(
+            frame,
+            line,
+            (10, y),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 0),
+            3,
+        )
+
+        # Draw thin white text on top.
+        cv2.putText(
+            frame,
+            line,
+            (10, y),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (255, 255, 255),
+            1,
+        )
+
+        y += 22
+
+
+def _stop_and_rename(recorder: MeyeAsyncRecorder) -> None:
+    """
+    Stop the current recording and rename the output CSV.
+
+    MeyeAsyncRecorder creates the CSV using the recorder filename.
+    Here we rename the final file to expinfo.csv so that every session folder
+    has a consistent output filename.
+    """
+    csv_path = recorder.writer.path
+
+    # Stop the recorder and reset its internal writer state.
+    recorder.stop()
+    recorder.writer = None
+    recorder.time_start = None
+
+    csv_target = csv_path.parent / "expinfo.csv"
+
+    # Replace an existing expinfo.csv only if needed.
+    if csv_path.exists():
+        if csv_target.exists():
+            csv_target.unlink()
+
+        csv_path.rename(csv_target)
+
+
+def _start_session(recorder: MeyeAsyncRecorder, output_dir: Path) -> None:
+    """
+    Prepare a new timestamped output folder before starting acquisition.
+
+    Example output folder:
+      recordings/20260511_153012/
+    """
+    session_stamp = time.strftime("%Y%m%d_%H%M%S")
+    session_dir = output_dir / session_stamp
+
+    # Tell the recorder where to save the next CSV file.
+    recorder.path_to_file = session_dir
+
+    # Temporary filename used by the recorder before we rename it to expinfo.csv.
+    recorder.filename = "expinfo"
+
+
+def _wrap_cam_flip(cam, flip_vertical: bool) -> None:
+    """
+    Patch the camera get_frame method to consistently apply vertical flipping.
+
+    This keeps the rest of the acquisition loop unchanged. Every time the
+    recorder asks the camera for a frame, the flip_vertical option is passed.
+    """
+    original_get_frame = cam.get_frame
+
+    def get_frame_wrapped(*args, **kwargs):
+        kwargs["flip_vertical"] = flip_vertical
+        return original_get_frame(*args, **kwargs)
+
+    cam.get_frame = get_frame_wrapped
+
+
+def main() -> None:
+    """
+    Main online acquisition loop.
+
+    The loop has two states:
+      1. Preview mode: camera frames are shown but not saved.
+      2. Recording mode: predictions and trigger values are saved to CSV.
+    """
+    # Create the asynchronous online recorder.
+    # cam_ind=0 usually selects the first available camera.
+    # Change this to 1, 2, ... if the wrong camera opens.
+    recorder = MeyeAsyncRecorder(cam_ind=0, path_to_file=OUTPUT_DIR)
+
+    # Apply optional vertical flipping to the camera frames.
+    _wrap_cam_flip(recorder.cam, FLIP_VERTICAL)
+
+    # Recording state.
+    is_recording = False
+
+    # Trigger channels.
+    # This creates 9 trigger columns. Pressing keys 1-9 sets one channel to 1
+    # for exactly one saved frame, then the vector is reset to zeros.
+    trigger_pulse = [0] * 9
+
+    # Optional timer used only when MAX_DURATION_SEC is not None.
+    record_timer = None
+
+    print("### ONLINE ### Press 's' to start, 'e' to stop, 'q' to quit.")
+
+    while True:
+        if is_recording:
+            # Save the current frame prediction and trigger state to CSV.
+            recorder.save_frame(*trigger_pulse)
+
+            # Retrieve the last camera frame and predicted pupil mask.
+            frame = recorder.frame
+            mask = recorder.predicted
+
+            # Reset triggers immediately after saving.
+            # This makes each keypress a one-frame pulse.
+            trigger_pulse = [0] * 9
+
+            if frame is None:
+                continue
+
+            # Overlay the predicted pupil mask on the eye image.
+            overlay = recorder.meye.overlay_roi(mask, frame)
+
+            # Auto-stop when the optional timer reaches the requested duration.
+            if record_timer is not None and record_timer.is_finished():
+                _stop_and_rename(recorder)
+                is_recording = False
+                record_timer = None
+
+        else:
+            # Preview mode: get a frame and run prediction, but do not save.
+            frame = recorder.cam.get_frame()
+
+            if frame is None:
+                continue
+
+            mask, _ = recorder.meye.predict(frame)
+            overlay = recorder.meye.overlay_roi(mask, frame)
+
+        # Draw text instructions on the preview image.
+        _draw_hud(overlay, is_recording)
+
+        # Show the live preview.
+        recorder.cam.show(overlay, name="Online Prediction")
+
+        # Read keyboard input from the OpenCV window.
+        # waitKey(1) keeps the preview responsive.
+        key = cv2.waitKey(1) & 0xFF
+
+        if key == ord("q"):
+            # Quit the loop.
+            break
+
+        if key == ord("s") and not is_recording:
+            # Start a new recording session.
+            _start_session(recorder, OUTPUT_DIR)
+            recorder.start()
+            is_recording = True
+
+            # Start the optional auto-stop timer.
+            if MAX_DURATION_SEC:
+                record_timer = CountdownTimer(MAX_DURATION_SEC)
+                record_timer.start()
+
+        elif key == ord("e") and is_recording:
+            # Stop recording manually.
+            _stop_and_rename(recorder)
+            is_recording = False
+            record_timer = None
+
+        elif is_recording and ord("1") <= key <= ord("9"):
+            # Convert the pressed key into a trigger-channel index.
+            # "1" -> index 0, "2" -> index 1, ..., "9" -> index 8.
+            trigger_index = key - ord("1")
+            trigger_pulse[trigger_index] = 1
+
+    # If the user quits while recording is active, close the file safely.
+    if is_recording:
+        _stop_and_rename(recorder)
+
+    # Release camera resources and close OpenCV windows.
+    recorder.close()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+            </div>
+
+            <div class="text-block">
+                <h2>Run the script</h2>
+                <p>
+                    From the folder where you saved the script, run:
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Command</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">python online_recording.py</code></pre>
+            </div>
+
+            <div class="text-block">
+                <h2>Output</h2>
+                <p>
+                    Each recording session creates a timestamped folder inside <code>recordings/</code>. When the recording is stopped, the CSV file is renamed to <code>expinfo.csv</code>.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-label">Output</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+<pre><code class="language-bash">recordings/
+└── 20260511_153012/
+    └── expinfo.csv</code></pre>
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Set <code>MAX_DURATION_SEC</code> to a number, for example <code>60</code>, if you want the recording to stop automatically after a fixed duration.
+            </div>
+
+            <div class="note note-tip">
+                <strong>Tip:</strong>
+                Set <code>FLIP_VERTICAL = True</code> if your camera image appears upside down.
+            </div>
+
+            <div class="note note-warning">
+                <strong>Warning:</strong>
+                The trigger keys <code>1-9</code> create one-frame trigger pulses. The pulse is recorded on the next saved frame and then reset to zero.
+            </div>
+
+            <div class="cta-row">
+                <a class="btn" href="software.html#tutorials">Back to tutorials</a>
+                <a class="btn btn-primary" href="software.html#installation">Installation instructions</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">
+                <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+            </div>
+            <span class="brand-tag">
+                Released under
+                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a>
+                (code) and
+                <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a>
+                (hardware).
+            </span>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="get_started.html">Get Started</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html"><span class="brand-accent">Software</span></a>
+            <a href="models.html">3D Models</a>
+            <a href="resources.html">Resources</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+<script src="analytics-consent.js"></script>
+</body>
+</html>
