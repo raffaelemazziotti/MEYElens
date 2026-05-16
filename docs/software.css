@@ -230,6 +230,7 @@
   line-height: 1.45;
 }
 
+
 @media (max-width: 1100px) {
   .page-software .tutorial-gallery {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -281,3 +282,166 @@
     transform: rotate(90deg);
   }
 }
+
+
+
+/* PyTorch-style install matrix */
+
+.install-matrix {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.install-row,
+.install-output-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  align-items: stretch;
+}
+
+.install-row-label {
+  color: var(--text-soft);
+  font-size: 18px;
+  line-height: 1.2;
+  padding: 14px 14px 14px 8px;
+  border-left: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+}
+
+.install-output-label {
+  border-left-color: var(--text);
+}
+
+.install-row-options {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 4px;
+}
+
+.install-row-options.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.install-row-options.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.install-cell {
+  border: 0;
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--text-soft);
+  min-height: 46px;
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.install-cell:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.install-cell.active {
+  background: var(--accent);
+  color: #1f2328;
+}
+
+.install-cell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.install-output {
+  padding-top: 4px;
+}
+
+.install-command-box,
+.install-gpu-warning {
+  background: var(--panel);
+  color: var(--text);
+  padding: 18px;
+  min-height: 130px;
+}
+
+.install-command-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-soft);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.install-command-box pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.install-command-box code {
+  color: var(--accent);
+  font-size: 17px;
+  line-height: 1.7;
+  white-space: pre;
+}
+
+.install-gpu-warning[hidden],
+#install-command-block[hidden] {
+  display: none;
+}
+
+.install-gpu-warning strong {
+  display: block;
+  color: var(--danger);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.install-gpu-warning p {
+  color: var(--text-soft);
+  margin: 0 0 10px;
+}
+
+.install-warning-small {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .install-row,
+  .install-output-row {
+    grid-template-columns: 1fr;
+  }
+
+  .install-row-label {
+    border-left: 0;
+    border-top: 2px solid var(--line);
+    padding: 14px 0 8px;
+    font-size: 15px;
+  }
+
+  .install-output-label {
+    border-top-color: var(--text);
+  }
+
+  .install-row-options.cols-2,
+  .install-row-options.cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .install-cell {
+    font-size: 15px;
+  }
+
+  .install-command-box code {
+    font-size: 14px;
+  }
+}
+

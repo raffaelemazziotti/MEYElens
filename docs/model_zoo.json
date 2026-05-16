@@ -1,0 +1,22 @@
+[
+  {
+    "id": "meye-pupil",
+    "name": "MEYE pupil segmentation",
+    "tag": "TensorFlow",
+    "short_description": "Default pupil mask and blink classification.",
+    "description": "A model for interspecies pupil segmentation, blink classification, and extraction of frame-level pupil measurements from eye-facing camera recordings.",
+    "image": "https://github.com/fabiocarrara/meye/wiki/images/meye_web_demo2.gif",
+    "download": "https://github.com/fabiocarrara/meye/releases/download/v0.1.1/meye-2022-01-24.h5",
+    "backend": "TensorFlow / Keras",
+    "task": "Pupil segmentation and eye/blink classification",
+    "input": "Eye-facing camera frames",
+    "output": "Pupil mask, eye probability, blink probability",
+    "recommended_use": "Offline/Online pupillometry, quality-control videos, and frame-level pupil analysis",
+    "package_use": "MEYELens GUI and Python API",
+    "performance": {
+      "Tested acquisition rate": ">20 fps or higher with GPU support",
+      "Validated paradigms": "PLR, pupil frequency tagging, auditory oddball, commercial eye-tracker comparison"
+    },
+    "notes": "Released in 2022-01-24 - <a class=\"textlink\" href=\"https://www.eneuro.org/content/8/5/ENEURO.0122-21.2021\" target=\"_blank\" rel=\"noopener noreferrer\">Reference</a>"
+  }
+]

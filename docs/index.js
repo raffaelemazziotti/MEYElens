@@ -202,3 +202,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupCopyButtons();
 });
+
+
+
+
+(() => {
+    const installMatrix = document.getElementById("meyelens-install");
+
+    if (!installMatrix) return;
+
+    const commandBlock = document.getElementById("install-command-block");
+    const commandEl = document.getElementById("install-command");
+
+    const gpuWarning = document.getElementById("gpu-warning");
+    const gpuWarningTitle = document.getElementById("gpu-warning-title");
+    const gpuWarningText = document.getElementById("gpu-warning-text");
+    const gpuWarningLink = document.getElementById("gpu-warning-link");
+
+    if (!commandBlock || !commandEl || !gpuWarning) return;
+
+    const state = {
+        backend: "tensorflow",
+        interface: "gui",
+        compute: "cpu",
+        mode: "stable"
+    };
+
+    function getActiveValue(groupName) {
+        const activeButton = installMatrix.querySelector(
+            `[data-install-group="${groupName}"] .install-cell.active`
+        );
+
+        return activeButton ? activeButton.dataset.installValue : state[groupName];
+    }
+
+    function syncStateFromButtons() {
+        state.backend = getActiveValue("backend");
+        state.interface = getActiveValue("interface");
+        state.compute = getActiveValue("compute");
+        state.mode = getActiveValue("mode");
+    }
+
+    function getExtras() {
+        const extras = [];
+
+        if (state.backend === "tensorflow") {
+            extras.push("tensorflow");
+        }
+
+        if (state.backend === "pytorch") {
+            extras.push("pytorch");
+        }
+
+        if (state.interface === "gui") {
+            extras.push("gui");
+        }
+
+        if (state.interface === "headless") {
+            extras.push("headless");
+        }
+
+        if (state.mode === "dev") {
+            extras.push("dev");
+        }
+
+        return extras;
+    }
+
+    function getInstallCommand() {
+        const extras = getExtras();
+        const extrasText = extras.length ? `[${extras.join(",")}]` : "";
+
+        if (state.mode === "dev") {
+            return `git clone https://github.com/raffaelemazziotti/MEYElens.git
+cd MEYElens
+pip install -e ".${extrasText}"`;
+        }
+
+        return `pip install "meyelens${extrasText}"`;
+    }
+
+    function updateGpuWarning() {
+        if (!gpuWarningTitle || !gpuWarningText || !gpuWarningLink) return;
+
+        if (state.backend === "tensorflow") {
+            gpuWarningTitle.textContent = "TensorFlow GPU installation requires a CUDA-compatible setup.";
+            gpuWarningText.textContent = "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.";
+            gpuWarningLink.href = "https://www.tensorflow.org/install/pip";
+            gpuWarningLink.textContent = "Open TensorFlow GPU installation guide";
+            return;
+        }
+
+        gpuWarningTitle.textContent = "PyTorch GPU installation requires selecting the correct CUDA build.";
+        gpuWarningText.textContent = "Use the official PyTorch selector to choose the correct command for your operating system, package manager, and CUDA version.";
+        gpuWarningLink.href = "https://pytorch.org/get-started/locally/";
+        gpuWarningLink.textContent = "Open PyTorch installation selector";
+    }
+
+    function updateInstallMatrix() {
+        syncStateFromButtons();
+
+        if (state.compute === "gpu") {
+            commandBlock.hidden = true;
+            gpuWarning.hidden = false;
+            updateGpuWarning();
+            return;
+        }
+
+        commandBlock.hidden = false;
+        gpuWarning.hidden = true;
+        commandEl.textContent = getInstallCommand();
+
+        if (window.Prism) {
+            Prism.highlightElement(commandEl);
+        }
+    }
+
+    installMatrix.querySelectorAll(".install-cell").forEach((button) => {
+        button.addEventListener("click", () => {
+            const group = button.closest("[data-install-group]");
+
+            if (!group) return;
+
+            group.querySelectorAll(".install-cell").forEach((groupButton) => {
+                groupButton.classList.remove("active");
+                groupButton.setAttribute("aria-pressed", "false");
+            });
+
+            button.classList.add("active");
+            button.setAttribute("aria-pressed", "true");
+
+            updateInstallMatrix();
+        });
+    });
+
+    installMatrix.querySelectorAll(".install-cell").forEach((button) => {
+        button.setAttribute(
+            "aria-pressed",
+            button.classList.contains("active") ? "true" : "false"
+        );
+    });
+
+    updateInstallMatrix();
+})();

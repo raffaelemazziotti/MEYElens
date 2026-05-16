@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MEYELens - Model details</title>
+    <meta name="description" content="Model details from the MEYELens Model Zoo." />
+
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="shortcut icon" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="resources.css" />
+    <link rel="stylesheet" href="model-detail.css" />
+</head>
+
+<script type="module" src="analytics.js"></script>
+
+<body class="page-model-detail">
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <img src="assets/favicon.png" alt="MEYELens logo" class="brand-logo">
+            <span class="brand-text">
+                <span class="brand-name">
+                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                </span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="get_started.html">Get Started</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html">Software</a>
+                <a href="models.html">3D Models</a>
+                <a href="resources.html"><span class="brand-accent">Resources</span></a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="page-hero">
+        <div class="container model-detail-hero">
+            <div>
+                <div class="eyebrow">Model Zoo</div>
+                <h1 id="model-title">Model details</h1>
+                <p id="model-description" class="lead"></p>
+
+                <div class="cta-row">
+                    <a id="model-download-top" class="btn btn-primary" href="#" download>
+                        Download model
+                    </a>
+                    <a class="btn" href="resources.html#model-zoo">
+                        Back to Model Zoo
+                    </a>
+                </div>
+            </div>
+
+            <aside class="model-summary-card">
+                <div class="model-summary-label" id="model-tag">Model</div>
+                <h3 id="model-summary-name">Model name</h3>
+                <p id="model-short-description"></p>
+            </aside>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container model-detail-layout">
+
+            <div class="model-detail-main">
+
+                <section class="model-detail-block">
+                    <div class="section-head">
+                        <h2>Specifications</h2>
+                        <p class="muted">Technical description of the model and expected input/output.</p>
+                    </div>
+
+                    <div class="table-wrap model-detail-table">
+                        <table class="data-table">
+                            <tbody id="model-specs-table"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="model-detail-block">
+                    <div class="section-head">
+                        <h2>Performance</h2>
+                        <p class="muted">Validation metrics and tested use cases.</p>
+                    </div>
+
+                    <div class="table-wrap model-detail-table">
+                        <table class="data-table">
+                            <tbody id="model-performance-table"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="model-detail-block">
+                    <div class="section-head">
+                        <h2>Usage notes</h2>
+                    </div>
+
+                    <div class="content-block">
+                        <p id="model-notes"></p>
+
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="model-detail-side">
+                <figure class="media-figure model-detail-figure">
+                    <img id="model-image" src="assets/media/model-placeholder.jpg" alt="Model preview">
+                    <figcaption id="model-image-caption">
+                        Model preview.
+                    </figcaption>
+                </figure>
+
+                <div class="model-side-card">
+                    <div class="model-summary-label">Quick links</div>
+
+                    <div class="model-side-actions">
+                        <a id="model-download-side" class="btn btn-primary" href="#" download>
+                            Download
+                        </a>
+                        <a class="btn" href="software.html">
+                            Software page
+                        </a>
+                        <a class="btn" href="resources.html#model-zoo">
+                            Model Zoo
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand">
+                <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+            </div>
+            <span class="brand-tag">
+                Released under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a> (code)
+                and <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a> (hardware).
+            </span>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="get_started.html">Get Started</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html">Software</a>
+            <a href="models.html">3D Models</a>
+            <a href="resources.html"><span class="brand-accent">Resources</span></a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+<script src="model-zoo.js"></script>
+<script src="analytics-consent.js"></script>
+
+</body>
+</html>

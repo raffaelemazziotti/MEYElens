@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MEYELens — Resources</title>
+    <title>MEYELens - Resources</title>
     <meta name="description" content="Resources, files, repositories, and downloads for MEYELens." />
 
     <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
     />
 
     <link rel="stylesheet" href="styles.css" />
@@ -68,224 +68,106 @@
             <aside class="toc-card">
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="Resources contents">
-                    <a href="#downloads">Downloads</a>
-                    <a href="#repositories">Repositories</a>
-                    <a href="#data">Data</a>
-                    <a href="#documentation">Documentation</a>
+                    <a href="#model-zoo">Model zoo</a>
                     <a href="#citation">Citation</a>
-                    <a href="#external">External links</a>
                 </nav>
             </aside>
         </div>
     </section>
 
-    <section class="section" id="downloads">
+    <section class="section" id="model-zoo">
         <div class="container">
             <div class="section-head">
-                <h2>Downloads</h2>
+                <h2>Model Zoo</h2>
                 <p class="muted">
-                    Direct entry points for the main project assets.
+                    Pretrained models and reusable model assets for MEYELens analysis workflows.
                 </p>
             </div>
 
-            <div class="resources-grid">
-                <a class="resource-card" href="#">
-                    <div class="resource-type">3D files</div>
-                    <h3>Printable models</h3>
-                    <p>STL, print-ready assets, and related files.</p>
-                </a>
+            <div id="model-zoo-grid" class="model-zoo-grid"></div>
 
-                <a class="resource-card" href="#">
-                    <div class="resource-type">Software</div>
-                    <h3>Source code</h3>
-                    <p>Code repository, package source, and release files.</p>
-                </a>
-
-                <a class="resource-card" href="docs/">
-                    <div class="resource-type">Docs</div>
-                    <h3>Documentation</h3>
-                    <p>Installation, usage, and API notes.</p>
-                </a>
-
-                <a class="resource-card" href="#">
-                    <div class="resource-type">Examples</div>
-                    <h3>Example data</h3>
-                    <p>Sample videos, exports, or testing materials.</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="repositories">
-        <div class="container">
-            <div class="section-head">
-                <h2>Repositories and project files</h2>
-                <p class="muted">
-                    Organize the main code and model resources here.
-                </p>
-            </div>
-
-            <div class="resource-list">
-                <div class="resource-row">
-                    <div>
-                        <h3>Main repository</h3>
-                        <p>Primary project source code and development files.</p>
-                    </div>
-                    <a class="btn" href="#">Open</a>
-                </div>
-
-                <div class="resource-row">
-                    <div>
-                        <h3>3D printing files</h3>
-                        <p>Printable parts, profiles, and related hardware assets.</p>
-                    </div>
-                    <a class="btn" href="#">Open</a>
-                </div>
-
-                <div class="resource-row">
-                    <div>
-                        <h3>Release assets</h3>
-                        <p>Packaged versions of the software and associated resources.</p>
-                    </div>
-                    <a class="btn" href="#">Open</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="data">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Data and materials</h2>
-            </div>
-
-            <div class="text-block">
-                <p>
-                    This section can point to archived datasets, supplementary materials, and
-                    any public files used to accompany the project. Keep the descriptions short
-                    and link outward to the definitive source.
-                </p>
-            </div>
-
-            <div class="table-wrap">
-                <table class="data-table">
-                    <thead>
-                    <tr>
-                        <th>Resource</th>
-                        <th>Description</th>
-                        <th>Format</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Dataset archive</td>
-                        <td>Publicly shared recordings or processed outputs</td>
-                        <td>Archive / repository</td>
-                    </tr>
-                    <tr>
-                        <td>Supplementary materials</td>
-                        <td>Additional figures, files, or printing materials</td>
-                        <td>PDF / ZIP / mixed</td>
-                    </tr>
-                    <tr>
-                        <td>Example outputs</td>
-                        <td>Representative CSV or QC video outputs</td>
-                        <td>CSV / MP4</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="documentation">
-        <div class="container">
-            <div class="section-head">
-                <h2>Documentation</h2>
-            </div>
-
-            <div class="resources-grid narrow-grid">
-                <a class="resource-card" href="docs/">
-                    <div class="resource-type">Guide</div>
-                    <h3>User documentation</h3>
-                    <p>Setup, operation, and usage notes.</p>
-                </a>
-
-                <a class="resource-card" href="get_started.html">
-                    <div class="resource-type">Guide</div>
-                    <h3>Get Started</h3>
-                    <p>Step-based onboarding for first-time users.</p>
-                </a>
-
-                <a class="resource-card" href="software.html">
-                    <div class="resource-type">Guide</div>
-                    <h3>Software overview</h3>
-                    <p>High-level description of the software stack.</p>
-                </a>
-            </div>
+            <div id="model-zoo-status" class="muted"></div>
         </div>
     </section>
 
     <section class="section" id="citation">
-        <div class="container reading-width">
-            <div class="section-head">
-                <h2>Citation</h2>
-            </div>
-
-            <div class="content-block">
-                <p>
-                    Add a short citation section here. You can later replace this placeholder
-                    with the preferred citation format, DOI, BibTeX entry, or manuscript reference.
-                </p>
-
-                <div class="code-block">
-<pre><code>@article{meyelens,
-  title   = {MEYELens},
-  author  = {Author names},
-  journal = {Journal / preprint},
-  year    = {2026}
-}</code></pre>
-                </div>
-            </div>
+    <div class="container">
+        <div class="section-head">
+            <h2>Citation</h2>
+            <p class="muted">
+                Please cite the relevant publication when using MEYELens or the MEYE segmentation model.
+            </p>
         </div>
-    </section>
 
-    <section class="section" id="external">
-        <div class="container">
-            <div class="section-head">
-                <h2>External links</h2>
-                <p class="muted">
-                    Reference links to external platforms or project mirrors.
-                </p>
-            </div>
+        <div class="citation-list">
 
-            <div class="resource-list">
-                <div class="resource-row">
-                    <div>
-                        <h3>Code hosting</h3>
-                        <p>Primary source code repository or project organization.</p>
+            <article class="citation-card">
+                <div class="citation-status citation-status-review">Under review</div>
+
+                <div class="citation-main">
+                    <p class="citation-text">
+                        Vecchieschi, G., Ingenito, L., Benedetto, A., Luciani, C., Carrara, F.,
+                        Cioni, G., Guzzetta, A., Pizzorusso, T., Baroncelli, L., &amp; Mazziotti, R. M.
+                        <strong>MEYELens: An Affordable, Open-Source, 3D-Printable Eyewear Platform for Pupillometry and Gaze Tracking.</strong>
+                        Manuscript under review.
+                    </p>
+
+                    <div class="citation-actions">
+                        <a
+                            class="btn"
+                            href="assets/bibtex/meyelens-under-review.bib"
+                            download
+                        >
+                            Download BibTeX
+                        </a>
                     </div>
-                    <a class="btn" href="#">Visit</a>
                 </div>
+            </article>
 
-                <div class="resource-row">
-                    <div>
-                        <h3>3D model archive</h3>
-                        <p>External repository for printable model distribution.</p>
-                    </div>
-                    <a class="btn" href="#">Visit</a>
-                </div>
+            <article class="citation-card">
+                <div class="citation-status citation-status-published">Published</div>
 
-                <div class="resource-row">
-                    <div>
-                        <h3>Dataset archive</h3>
-                        <p>Public archive containing materials or data releases.</p>
+                <div class="citation-main">
+                    <p class="citation-text">
+                        2021 - Mazziotti, R., Carrara, F., Viglione, A., Lupori, L., Lo Verde, L.,
+                        Benedetto, A., Ricci, G., Sagona, G., Amato, G., &amp; Pizzorusso, T.
+                        <strong>MEYE: Web App for Translational and Real-Time Pupillometry.</strong>
+                        <em>eNeuro</em>, 8(5), ENEURO.0122-21.2021.
+                        <a
+                            class="textlink"
+                            href="https://doi.org/10.1523/ENEURO.0122-21.2021"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            https://doi.org/10.1523/ENEURO.0122-21.2021
+                        </a>
+                    </p>
+
+                    <div class="citation-actions">
+                        <a
+                            class="btn"
+                            href="assets/bibtex/meye-2021.bib"
+                            download
+                        >
+                            Download BibTeX
+                        </a>
+
+                        <a
+                            class="btn"
+                            href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8489024/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open article
+                        </a>
                     </div>
-                    <a class="btn" href="#">Visit</a>
                 </div>
-            </div>
+            </article>
+
         </div>
-    </section>
+    </div>
+</section>
+    
 </main>
 
 <footer class="site-footer">
@@ -312,5 +194,6 @@
 
 <script src="index.js"></script>
 <script src="analytics-consent.js"></script>
+<script src="model-zoo.js"></script>
 </body>
 </html>
