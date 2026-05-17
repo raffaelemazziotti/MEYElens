@@ -204,144 +204,301 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
+/* installation matrix */
 
 (() => {
-    const installMatrix = document.getElementById("meyelens-install");
+    async function loadInstallConfig(matrix) {
+        const configUrl = matrix.dataset.config || "install-options.json";
+        const response = await fetch(configUrl);
 
-    if (!installMatrix) return;
+        if (!response.ok) {
+            throw new Error(`Could not load ${configUrl}`);
+        }
 
-    const commandBlock = document.getElementById("install-command-block");
-    const commandEl = document.getElementById("install-command");
-
-    const gpuWarning = document.getElementById("gpu-warning");
-    const gpuWarningTitle = document.getElementById("gpu-warning-title");
-    const gpuWarningText = document.getElementById("gpu-warning-text");
-    const gpuWarningLink = document.getElementById("gpu-warning-link");
-
-    if (!commandBlock || !commandEl || !gpuWarning) return;
-
-    const state = {
-        backend: "tensorflow",
-        interface: "gui",
-        compute: "cpu",
-        mode: "stable"
-    };
-
-    function getActiveValue(groupName) {
-        const activeButton = installMatrix.querySelector(
-            `[data-install-group="${groupName}"] .install-cell.active`
-        );
-
-        return activeButton ? activeButton.dataset.installValue : state[groupName];
+        return response.json();
     }
 
-    function syncStateFromButtons() {
-        state.backend = getActiveValue("backend");
-        state.interface = getActiveValue("interface");
-        state.compute = getActiveValue("compute");
-        state.mode = getActiveValue("mode");
+    function createButton(group, option, isActive) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "install-cell";
+        button.dataset.installGroup = group.id;
+        button.dataset.installValue = option.value;
+        button.textContent = option.label;
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+
+        if (isActive) {
+            button.classList.add("active");
+        }
+
+        return button;
     }
 
-    function getExtras() {
-        const extras = [];
+    function createGroupRow(group) {
+        const row = document.createElement("div");
+        row.className = "install-row";
+        row.dataset.installGroup = group.id;
 
-        if (state.backend === "tensorflow") {
-            extras.push("tensorflow");
-        }
+        const label = document.createElement("div");
+        label.className = "install-row-label";
+        label.textContent = group.label;
 
-        if (state.backend === "pytorch") {
-            extras.push("pytorch");
-        }
+        const options = document.createElement("div");
+        options.className = "install-row-options";
+        options.style.setProperty("--install-columns", String(group.columns || group.options.length || 2));
 
-        if (state.interface === "gui") {
-            extras.push("gui");
-        }
+        group.options.forEach((option, index) => {
+            const defaultValue = group.default || group.options[0].value;
+            const isActive = option.value === defaultValue || (!group.default && index === 0);
+            options.appendChild(createButton(group, option, isActive));
+        });
 
-        if (state.interface === "headless") {
-            extras.push("headless");
-        }
+        row.appendChild(label);
+        row.appendChild(options);
 
-        if (state.mode === "dev") {
-            extras.push("dev");
-        }
+        return row;
+    }
+
+    function createOutputRow(config) {
+    const row = document.createElement("div");
+    row.className = "install-output-row";
+
+    row.innerHTML = `
+        <div class="install-row-label install-output-label">
+            ${config.output_label || "Run this Command:"}
+        </div>
+
+        <div class="install-output">
+
+            <div id="install-warning" class="install-gpu-warning" hidden>
+                <strong id="install-warning-title"></strong>
+                <p id="install-warning-text"></p>
+                <a
+                    id="install-warning-link"
+                    class="textlink"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                ></a>
+                <p id="install-warning-small" class="install-warning-small"></p>
+            </div>
+
+            <div id="install-command-block" class="install-command-box">
+                <div class="install-command-header">
+                    <span>${config.command_label || "Install:"}</span>
+                    <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+                </div>
+
+                <pre><code id="install-command" class="language-bash"></code></pre>
+            </div>
+
+        </div>
+    `;
+
+    return row;
+}
+
+    function getState(matrix, config) {
+        const state = {};
+
+        config.groups.forEach((group) => {
+            const activeButton = matrix.querySelector(
+                `.install-cell.active[data-install-group="${group.id}"]`
+            );
+
+            state[group.id] = activeButton
+                ? activeButton.dataset.installValue
+                : group.default;
+        });
+
+        return state;
+    }
+
+    function getSelectedOptions(config, state) {
+        return config.groups
+            .map((group) => {
+                const selectedValue = state[group.id];
+                return group.options.find((option) => option.value === selectedValue);
+            })
+            .filter(Boolean);
+    }
+
+    function getExtras(config, state) {
+        const selectedOptions = getSelectedOptions(config, state);
+
+        const extras = selectedOptions
+            .map((option) => option.extra)
+            .filter((extra) => Boolean(extra));
 
         return extras;
     }
 
-    function getInstallCommand() {
-        const extras = getExtras();
+    function buildCommand(config, state) {
+        const extras = getExtras(config, state);
         const extrasText = extras.length ? `[${extras.join(",")}]` : "";
 
-        if (state.mode === "dev") {
-            return `git clone https://github.com/raffaelemazziotti/MEYElens.git
-cd MEYElens
-pip install -e ".${extrasText}"`;
+        /*
+            If there are extras:
+            pip install "meyelens[tensorflow,gui]"
+
+            If there are no extras:
+            pip install meyelens
+        */
+        if (!extras.length) {
+            return `pip install ${config.package || "meyelens"}`;
         }
 
-        return `pip install "meyelens${extrasText}"`;
+        const template = config.default_command_template || "pip install \"{package}{extras}\"";
+
+        return template
+            .replaceAll("{package}", config.package || "meyelens")
+            .replaceAll("{extras}", extrasText);
     }
 
-    function updateGpuWarning() {
-        if (!gpuWarningTitle || !gpuWarningText || !gpuWarningLink) return;
+    function findWarningKey(config, state) {
+        const selectedOptions = getSelectedOptions(config, state);
+        const warningOption = selectedOptions.find((option) => option.show_warning);
 
-        if (state.backend === "tensorflow") {
-            gpuWarningTitle.textContent = "TensorFlow GPU installation requires a CUDA-compatible setup.";
-            gpuWarningText.textContent = "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.";
-            gpuWarningLink.href = "https://www.tensorflow.org/install/pip";
-            gpuWarningLink.textContent = "Open TensorFlow GPU installation guide";
-            return;
+        if (!warningOption) {
+            return null;
         }
 
-        gpuWarningTitle.textContent = "PyTorch GPU installation requires selecting the correct CUDA build.";
-        gpuWarningText.textContent = "Use the official PyTorch selector to choose the correct command for your operating system, package manager, and CUDA version.";
-        gpuWarningLink.href = "https://pytorch.org/get-started/locally/";
-        gpuWarningLink.textContent = "Open PyTorch installation selector";
+        return warningOption.value;
     }
 
-    function updateInstallMatrix() {
-        syncStateFromButtons();
+    function getWarning(config, state, warningKey) {
+        const warningGroup = config.warnings && config.warnings[warningKey];
 
-        if (state.compute === "gpu") {
-            commandBlock.hidden = true;
-            gpuWarning.hidden = false;
-            updateGpuWarning();
-            return;
+        if (!warningGroup) {
+            return null;
         }
 
-        commandBlock.hidden = false;
-        gpuWarning.hidden = true;
-        commandEl.textContent = getInstallCommand();
-
-        if (window.Prism) {
-            Prism.highlightElement(commandEl);
+        if (state.backend && warningGroup[state.backend]) {
+            return warningGroup[state.backend];
         }
+
+        return warningGroup.default || null;
     }
 
-    installMatrix.querySelectorAll(".install-cell").forEach((button) => {
-        button.addEventListener("click", () => {
-            const group = button.closest("[data-install-group]");
+    function updateOutput(matrix, config) {
+    const state = getState(matrix, config);
 
-            if (!group) return;
+    const commandBlock = matrix.querySelector("#install-command-block");
+    const commandEl = matrix.querySelector("#install-command");
 
-            group.querySelectorAll(".install-cell").forEach((groupButton) => {
-                groupButton.classList.remove("active");
-                groupButton.setAttribute("aria-pressed", "false");
+    const warningBox = matrix.querySelector("#install-warning");
+    const warningTitle = matrix.querySelector("#install-warning-title");
+    const warningText = matrix.querySelector("#install-warning-text");
+    const warningLink = matrix.querySelector("#install-warning-link");
+    const warningSmall = matrix.querySelector("#install-warning-small");
+
+    const warningKey = findWarningKey(config, state);
+    const warning = warningKey ? getWarning(config, state, warningKey) : null;
+
+    commandBlock.hidden = false;
+    commandEl.textContent = buildCommand(config, state);
+
+    if (warning) {
+        warningBox.hidden = false;
+
+        warningTitle.textContent = warning.title || "";
+        warningText.textContent = warning.text || "";
+        warningLink.href = warning.link || "#";
+        warningLink.textContent = warning.link_label || "Open instructions";
+        warningSmall.textContent = warning.small_text || "";
+    } else {
+        warningBox.hidden = true;
+    }
+
+    if (window.Prism) {
+        Prism.highlightElement(commandEl);
+    }
+}
+
+    function bindButtons(matrix, config) {
+        matrix.querySelectorAll(".install-cell").forEach((button) => {
+            button.addEventListener("click", () => {
+                const groupId = button.dataset.installGroup;
+
+                matrix
+                    .querySelectorAll(`.install-cell[data-install-group="${groupId}"]`)
+                    .forEach((groupButton) => {
+                        groupButton.classList.remove("active");
+                        groupButton.setAttribute("aria-pressed", "false");
+                    });
+
+                button.classList.add("active");
+                button.setAttribute("aria-pressed", "true");
+
+                updateOutput(matrix, config);
             });
-
-            button.classList.add("active");
-            button.setAttribute("aria-pressed", "true");
-
-            updateInstallMatrix();
         });
-    });
+    }
 
-    installMatrix.querySelectorAll(".install-cell").forEach((button) => {
-        button.setAttribute(
-            "aria-pressed",
-            button.classList.contains("active") ? "true" : "false"
-        );
-    });
+    function bindCopyButton(matrix) {
+        const copyButton = matrix.querySelector(".copy-btn");
+        const commandEl = matrix.querySelector("#install-command");
 
-    updateInstallMatrix();
+        if (!copyButton || !commandEl) return;
+
+        copyButton.addEventListener("click", async () => {
+            const command = commandEl.textContent.trim();
+
+            try {
+                await navigator.clipboard.writeText(command);
+                copyButton.textContent = "Copied";
+                copyButton.classList.add("copied");
+
+                window.setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                    copyButton.classList.remove("copied");
+                }, 1400);
+            } catch {
+                copyButton.textContent = "Copy failed";
+
+                window.setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                }, 1400);
+            }
+        });
+    }
+
+    function renderInstallMatrix(matrix, config) {
+        matrix.innerHTML = "";
+
+        config.groups.forEach((group) => {
+            matrix.appendChild(createGroupRow(group));
+        });
+
+        matrix.appendChild(createOutputRow(config));
+
+        bindButtons(matrix, config);
+        bindCopyButton(matrix);
+        updateOutput(matrix, config);
+    }
+
+    async function initInstallMatrix() {
+        const matrix = document.getElementById("meyelens-install");
+
+        if (!matrix) return;
+
+        try {
+            const config = await loadInstallConfig(matrix);
+            renderInstallMatrix(matrix, config);
+        } catch (error) {
+            matrix.innerHTML = `
+                <div class="install-command-box">
+                    <strong>Could not load installation options.</strong>
+                    <p class="install-warning-small">
+                        Check that the JSON file exists and that the page is served through a local or remote web server.
+                    </p>
+                </div>
+            `;
+
+            console.error(error);
+        }
+    }
+
+    initInstallMatrix();
 })();

@@ -284,28 +284,41 @@
 }
 
 
-
-/* PyTorch-style install matrix */
+/* install matrix */
 
 .install-matrix {
   background: var(--bg-soft);
   border-radius: var(--radius);
   overflow: hidden;
+  border: 1px solid var(--line);
 }
 
 .install-row,
 .install-output-row {
   display: grid;
-  grid-template-columns: 190px 1fr;
+  grid-template-columns: 190px minmax(0, 1fr);
   align-items: stretch;
+}
+
+.install-row + .install-row,
+.install-output-row {
+  border-top: 4px solid var(--bg-soft);
+}
+
+.install-output {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .install-row-label {
   color: var(--text-soft);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.2;
-  padding: 14px 14px 14px 8px;
+  padding: 14px 14px 14px 12px;
   border-left: 2px solid var(--line);
+  background: var(--bg-soft);
   display: flex;
   align-items: center;
 }
@@ -316,16 +329,9 @@
 
 .install-row-options {
   display: grid;
+  grid-template-columns: repeat(var(--install-columns, 2), minmax(0, 1fr));
   gap: 4px;
-  padding-bottom: 4px;
-}
-
-.install-row-options.cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.install-row-options.cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
 }
 
 .install-cell {
@@ -333,14 +339,17 @@
   border-radius: 0;
   background: var(--panel);
   color: var(--text-soft);
-  min-height: 46px;
+  min-height: 48px;
   padding: 12px 18px;
   text-align: left;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  min-width: 0;
   transition:
     background 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    filter 0.15s ease;
 }
 
 .install-cell:hover {
@@ -353,13 +362,18 @@
   color: #1f2328;
 }
 
+.install-cell.active:hover {
+  color: #1f2328;
+  filter: brightness(0.96);
+}
+
 .install-cell:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
 .install-output {
-  padding-top: 4px;
+  min-width: 0;
 }
 
 .install-command-box,
@@ -393,7 +407,8 @@
 }
 
 .install-gpu-warning[hidden],
-#install-command-block[hidden] {
+#install-command-block[hidden],
+#install-warning[hidden] {
   display: none;
 }
 
@@ -412,6 +427,7 @@
 .install-warning-small {
   margin-top: 12px;
   font-size: 13px;
+  color: var(--text-soft);
 }
 
 @media (max-width: 760px) {
@@ -423,7 +439,7 @@
   .install-row-label {
     border-left: 0;
     border-top: 2px solid var(--line);
-    padding: 14px 0 8px;
+    padding: 14px 12px 8px;
     font-size: 15px;
   }
 
@@ -431,8 +447,7 @@
     border-top-color: var(--text);
   }
 
-  .install-row-options.cols-2,
-  .install-row-options.cols-3 {
+  .install-row-options {
     grid-template-columns: 1fr;
   }
 
@@ -444,4 +459,3 @@
     font-size: 14px;
   }
 }
-
