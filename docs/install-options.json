@@ -20,12 +20,13 @@
         {
           "value": "tensorflow",
           "label": "TensorFlow",
-          "extra": "tensorflow"
+          "extra": "tf"
         },
         {
           "value": "pytorch",
           "label": "PyTorch",
-          "extra": "pytorch"
+          "extra": "",
+          "show_warning": true
         }
       ]
     },
@@ -68,28 +69,39 @@
   ],
 
   "warnings": {
+    "pytorch": {
+      "default": {
+        "title": "PyTorch backend coming soon.",
+        "text": "The PyTorch version of MEYELens is currently under development and is not yet available as a stable installation option.",
+        "link_label": "Follow development on GitHub",
+        "link": "https://github.com/raffaelemazziotti/MEYElens",
+        "small_text": "For now, use the Default or TensorFlow backend for stable MEYELens installation."
+      }
+    },
+
     "gpu": {
       "default": {
         "title": "GPU installation requires backend-specific setup.",
         "text": "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.",
-        "link_label": "Open GPU installation guide",
-        "link": "software.html",
-        "small_text": "After installing the correct GPU-enabled backend, install MEYELens using the CPU/default command."
+        "link_label": "Open TensorFlow installation guide",
+        "link": "https://www.tensorflow.org/install/pip",
+        "small_text": "Install the GPU-enabled backend first, then run the MEYELens command shown below."
       },
       "tensorflow": {
         "title": "TensorFlow GPU installation requires a CUDA-compatible setup.",
         "text": "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.",
         "link_label": "Open TensorFlow GPU installation guide",
         "link": "https://www.tensorflow.org/install/pip",
-        "small_text": "After installing the correct TensorFlow GPU backend, install MEYELens using the CPU/default command."
+        "small_text": "Install the TensorFlow GPU requirements first, then run the MEYELens command shown below."
       },
       "pytorch": {
-        "title": "PyTorch GPU installation requires selecting the correct CUDA build.",
-        "text": "Use the official PyTorch selector to choose the correct command for your operating system, package manager, and CUDA version.",
-        "link_label": "Open PyTorch installation selector",
-        "link": "https://pytorch.org/get-started/locally/",
-        "small_text": "After installing the correct PyTorch GPU backend, install MEYELens using the CPU/default command."
+        "title": "PyTorch backend coming soon.",
+        "text": "The PyTorch version of MEYELens is currently under development. GPU instructions will be added when the PyTorch backend is released.",
+        "link_label": "Follow development on GitHub",
+        "link": "https://github.com/raffaelemazziotti/MEYElens",
+        "small_text": "For now, use the Default or TensorFlow backend for stable MEYELens installation."
       }
     }
   }
 }
+
