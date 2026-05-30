@@ -356,30 +356,22 @@ document.addEventListener('DOMContentLoaded', () => {
             .replaceAll("{extras}", extrasText);
     }
 
-    function findWarningKey(config, state) {
-        const selectedOptions = getSelectedOptions(config, state);
-        const warningOption = selectedOptions.find((option) => option.show_warning);
+    function getWarnings(config, state) {
+    const selectedOptions = getSelectedOptions(config, state);
 
-        if (!warningOption) {
-            return null;
-        }
+    return selectedOptions
+        .filter((option) => option.show_warning)
+        .map((option) => {
+            const warningGroup = config.warnings && config.warnings[option.value];
 
-        return warningOption.value;
-    }
+            if (!warningGroup) {
+                return null;
+            }
 
-    function getWarning(config, state, warningKey) {
-        const warningGroup = config.warnings && config.warnings[warningKey];
-
-        if (!warningGroup) {
-            return null;
-        }
-
-        if (state.backend && warningGroup[state.backend]) {
-            return warningGroup[state.backend];
-        }
-
-        return warningGroup.default || null;
-    }
+            return warningGroup.default || null;
+        })
+        .filter(Boolean);
+}
 
     function updateOutput(matrix, config) {
     const state = getState(matrix, config);
@@ -393,22 +385,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const warningLink = matrix.querySelector("#install-warning-link");
     const warningSmall = matrix.querySelector("#install-warning-small");
 
-    const warningKey = findWarningKey(config, state);
-    const warning = warningKey ? getWarning(config, state, warningKey) : null;
+    const warnings = getWarnings(config, state);
 
     commandBlock.hidden = false;
     commandEl.textContent = buildCommand(config, state);
 
-    if (warning) {
+    if (warnings.length) {
         warningBox.hidden = false;
 
-        warningTitle.textContent = warning.title || "";
-        warningText.textContent = warning.text || "";
-        warningLink.href = warning.link || "#";
-        warningLink.textContent = warning.link_label || "Open instructions";
-        warningSmall.textContent = warning.small_text || "";
+        warningBox.innerHTML = warnings
+            .map((warning) => `
+                <div class="install-warning-item">
+                    <strong>${warning.title || ""}</strong>
+                    <p>${warning.text || ""}</p>
+                    ${
+                        warning.link
+                            ? `<a class="textlink" href="${warning.link}" target="_blank" rel="noopener noreferrer">${warning.link_label || "Open instructions"}</a>`
+                            : ""
+                    }
+                    <p class="install-warning-small">${warning.small_text || ""}</p>
+                </div>
+            `)
+            .join("");
     } else {
         warningBox.hidden = true;
+        warningBox.innerHTML = "";
     }
 
     if (window.Prism) {

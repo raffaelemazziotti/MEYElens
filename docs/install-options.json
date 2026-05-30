@@ -7,44 +7,21 @@
 
   "groups": [
     {
-      "id": "backend",
-      "label": "Backend",
-      "columns": 3,
-      "default": "default",
-      "options": [
-        {
-          "value": "default",
-          "label": "Default",
-          "extra": ""
-        },
-        {
-          "value": "tensorflow",
-          "label": "TensorFlow",
-          "extra": "tf"
-        },
-        {
-          "value": "pytorch",
-          "label": "PyTorch",
-          "extra": "",
-          "show_warning": true
-        }
-      ]
-    },
-    {
       "id": "interface",
       "label": "Interface",
       "columns": 2,
-      "default": "gui",
+      "default": "full",
       "options": [
         {
-          "value": "gui",
-          "label": "GUI",
+          "value": "full",
+          "label": "Full",
           "extra": ""
         },
         {
           "value": "headless",
           "label": "Headless",
-          "extra": "headless"
+          "extra": "headless",
+          "show_warning": true
         }
       ]
     },
@@ -57,11 +34,12 @@
         {
           "value": "cpu",
           "label": "CPU",
-          "extra": ""
+          "extra": "pt"
         },
         {
           "value": "gpu",
           "label": "GPU",
+          "extra": "",
           "show_warning": true
         }
       ]
@@ -69,39 +47,23 @@
   ],
 
   "warnings": {
-    "pytorch": {
-      "default": {
-        "title": "PyTorch backend coming soon.",
-        "text": "The PyTorch version of MEYELens is currently under development and is not yet available as a stable installation option.",
-        "link_label": "Follow development on GitHub",
-        "link": "https://github.com/raffaelemazziotti/MEYElens",
-        "small_text": "For now, use the Default or TensorFlow backend for stable MEYELens installation."
-      }
-    },
-
     "gpu": {
       "default": {
-        "title": "GPU installation requires backend-specific setup.",
-        "text": "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.",
-        "link_label": "Open TensorFlow installation guide",
-        "link": "https://www.tensorflow.org/install/pip",
-        "small_text": "Install the GPU-enabled backend first, then run the MEYELens command shown below."
-      },
-      "tensorflow": {
-        "title": "TensorFlow GPU installation requires a CUDA-compatible setup.",
-        "text": "GPU support depends on your operating system, CUDA version, GPU model, and installed drivers.",
-        "link_label": "Open TensorFlow GPU installation guide",
-        "link": "https://www.tensorflow.org/install/pip",
-        "small_text": "Install the TensorFlow GPU requirements first, then run the MEYELens command shown below."
-      },
-      "pytorch": {
-        "title": "PyTorch backend coming soon.",
-        "text": "The PyTorch version of MEYELens is currently under development. GPU instructions will be added when the PyTorch backend is released.",
-        "link_label": "Follow development on GitHub",
-        "link": "https://github.com/raffaelemazziotti/MEYElens",
-        "small_text": "For now, use the Default or TensorFlow backend for stable MEYELens installation."
+        "title": "GPU installation requires a manual PyTorch setup.",
+        "text": "For GPU support, install the CUDA-enabled version of PyTorch first. The correct PyTorch command depends on your operating system, CUDA version, GPU model, and installed drivers.",
+        "link_label": "Open PyTorch installation guide",
+        "link": "https://pytorch.org/get-started/locally/",
+        "small_text": "After installing the GPU-enabled PyTorch backend, run the MEYELens command shown below."
+      }
+    },
+    "headless": {
+      "default": {
+        "title": "Headless installation comes without the GUI.",
+        "text": "This is useful for minimal systems, remote devices, servers, and embedded hardware such as NVIDIA Jetson.",
+        "link_label": "NVIDIA Jetson hardware",
+        "link": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/",
+        "small_text": "On NVIDIA Jetson, install the appropriate GPU-enabled PyTorch package manually before running MEYELens."
       }
     }
   }
 }
-

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MEYELens - Software</title>
+    <meta name="description" content="Software overview of the MEYELens platform." />
+
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="shortcut icon" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="software.css" />
+</head>
+<script type="module" src="analytics.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+
+<body class="page-software">
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MEYELens home">
+            <img src="assets/favicon.png" alt="MEYELens logo" class="brand-logo">
+
+            <span class="brand-text">
+                <span class="brand-name">
+                    <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                </span>
+                <span class="brand-tag">open pupillometry &amp; gaze tracking</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <span class="nav-toggle-lines" aria-hidden="true"></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="get_started.html">Get Started</a>
+                <a href="hardware.html">Hardware</a>
+                <a href="software.html"><span class="brand-accent">Software</span></a>
+                <a href="models.html">3D Models</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <div class="container software-hero-grid">
+            <div>
+                <div class="eyebrow">Software</div>
+                <h1>Software setup, tutorials, and configuration.</h1>
+                <p class="lead">
+                    The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> library is designed to support acquisition, pupil detection,
+                    gaze-related workflows, and export of reproducible outputs.
+                </p>
+            </div>
+
+            <aside class="toc-card">
+                <div class="toc-title">Contents</div>
+                <nav class="toc" aria-label="Software contents">
+                    <a href="#installation">Installation</a>
+                    <a href="#tutorials">Tutorials</a>
+                </nav>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Future Selector -->
+    <section class="section" id="selection">
+        <div class="container">
+            <div class="section-head">
+                <h2>Installation Selector</h2>
+                <p class="muted">
+                    Select your MEYELens configuration and copy the generated install command.
+                </p>
+            </div>
+
+            <div
+                class="install-matrix"
+                id="meyelens-install"
+                data-config="install-options.json"
+            ></div>
+        </div>
+    </section>
+
+    <section class="section" id="installation">
+    <div class="container">
+        <div class="section-head">
+            <h2>Complete Installation Instructions</h2>
+            <p class="muted">
+                The library is written in Python. We recommend installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> in a dedicated Python environment.
+            </p>
+        </div>
+
+        <div class="text-block">
+            <h3>Recommended install</h3>
+            <p>
+                Create and activate a dedicated Conda environment, then install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> with the standard <a href="https://pytorch.org/" class="textlink">PyTorch</a> dependency set.
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">conda create -n meyelens python=3.10 -y
+conda activate meyelens
+pip install meyelens[pt]</code></pre>
+        </div>
+
+        <div class="note note-tip">
+            <strong>Tip:</strong>
+            This installs <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> together with a standard PyTorch dependency set.
+            Depending on your system, PyTorch may run on <u>CPU</u> unless <u>GPU</u> support is configured separately. GPU setup results in much higher performances due to parallel computation.
+        </div>
+
+        <div class="text-block">
+            <h3>PyTorch GPU support <span class="brand-soft">(optional)</span></h3>
+            <p>
+                If you want GPU acceleration, configure PyTorch first by following the official installation guide for your platform.
+                After verifying that PyTorch can access the GPU, install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>:
+            </p>
+        </div>
+
+        <div class="note note-warning">
+            <strong>Warning:</strong>
+            GPU acceleration depends on your operating system, CUDA/cuDNN compatibility, and PyTorch version.
+            Follow the
+            <a class="textlink" href="https://pytorch.org/get-started/locally/" target="_blank" rel="noopener">
+                official Pytorch installation guide
+            </a>
+            for your platform before installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>.
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install meyelens</code></pre>
+        </div>
+
+        <div class="note note-tip">
+            <strong>Tip:</strong>
+            This install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> alongside your manually configured PyTorch library.
+        </div>
+
+        <div class="text-block">
+            <h3>Headless package</h3>
+            <p>
+                If you want only the core Python package without the PyQt GUI, install the separate headless distribution.
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install "meyelens[headless]"</code></pre>
+        </div>
+
+        <div class="text-block">
+            <p>
+                To install the headless package with PyTorch dependencies:
+            </p>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Command</span>
+                <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
+            </div>
+<pre><code class="language-bash">pip install "meyelens[headless,tf]"</code></pre>
+        </div>
+
+        <div class="note note-warning">
+            <strong>Warning:</strong>
+            Do not install <code>meyelens</code> and <code>"meyelens[headless]"</code> into the same environment.
+            Use separate environments if you need to test both distributions.
+        </div>
+
+        <div class="note note-tip">
+            <strong>Documentation:</strong>
+            API documentation is available
+            <a class="textlink" href="docs/" target="_blank" rel="noopener">
+                here
+            </a>.
+        </div>
+    </div>
+</section>
+
+    <section class="section" id="tutorials">
+        <div class="container">
+            <div class="section-head">
+                <h2>Tutorials</h2>
+                <p class="muted">
+                    Step-by-step examples for acquisition, pupillometry, gaze tracking, and analysis workflows.
+                </p>
+            </div>
+
+            <div class="tutorial-gallery">
+
+                <a class="tutorial-card" href="tutorial_preview.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/media/tutorial_preview_crop.gif" alt="First recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Basic</div>
+                        <h3>First camera preview</h3>
+                        <p>Initialize a camera and open a live preview using the Python API.</p>
+                    </div>
+                </a>
+
+                <a class="tutorial-card" href="tutorial_online_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/favicon.png" alt="Online pupil recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Online recording</div>
+                        <h3>Record online pupil predictions</h3>
+                        <p>Start and stop live pupil prediction, save CSV files, and send keyboard trigger pulses.</p>
+                    </div>
+                </a>
+
+                <a class="tutorial-card" href="tutorial_offline_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/favicon.png" alt="Video and trigger recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Offline Recording</div>
+                        <h3>Record video with triggers</h3>
+                        <p>Save a camera stream to video while recording synchronized keyboard trigger pulses to CSV.</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Selector -->
+    <!--<section class="section" id="selection">
+        <div class="container">
+            <div class="section-head">
+                <h2>Installation</h2>
+                <p class="muted">
+                    Select your MEYELens configuration and copy the generated install command.
+                </p>
+            </div>
+
+            <div
+                class="install-matrix"
+                id="meyelens-install"
+                data-config="install-options.json"
+            ></div>
+        </div>
+    </section>-->
+
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <div class="footer-brand"><span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span></div>
+            <span class="brand-tag">
+                Released under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer" class="textlink">GPL-3.0</a> (code)
+                and <a href="https://spdx.org/licenses/CERN-OHL-P-2.0.html" target="_blank" rel="noopener noreferrer" class="textlink">CERN-OHL-P-2.0</a> (hardware).
+            </span>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="get_started.html">Get Started</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html"><span class="brand-accent">Software</span></a>
+            <a href="models.html">3D Models</a>
+            <a href="resources.html">Resources</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script src="index.js"></script>
+<script src="analytics-consent.js"></script>
+</body>
+</html>
