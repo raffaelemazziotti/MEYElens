@@ -12,34 +12,29 @@
     }
 
     function createModelCard(model) {
-        const article = document.createElement("article");
-        article.className = "model-zoo-card";
+    const card = document.createElement("a");
+    card.className = "model-zoo-card";
+    card.href = `model-detail.html?id=${encodeURIComponent(model.id)}`;
+    card.setAttribute("aria-label", `Open details for ${model.name}`);
 
-        article.innerHTML = `
+    card.innerHTML = `
+        <div class="model-zoo-thumb">
             <img
                 class="model-zoo-image"
                 src="${model.image}"
                 alt="Preview of ${model.name}"
             >
+        </div>
 
-            <div class="model-zoo-body">
-                <div class="resource-type">${model.tag}</div>
-                <h3>${model.name}</h3>
-                <p>${model.short_description}</p>
+        <div class="model-zoo-body">
+            <div class="model-zoo-type">${model.tag}</div>
+            <h3>${model.name}</h3>
+            <p>${model.short_description}</p>
+        </div>
+    `;
 
-                <div class="model-zoo-actions">
-                    <a class="btn btn-primary" href="${model.download}" download>
-                        Download
-                    </a>
-                    <a class="btn" href="model-detail.html?id=${encodeURIComponent(model.id)}">
-                        Info
-                    </a>
-                </div>
-            </div>
-        `;
-
-        return article;
-    }
+    return card;
+}
 
     function renderModelZoo(models) {
         const grid = document.getElementById("model-zoo-grid");

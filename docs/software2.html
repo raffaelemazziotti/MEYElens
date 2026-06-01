@@ -62,7 +62,7 @@
         <div class="container software-hero-grid">
             <div>
                 <div class="eyebrow">Software</div>
-                <h1>Software setup, tutorials, and configuration.</h1>
+                <h1>Software setup, configuration, and model-zoo.</h1>
                 <p class="lead">
                     The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> library is designed to support acquisition, pupil detection,
                     gaze-related workflows, and export of reproducible outputs.
@@ -73,7 +73,7 @@
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="Software contents">
                     <a href="#installation">Installation</a>
-                    <a href="#tutorials">Tutorials</a>
+                    <a href="#model-zoo">Model zoo</a>
                 </nav>
             </aside>
         </div>
@@ -205,71 +205,24 @@ pip install meyelens[pt]</code></pre>
     </div>
 </section>
 
-    <section class="section" id="tutorials">
+    <section class="section" id="model-zoo">
         <div class="container">
             <div class="section-head">
-                <h2>Tutorials</h2>
+                <h2>Model Zoo</h2>
                 <p class="muted">
-                    Step-by-step examples for acquisition, pupillometry, gaze tracking, and analysis workflows.
+                    Pretrained models and reusable model assets for MEYELens analysis workflows.
                 </p>
             </div>
 
-            <div class="tutorial-gallery">
-
-                <a class="tutorial-card" href="tutorial_preview.html">
-                    <div class="tutorial-thumb">
-                        <img src="assets/media/tutorial_preview_crop.gif" alt="First recording tutorial preview">
-                    </div>
-                    <div class="tutorial-body">
-                        <div class="tutorial-type">Basic</div>
-                        <h3>First camera preview</h3>
-                        <p>Initialize a camera and open a live preview using the Python API.</p>
-                    </div>
-                </a>
-
-                <a class="tutorial-card" href="tutorial_online_recording.html">
-                    <div class="tutorial-thumb">
-                        <img src="assets/favicon.png" alt="Online pupil recording tutorial preview">
-                    </div>
-                    <div class="tutorial-body">
-                        <div class="tutorial-type">Online recording</div>
-                        <h3>Record online pupil predictions</h3>
-                        <p>Start and stop live pupil prediction, save CSV files, and send keyboard trigger pulses.</p>
-                    </div>
-                </a>
-
-                <a class="tutorial-card" href="tutorial_offline_recording.html">
-                    <div class="tutorial-thumb">
-                        <img src="assets/favicon.png" alt="Video and trigger recording tutorial preview">
-                    </div>
-                    <div class="tutorial-body">
-                        <div class="tutorial-type">Offline Recording</div>
-                        <h3>Record video with triggers</h3>
-                        <p>Save a camera stream to video while recording synchronized keyboard trigger pulses to CSV.</p>
-                    </div>
-                </a>
-
+            <div id="model-zoo-grid" class="model-zoo-grid" aria-live="polite">
+                <!--
+                    Model cards are generated here by model-zoo.js.
+                -->
             </div>
+
+            <div id="model-zoo-status" class="muted model-zoo-status"></div>
         </div>
     </section>
-
-    <!-- Future Selector -->
-    <!--<section class="section" id="selection">
-        <div class="container">
-            <div class="section-head">
-                <h2>Installation</h2>
-                <p class="muted">
-                    Select your MEYELens configuration and copy the generated install command.
-                </p>
-            </div>
-
-            <div
-                class="install-matrix"
-                id="meyelens-install"
-                data-config="install-options.json"
-            ></div>
-        </div>
-    </section>-->
 
 </main>
 
@@ -297,5 +250,6 @@ pip install meyelens[pt]</code></pre>
 
 <script src="index.js"></script>
 <script src="analytics-consent.js"></script>
+<script src="model-zoo.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
     "id": "meye-pupil",
     "name": "MEYE pupil segmentation",
     "tag": "TensorFlow",
-    "short_description": "Default pupil mask and blink classification.",
+    "short_description": "(Deprecated) Default pupil mask and blink classification.",
     "description": "A model for interspecies pupil segmentation, blink classification, and extraction of frame-level pupil measurements from eye-facing camera recordings.",
     "image": "https://github.com/fabiocarrara/meye/wiki/images/meye_web_demo2.gif",
     "download": "https://github.com/fabiocarrara/meye/releases/download/v0.1.1/meye-2022-01-24.h5",
