@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="assets/styles/styles.css" />
     <link rel="stylesheet" href="assets/styles/resources.css" />
-    <link rel="stylesheet" href="model-detail.css" />
+    <link rel="stylesheet" href="assets/styles/model_detail.css" />
 </head>
 
 <script type="module" src="assets/js/analytics.js"></script>
@@ -72,6 +72,7 @@
                 <div class="model-summary-label" id="model-tag">Model</div>
                 <h3 id="model-summary-name">Model name</h3>
                 <p id="model-short-description"></p>
+                <p id="model-release" class="model-release"></p>
             </aside>
         </div>
     </section>
@@ -81,7 +82,7 @@
 
             <div class="model-detail-main">
 
-                <section class="model-detail-block">
+                <section class="model-detail-block" id="model-specs-section">
                     <div class="section-head">
                         <h2>Specifications</h2>
                         <p class="muted">Technical description of the model and expected input/output.</p>
@@ -94,27 +95,16 @@
                     </div>
                 </section>
 
-                <section class="model-detail-block">
+                <section class="model-detail-block" id="model-other-details-section">
                     <div class="section-head">
-                        <h2>Performance</h2>
-                        <p class="muted">Validation metrics and tested use cases.</p>
+                        <h2>Other details</h2>
+                        <p class="muted">Additional information, references, links, and model-specific notes.</p>
                     </div>
 
                     <div class="table-wrap model-detail-table">
                         <table class="data-table">
-                            <tbody id="model-performance-table"></tbody>
+                            <tbody id="model-other-details-table"></tbody>
                         </table>
-                    </div>
-                </section>
-
-                <section class="model-detail-block">
-                    <div class="section-head">
-                        <h2>Usage notes</h2>
-                    </div>
-
-                    <div class="content-block">
-                        <p id="model-notes"></p>
-
                     </div>
                 </section>
 
@@ -123,9 +113,7 @@
             <aside class="model-detail-side">
                 <figure class="media-figure model-detail-figure">
                     <img id="model-image" src="assets/media/model-placeholder.jpg" alt="Model preview">
-                    <figcaption id="model-image-caption">
-                        Model preview.
-                    </figcaption>
+                    <figcaption id="model-image-caption"></figcaption>
                 </figure>
 
                 <div class="model-side-card">

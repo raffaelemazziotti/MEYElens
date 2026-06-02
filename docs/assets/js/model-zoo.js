@@ -11,30 +11,105 @@
         return response.json();
     }
 
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function renderInlineMarkdown(value) {
+        if (!value) return "";
+
+        let html = escapeHtml(value);
+
+        // Markdown links: [text](https://example.com)
+        html = html.replace(
+            /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+            '<a class="textlink" href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+        );
+
+        // Bold: **text**
+        html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+
+        // Inline code: `text`
+        html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+        return html;
+    }
+
+    function hasValue(value) {
+        if (value === null || value === undefined) return false;
+        if (typeof value === "string" && value.trim() === "") return false;
+        if (Array.isArray(value) && value.length === 0) return false;
+        return true;
+    }
+
+    function setText(id, value) {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (hasValue(value)) {
+            element.textContent = value;
+            element.hidden = false;
+        } else {
+            element.textContent = "";
+            element.hidden = true;
+        }
+    }
+
+    function setHtml(id, value) {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (hasValue(value)) {
+            element.innerHTML = renderInlineMarkdown(value);
+            element.hidden = false;
+        } else {
+            element.innerHTML = "";
+            element.hidden = true;
+        }
+    }
+
+    function setLink(id, url) {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (hasValue(url)) {
+            element.href = url;
+            element.hidden = false;
+        } else {
+            element.removeAttribute("href");
+            element.hidden = true;
+        }
+    }
+
     function createModelCard(model) {
-    const card = document.createElement("a");
-    card.className = "model-zoo-card";
-    card.href = `model-detail.html?id=${encodeURIComponent(model.id)}`;
-    card.setAttribute("aria-label", `Open details for ${model.name}`);
+        const card = document.createElement("a");
+        card.className = "model-zoo-card";
+        card.href = `model-detail.html?id=${encodeURIComponent(model.id)}`;
+        card.setAttribute("aria-label", `Open details for ${model.name}`);
 
-    card.innerHTML = `
-        <div class="model-zoo-thumb">
-            <img
-                class="model-zoo-image"
-                src="${model.image}"
-                alt="Preview of ${model.name}"
-            >
-        </div>
+        card.innerHTML = `
+            <div class="model-zoo-thumb">
+                <img
+                    class="model-zoo-image"
+                    src="${escapeHtml(model.image || "assets/media/model-placeholder.jpg")}"
+                    alt="Preview of ${escapeHtml(model.name || "model")}"
+                >
+            </div>
 
-        <div class="model-zoo-body">
-            <div class="model-zoo-type">${model.tag}</div>
-            <h3>${model.name}</h3>
-            <p>${model.short_description}</p>
-        </div>
-    `;
+            <div class="model-zoo-body">
+                ${hasValue(model.tag) ? `<div class="model-zoo-type">${escapeHtml(model.tag)}</div>` : ""}
+                <h3>${escapeHtml(model.name || "Untitled model")}</h3>
+                ${hasValue(model.short_description) ? `<p>${escapeHtml(model.short_description)}</p>` : ""}
+            </div>
+        `;
 
-    return card;
-}
+        return card;
+    }
 
     function renderModelZoo(models) {
         const grid = document.getElementById("model-zoo-grid");
@@ -44,7 +119,7 @@
 
         grid.innerHTML = "";
 
-        if (!models.length) {
+        if (!Array.isArray(models) || !models.length) {
             if (status) {
                 status.textContent = "No models available yet.";
             }
@@ -61,17 +136,49 @@
     }
 
     function addTableRow(tableBody, label, value) {
+        if (!hasValue(value)) return;
+
         const row = document.createElement("tr");
 
         const th = document.createElement("th");
         th.textContent = label;
 
         const td = document.createElement("td");
-        td.textContent = value || "To be added";
+
+        if (Array.isArray(value)) {
+            td.innerHTML = value
+                .filter(hasValue)
+                .map((item) => `<div>${renderInlineMarkdown(item)}</div>`)
+                .join("");
+        } else {
+            td.innerHTML = renderInlineMarkdown(value);
+        }
 
         row.appendChild(th);
         row.appendChild(td);
         tableBody.appendChild(row);
+    }
+
+    function renderTableSection(sectionId, tableId, data) {
+        const section = document.getElementById(sectionId);
+        const table = document.getElementById(tableId);
+
+        if (!table) return;
+
+        table.innerHTML = "";
+
+        const entries = Object.entries(data || {}).filter(([, value]) => hasValue(value));
+
+        if (!entries.length) {
+            if (section) section.hidden = true;
+            return;
+        }
+
+        entries.forEach(([label, value]) => {
+            addTableRow(table, label, value);
+        });
+
+        if (section) section.hidden = false;
     }
 
     function renderModelDetail(models) {
@@ -94,74 +201,47 @@
             return;
         }
 
-        document.title = `MEYELens - ${model.name}`;
+        document.title = `MEYELens - ${model.name || "Model details"}`;
 
-        const modelTitle = document.getElementById("model-title");
-        const modelDescription = document.getElementById("model-description");
-        const modelTag = document.getElementById("model-tag");
-        const modelSummaryName = document.getElementById("model-summary-name");
-        const modelShortDescription = document.getElementById("model-short-description");
-        const modelNotes = document.getElementById("model-notes");
+        setText("model-title", model.name);
+        setText("model-description", model.description);
+        setText("model-tag", model.tag);
+        setText("model-summary-name", model.name);
+        setText("model-short-description", model.short_description);
 
-        if (modelTitle) modelTitle.textContent = model.name;
-        if (modelDescription) modelDescription.textContent = model.description;
-        if (modelTag) modelTag.textContent = model.tag;
-        if (modelSummaryName) modelSummaryName.textContent = model.name;
-        if (modelShortDescription) modelShortDescription.textContent = model.short_description;
-
-        /*
-            Notes can contain trusted HTML from model_zoo.json.
-
-            Example JSON:
-            "notes": "Released in 2022-01-24 - <a class=\"textlink\" href=\"https://github.com/fabiocarrara/meye/releases/tag/v0.1.1\" target=\"_blank\" rel=\"noopener noreferrer\">Reference</a>"
-        */
-        if (modelNotes) {
-            modelNotes.innerHTML = model.notes || "";
+        const modelRelease = document.getElementById("model-release");
+        if (modelRelease) {
+            if (hasValue(model.release)) {
+                modelRelease.textContent = `Release: ${model.release}`;
+                modelRelease.hidden = false;
+            } else {
+                modelRelease.textContent = "";
+                modelRelease.hidden = true;
+            }
         }
 
         const image = document.getElementById("model-image");
         if (image) {
-            image.src = model.image;
-            image.alt = `Preview of ${model.name}`;
+            image.src = model.image || "assets/media/model-placeholder.jpg";
+            image.alt = `Preview of ${model.name || "model"}`;
         }
 
-        const caption = document.getElementById("model-image-caption");
-        if (caption) {
-            caption.textContent = model.image_caption || "Model preview.";
-        }
+        setText("model-image-caption", model.image_caption);
 
-        const downloadTop = document.getElementById("model-download-top");
-        const downloadSide = document.getElementById("model-download-side");
+        setLink("model-download-top", model.download);
+        setLink("model-download-side", model.download);
 
-        if (downloadTop) {
-            downloadTop.href = model.download;
-        }
+        renderTableSection(
+            "model-specs-section",
+            "model-specs-table",
+            model.specs
+        );
 
-        if (downloadSide) {
-            downloadSide.href = model.download;
-        }
-
-        const specsTable = document.getElementById("model-specs-table");
-        const performanceTable = document.getElementById("model-performance-table");
-
-        if (specsTable) {
-            specsTable.innerHTML = "";
-
-            addTableRow(specsTable, "Backend", model.backend);
-            addTableRow(specsTable, "Task", model.task);
-            addTableRow(specsTable, "Input", model.input);
-            addTableRow(specsTable, "Output", model.output);
-            addTableRow(specsTable, "Recommended use", model.recommended_use);
-            addTableRow(specsTable, "Package use", model.package_use);
-        }
-
-        if (performanceTable) {
-            performanceTable.innerHTML = "";
-
-            Object.entries(model.performance || {}).forEach(([label, value]) => {
-                addTableRow(performanceTable, label, value);
-            });
-        }
+        renderTableSection(
+            "model-other-details-section",
+            "model-other-details-table",
+            model.other_details
+        );
     }
 
     async function initModelZoo() {
