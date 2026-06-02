@@ -503,3 +503,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initInstallMatrix();
 })();
+
+function addSiteNotice() {
+    const existingNotice = document.querySelector(".site-notice");
+
+    if (existingNotice) {
+        return;
+    }
+
+    const header = document.querySelector(".site-header");
+
+    if (!header) {
+        return;
+    }
+
+    const notice = document.createElement("div");
+    notice.className = "site-notice";
+
+    notice.innerHTML = `
+        <div class="container">
+            <strong>Work in progress.</strong>
+            This website is being actively updated as <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> documentation, tutorials, and resources are completed.
+        </div>
+    `;
+
+    header.insertAdjacentElement("afterend", notice);
+}
+
+addSiteNotice();

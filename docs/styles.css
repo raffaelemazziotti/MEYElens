@@ -949,3 +949,20 @@ pre[class*="language-"] {
         grid-template-columns: 1fr;
     }
 }
+
+
+.site-notice {
+    border-bottom: 1px solid rgba(226, 183, 20, 0.35);
+    background:
+        linear-gradient(90deg, rgba(226, 183, 20, 0.16), rgba(226, 183, 20, 0.04));
+}
+
+.site-notice .container {
+    padding: 11px 0;
+    font-size: 14px;
+    color: var(--text-soft);
+}
+
+.site-notice strong {
+    color: var(--accent);
+}
