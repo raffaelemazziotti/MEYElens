@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-06-02",
+    "title": "3D Models page updated",
+    "summary": "Updated the 3D Models page with printable files, individual model parts, print settings, and links to external model repositories.",
+    "tag": "Update",
+    "url": "models.html",
+    "button": "View",
+    "image": "assets/media/bambulab.png",
+    "imageAlt": "MEYELens 3D model assets"
+  },
+  {
     "date": "2026-03-22",
     "title": "Hardware documentation updated",
     "summary": "Added a clearer overview of the wearable frame and expanded the hardware component table with pricing and links.",
