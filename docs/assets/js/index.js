@@ -72,7 +72,7 @@
 
                         const linkHtml = item.url
                             ? `
-                                <a class="btn" href="${item.url}">
+                                <a class="btn btn-primary" href="${item.url}">
                                     ${item.button || "Open"}
                                 </a>
                             `

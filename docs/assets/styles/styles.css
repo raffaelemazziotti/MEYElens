@@ -733,18 +733,56 @@ figcaption {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
+    align-items: start;
 }
 
 .update-card {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg-soft);
-    overflow: hidden;
+    position: relative;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+        var(--bg-soft);
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.update-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+        radial-gradient(circle at top left, rgba(226, 183, 20, 0.18), transparent 42%),
+        linear-gradient(135deg, rgba(226, 183, 20, 0.08), transparent 40%);
+    transition: opacity 0.18s ease;
+}
+
+.update-card:hover,
+.update-card:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(226, 183, 20, 0.65);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26);
+}
+
+.update-card:hover::before,
+.update-card:focus-within::before {
+    opacity: 1;
 }
 
 .update-media {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
     border-bottom: 1px solid var(--line);
     background: var(--panel);
 }
@@ -752,54 +790,77 @@ figcaption {
 .update-media img {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 7;
     object-fit: cover;
+    transform: scale(1.01);
+    filter: saturate(0.92) contrast(0.96);
+    transition:
+        transform 0.22s ease,
+        filter 0.22s ease;
+}
+
+.update-card:hover .update-media img,
+.update-card:focus-within .update-media img {
+    transform: scale(1.06);
+    filter: saturate(1.08) contrast(1.04);
 }
 
 .update-body {
-    padding: 18px;
+    position: relative;
+    z-index: 1;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    height: 100%;
+    gap: 7px;
 }
 
 .update-tag {
     display: inline-flex;
-    align-self: flex-start;
-    padding: 4px 8px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--panel);
+    align-items: center;
+    width: fit-content;
+
     color: var(--accent);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
+}
+
+.update-tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-right: 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(226, 183, 20, 0.65);
 }
 
 .update-date {
     margin: 0;
     color: var(--text-soft);
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .update-body h3 {
     margin: 0;
-    font-size: 18px;
-    line-height: 1.35;
+    font-size: 15px;
+    line-height: 1.25;
 }
 
 .update-body p {
     margin: 0;
     color: var(--text-soft);
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .update-body .btn {
-    margin-top: auto;
+    margin-top: 6px;
     align-self: flex-start;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 12px;
 }
 
 .icon-btn {
