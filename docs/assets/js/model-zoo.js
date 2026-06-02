@@ -1,5 +1,5 @@
 (() => {
-    const MODEL_ZOO_URL = "model_zoo.json";
+    const MODEL_ZOO_URL = "assets/json/model_zoo.json";
 
     async function loadModels() {
         const response = await fetch(MODEL_ZOO_URL);

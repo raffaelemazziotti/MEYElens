@@ -25,7 +25,7 @@
     const updatesList = document.getElementById("updates-list");
 
     if (updatesList) {
-        fetch("assets/updates.json")
+        fetch("assets/json/updates.json")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to load updates.json");
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 (() => {
     async function loadInstallConfig(matrix) {
-        const configUrl = matrix.dataset.config || "install-options.json";
+        const configUrl = matrix.dataset.config || "assets/json/install-options.json";
         const response = await fetch(configUrl);
 
         if (!response.ok) {
