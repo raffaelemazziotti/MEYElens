@@ -1,3 +1,7 @@
+/* ============================================================
+   Resources page
+   ============================================================ */
+
 .page-resources .resources-hero-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.9fr;
@@ -19,6 +23,10 @@
 .page-resources .toc a:hover {
   color: var(--text);
 }
+
+/* ============================================================
+   Generic resource cards
+   ============================================================ */
 
 .page-resources .resources-grid {
   display: grid;
@@ -61,6 +69,10 @@
   font-size: 14px;
 }
 
+/* ============================================================
+   Resource rows
+   ============================================================ */
+
 .page-resources .resource-list {
   display: flex;
   flex-direction: column;
@@ -88,22 +100,82 @@
   font-size: 14px;
 }
 
-@media (max-width: 960px) {
-  .page-resources .resources-hero-grid,
-  .page-resources .resources-grid,
-  .page-resources .resources-grid.narrow-grid {
-    grid-template-columns: 1fr;
-  }
+/* ============================================================
+   Model Zoo cards
+   ============================================================ */
+
+.page-resources .model-zoo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
 }
 
-@media (max-width: 760px) {
-  .page-resources .resource-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.page-resources .model-zoo-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 12px;
+  align-items: start;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-/* Tutorials*/
+.page-resources .model-zoo-card:hover {
+  border-color: var(--text-soft);
+  background: var(--panel);
+}
+
+.page-resources .model-zoo-thumb {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+}
+
+.page-resources .model-zoo-image {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.page-resources .model-zoo-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.page-resources .model-zoo-type {
+  margin: 0;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.page-resources .model-zoo-body h3 {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.page-resources .model-zoo-body p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   Tutorials: cards on resources.html
+   ============================================================ */
 
 .page-resources .tutorial-gallery {
   display: grid;
@@ -250,43 +322,193 @@
   line-height: 1.45;
 }
 
+/* ============================================================
+   Tutorial detail page
+   ============================================================ */
 
-@media (max-width: 1100px) {
-  .page-resources .tutorial-gallery {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+.page-tutorial-detail .tutorial-main {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .page-tutorial-detail .tutorial-main {
+    gap: 20px;
+  }
+}
+
+.page-tutorial-detail .tutorial-section {
+  margin-top: 0;
+}
+
+.page-tutorial-detail #tutorial-figure {
+  margin: 0 0 22px;
+}
+
+.page-tutorial-detail #tutorial-figure img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.page-tutorial-detail .content-block h2,
+.page-tutorial-detail .text-block h2 {
+  margin-bottom: 10px;
+}
+
+.page-tutorial-detail .content-block .btn {
+  margin-top: 12px;
+}
+
+.page-tutorial-detail .note {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.page-tutorial-detail .code-block {
+  margin-top: 0;
+}
+
+.page-tutorial-detail .tutorial-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.page-tutorial-detail .tutorial-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Tutorial detail layout */
+
+.page-tutorial-detail .tutorial-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.page-tutorial-detail .tutorial-hero-grid h1 {
+  max-width: 16ch;
+}
+
+.page-tutorial-detail .tutorial-hero-grid .lead {
+  max-width: 70ch;
+}
+
+.page-tutorial-detail .tutorial-preview-card,
+.page-tutorial-detail .tutorial-side-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
+    var(--bg-soft);
+  overflow: hidden;
+}
+
+.page-tutorial-detail .tutorial-preview-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.page-tutorial-detail .tutorial-preview-body {
+  padding: 14px;
+}
+
+.page-tutorial-detail .tutorial-preview-body p {
+  margin: 10px 0 0;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.page-tutorial-detail .tutorial-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
+  align-items: start;
+}
+
+.page-tutorial-detail .tutorial-main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.page-tutorial-detail .tutorial-side-card {
+  position: sticky;
+  top: 24px;
+  padding: 18px;
+}
+
+.page-tutorial-detail .tutorial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.page-tutorial-detail .tutorial-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (max-width: 960px) {
+  .page-tutorial-detail .tutorial-hero-grid,
+  .page-tutorial-detail .tutorial-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-tutorial-detail .tutorial-side-card {
+    position: static;
   }
 }
 
 @media (max-width: 760px) {
-  .page-resources .tutorial-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .page-tutorial-detail .tutorial-preview-card img {
+    aspect-ratio: 16 / 7;
   }
 
-  .page-resources .tutorial-card:hover,
-  .page-resources .tutorial-card:focus-visible {
-    transform: none;
-  }
-
-  .page-resources .tutorial-thumb::after {
-    display: none;
-  }
-
-  .page-resources .tutorial-body p {
+  .page-tutorial-detail .tutorial-side-card {
     display: none;
   }
 }
 
-@media (max-width: 480px) {
-  .page-resources .tutorial-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .page-resources .tutorial-body p {
-    display: block;
-  }
-}
-
-/* Citation section */
+/* ============================================================
+   Citation section
+   ============================================================ */
 
 .page-resources .citation-list {
   display: flex;
@@ -360,9 +582,81 @@
   font-size: 13px;
 }
 
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .page-resources .model-zoo-grid,
+  .page-resources .tutorial-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .page-resources .resources-hero-grid,
+  .page-resources .resources-grid,
+  .page-resources .resources-grid.narrow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-resources .model-zoo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 760px) {
+  .page-resources .resource-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-resources .tutorial-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-resources .tutorial-card:hover,
+  .page-resources .tutorial-card:focus-visible {
+    transform: none;
+  }
+
+  .page-resources .tutorial-thumb::after {
+    display: none;
+  }
+
+  .page-resources .tutorial-body p {
+    display: none;
+  }
+
   .page-resources .citation-card {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-resources .model-zoo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-resources .model-zoo-card {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .page-resources .model-zoo-thumb,
+  .page-resources .model-zoo-image {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-resources .tutorial-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .page-resources .tutorial-body p {
+    display: block;
   }
 }

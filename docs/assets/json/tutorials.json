@@ -1,0 +1,193 @@
+[
+  {
+    "id": "first-preview",
+    "title": "First camera preview",
+    "tag": "Basic",
+    "level": "Beginner",
+    "summary": "Initialize a camera and open a live preview using the Python API.",
+    "description": "This tutorial checks that MEYELens is installed correctly and that your camera can be opened from Python.",
+    "image": "assets/media/tutorial_preview_crop.gif",
+    "imageAlt": "First camera preview tutorial",
+    "python_file": "assets/python/tutorial_preview.py",
+    "button": "Open tutorial",
+
+    "sections": [
+      {
+        "kind": "text",
+        "title": "Goal",
+        "body": "Open a live camera preview and verify that the camera and MEYELens model can run from Python."
+      },
+      {
+        "kind": "list",
+        "title": "Requirements",
+        "items": [
+          "MEYELens installed in a dedicated Python environment",
+          "Eye facing camera",
+          "A visible eye region in the camera frame"
+        ]
+      },
+      {
+        "kind": "tip",
+        "title": "Tip",
+        "body": "If the wrong camera opens, try changing `camera_index=0` to `camera_index=1` or `camera_index=2`."
+      },
+      {
+        "kind": "warning",
+        "title": "Camera already in use",
+        "body": "If the camera does not open, close other applications that may be using it."
+      },
+      {
+        "kind": "code",
+        "title": "Preview script",
+        "source": "python_file"
+      }
+    ]
+  },
+  {
+    "id": "online-recording",
+    "title": "Record online pupil predictions",
+    "tag": "Online recording",
+    "level": "Intermediate",
+    "summary": "Run live pupil prediction, save frame-by-frame CSV data, and send keyboard trigger pulses during acquisition.",
+    "description": "This tutorial shows how to record online MEYELens pupil predictions while saving synchronized frame-level data and keyboard trigger pulses to a CSV file.",
+    "image": "assets/media/favicon.png",
+    "imageAlt": "Online pupil prediction recording tutorial",
+    "imageCaption": "Online recording workflow with live prediction, preview, CSV export, and keyboard triggers.",
+    "python_file": "assets/python/tutorial_online_recording.py",
+    "button": "Open tutorial",
+
+    "sections": [
+      {
+        "kind": "text",
+        "title": "Goal",
+        "body": "Use `MeyeAsyncRecorder` to run online pupil prediction, preview the predicted pupil overlay, and save frame-by-frame results to CSV."
+      },
+      {
+        "kind": "list",
+        "title": "What this tutorial records",
+        "items": [
+          "Live camera frames processed by the MEYELens online recorder",
+          "Frame-level pupil prediction outputs",
+          "Keyboard trigger pulses from keys `1` to `9`",
+          "A timestamped recording folder containing the final `expinfo.csv` file"
+        ]
+      },
+      {
+        "kind": "list",
+        "title": "Keyboard controls",
+        "items": [
+          "`s`: start recording in a new timestamped folder",
+          "`e`: stop recording and save the CSV as `expinfo.csv`",
+          "`1` to `9`: send a one-frame trigger pulse to the corresponding trigger channel",
+          "`q`: quit the script"
+        ]
+      },
+      {
+        "kind": "tip",
+        "title": "Camera index",
+        "body": "The script uses `cam_ind=0` by default. If the wrong camera opens, change it to `cam_ind=1`, `cam_ind=2`, or another available camera index."
+      },
+      {
+        "kind": "warning",
+        "title": "Online prediction performance",
+        "body": "Online prediction speed depends on camera resolution, model size, CPU/GPU availability, and preview rendering. For time-sensitive experiments, test the real acquisition rate before collecting data."
+      },
+      {
+        "kind": "tip",
+        "title": "Automatic stop",
+        "body": "Set `MAX_DURATION_SEC` to a number, for example `60`, if you want the recording to stop automatically after a fixed duration."
+      },
+      {
+        "kind": "code",
+        "title": "Online recording script",
+        "source": "python_file"
+      },
+      {
+        "kind": "text",
+        "title": "Output",
+        "body": "Each recording creates a timestamped folder inside `recordings/`. When the recording is stopped, the temporary CSV file is renamed to `expinfo.csv` for consistency across sessions."
+      },
+      {
+        "kind": "warning",
+        "title": "Trigger timing",
+        "body": "Trigger pulses are saved as one-frame events. Pressed keys are written on the next saved frame and then reset to zero."
+      },
+      {
+        "kind": "text",
+        "title": "Expected result",
+        "body": "A live OpenCV preview window should open. During preview mode, frames are processed but not saved. After pressing `s`, online predictions and trigger values are written to CSV until you press `e` or `q`."
+      }
+    ]
+  },
+  {
+    "id": "offline-recording",
+    "title": "Record video with triggers",
+    "tag": "Offline recording",
+    "level": "Intermediate",
+    "summary": "Save the raw camera stream to video while recording synchronized keyboard trigger pulses to CSV.",
+    "description": "This tutorial shows how to record a camera stream for later offline analysis. It saves the raw video and a synchronized trigger file without running online pupil prediction during acquisition.",
+    "image": "assets/media/favicon.png",
+    "imageAlt": "Offline video and trigger recording tutorial",
+    "imageCaption": "Offline recording workflow with raw video acquisition and frame-level trigger logging.",
+    "python_file": "assets/python/tutorial_offline_recording.py",
+    "button": "Open tutorial",
+
+    "sections": [
+      {
+        "kind": "list",
+        "title": "What this tutorial records",
+        "items": [
+          "Raw camera frames saved to a video file",
+          "Frame-level timestamps saved to `expinfo.csv`",
+          "Keyboard trigger pulses from keys `1` to `9`",
+          "A compact trigger `signal` column, where `0` means no trigger and `1`-`9` indicate the active trigger channel"
+        ]
+      },
+      {
+        "kind": "list",
+        "title": "Keyboard controls",
+        "items": [
+          "`s`: start recording in a new timestamped folder",
+          "`e`: stop recording and finalize the files",
+          "`1` to `9`: send a one-frame trigger pulse to the corresponding trigger channel",
+          "`q`: quit the script"
+        ]
+      },
+      {
+        "kind": "tip",
+        "title": "Camera index",
+        "body": "The script uses `camera_index=0` by default. If the wrong camera opens, change it to `camera_index=1`, `camera_index=2`, or another available camera index."
+      },
+      {
+        "kind": "warning",
+        "title": "Frame timing",
+        "body": "The script uses `FrameRateManager` to control sampling at `TARGET_FPS`, but the effective frame rate still depends on camera performance, USB bandwidth, disk writing speed, and system load."
+      },
+      {
+        "kind": "tip",
+        "title": "Automatic stop",
+        "body": "Set `MAX_DURATION_SEC` to a number, for example `60`, if you want recording to stop automatically after a fixed duration."
+      },
+      {
+        "kind": "code",
+        "title": "Offline recording script",
+        "source": "python_file"
+      },
+      {
+        "kind": "text",
+        "title": "Output",
+        "body": "Each recording creates a timestamped folder inside `recordings/`. The trigger file is finalized as `expinfo.csv`, and the video file contains the raw camera frames."
+      },
+      {
+        "kind": "warning",
+        "title": "Trigger timing",
+        "body": "Trigger pulses are saved as one-frame events. Pressed keys are written on the next recorded frame and then reset to zero."
+      },
+      {
+        "kind": "text",
+        "title": "Expected result",
+        "body": "A live OpenCV preview window should open. Before recording, frames are shown but not saved. After pressing `s`, raw video frames and trigger rows are saved until you press `e` or `q`."
+      }
+    ]
+  }
+]
