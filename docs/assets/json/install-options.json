@@ -34,7 +34,8 @@
         {
           "value": "cpu",
           "label": "CPU",
-          "extra": "pt"
+          "extra": "pt",
+          "show_warning": true
         },
         {
           "value": "gpu",
@@ -63,6 +64,12 @@
         "link_label": "NVIDIA Jetson hardware",
         "link": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/",
         "small_text": "On NVIDIA Jetson, install the appropriate GPU-enabled PyTorch package manually before running MEYELens."
+      }
+    },
+    "cpu": {
+      "default": {
+        "title": "This installation runs on CPU",
+        "small_text": "You are installing the CPU version of MEYELens. This version is compatible with systems without a supported GPU, but it is slower than the GPU version. For faster performance, select the GPU installation option."
       }
     }
   }
