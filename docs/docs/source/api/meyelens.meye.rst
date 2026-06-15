@@ -1,7 +1,7 @@
-meyelens.meye
-=============
+Inference, Camera, Recording, And Gaze
+======================================
 
 .. automodule:: meyelens.meye
    :members:
    :show-inheritance:
-   :undoc-members:
+   :member-order: bysource

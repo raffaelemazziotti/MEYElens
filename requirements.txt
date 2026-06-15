@@ -1,10 +1,10 @@
-joblib==1.4.2
-matplotlib==3.10.0
-numpy==2.2.6
-opencv-python==4.12.0.88
-pandas==2.3.3
-PyQt6==6.10.1
-scikit-learn==1.6.1
-scikit-image==0.25.2
-tensorflow==2.20.0
-toml==0.10.2
+# Install a platform-appropriate PyTorch 2.2+ build separately.
+matplotlib>=3.8
+numpy>=1.26,<3
+opencv-python>=4.9
+pandas>=2.1
+PyQt6>=6.6
+scikit-learn>=1.4
+scipy>=1.11
+toml>=0.10.2
+transformers>=4.57,<=5.8.1

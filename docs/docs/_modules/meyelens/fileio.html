@@ -5,32 +5,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>meyelens.fileio &mdash; MEYELens 0.2.2 documentation</title>
+  <title>meyelens.fileio &mdash; MEYELens 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
-  
+
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=000c92bf"></script>
+      <script src="../../_static/documentation_options.js?v=51b770b3"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="../../index.html" class="icon icon-home">
             MEYELens
           </a>
@@ -42,8 +42,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">meyelens</a></li>
+              <p class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Modules</a></li>
 </ul>
 
         </div>
@@ -69,7 +70,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <h1>Source code for meyelens.fileio</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
@@ -77,290 +78,527 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empty</span><span class="p">,</span> <span class="n">Full</span><span class="p">,</span> <span class="n">Queue</span>
 
 
-<div class="viewcode-block" id="FileWriter">
-<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.FileWriter">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FileWriter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Simple synchronous text file writer.</span>
-
-<span class="sd">    This class creates a timestamped ``.txt`` file and exposes convenience</span>
-<span class="sd">    methods to write either a single string (one line) or a list of values</span>
-<span class="sd">    separated by a custom delimiter.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    - This writer is **synchronous**: each call writes directly to disk.</span>
-<span class="sd">    - The filename is always timestamped to reduce accidental overwrites.</span>
-<span class="sd">    - The file is opened immediately on initialization and must be closed</span>
-<span class="sd">      by calling :meth:`close`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_file</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">append</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the writer and open the output file.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        path_to_file : str or pathlib.Path</span>
-<span class="sd">            Directory where the file will be created.</span>
-<span class="sd">        filename : str, optional</span>
-<span class="sd">            Base filename (without extension). A timestamp is prepended and the</span>
-<span class="sd">            extension ``.txt`` is appended.</span>
-<span class="sd">        append : bool, optional</span>
-<span class="sd">            If ``True``, open the file in append mode (``&#39;a&#39;``). If ``False``,</span>
-<span class="sd">            overwrite/create the file (``&#39;w&#39;``).</span>
-<span class="sd">        sep : str, optional</span>
-<span class="sd">            Separator used by :meth:`write_sv` to join list values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path_str</span> <span class="o">=</span> <span class="n">path_to_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">filename_str</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S-&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_str</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename_str</span>
-
-        <span class="c1"># Choose file open mode.</span>
-        <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span> <span class="k">if</span> <span class="n">append</span> <span class="k">else</span> <span class="s2">&quot;w&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
-
-<div class="viewcode-block" id="FileWriter.write">
-<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.FileWriter.write">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stringa</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write a single line to the file.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        stringa : str</span>
-<span class="sd">            Line content. A newline character is automatically appended.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stringa</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="FileWriter.write_sv">
-<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.FileWriter.write_sv">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">write_sv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lista</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write a list of values as a separator-joined line.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        lista : iterable</span>
-<span class="sd">            Values to serialize. Each element is converted to ``str``.</span>
-<span class="sd">            The resulting line is written with a trailing newline.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="FileWriter.is_open">
-<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.FileWriter.is_open">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">is_open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check whether the underlying file handle is still open.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        bool</span>
-<span class="sd">            ``True`` if the file is open, otherwise ``False``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">closed</span></div>
-
-
-<div class="viewcode-block" id="FileWriter.close">
-<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.FileWriter.close">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Close the underlying file handle.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        After closing, further write attempts will raise an exception.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
-</div>
-
-
-
 <div class="viewcode-block" id="BufferedFileWriter">
 <a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BufferedFileWriter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Buffered asynchronous text file writer.</span>
+<span class="sd">    Buffered asynchronous text-file writer.</span>
 
-<span class="sd">    This writer uses an in-memory :class:`queue.Queue` as a buffer and a</span>
-<span class="sd">    background thread to flush lines to disk. This is useful for time-critical</span>
-<span class="sd">    data acquisition loops where direct disk writes would introduce latency.</span>
+<span class="sd">    This class is designed for time-sensitive acquisition loops.</span>
 
-<span class="sd">    The file format is:</span>
+<span class="sd">    The acquisition loop calls:</span>
 
-<span class="sd">    - optional metadata lines (prefixed with ``#``)</span>
-<span class="sd">    - a header row (separator-joined)</span>
-<span class="sd">    - data rows (one per buffered entry)</span>
+<span class="sd">        writer.write_sv(row)</span>
 
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    - The background thread is started automatically at initialization.</span>
-<span class="sd">    - Call :meth:`close` to stop the thread and ensure all queued data is written.</span>
-<span class="sd">    - If the buffer is full, new entries are discarded and a ``print`` warning</span>
-<span class="sd">      is emitted (per your request, no logging is used).</span>
+<span class="sd">    and the row is placed into an in-memory queue. A background thread removes</span>
+<span class="sd">    rows from the queue and writes them to disk.</span>
+
+<span class="sd">    This avoids blocking the acquisition loop on disk I/O.</span>
+
+<span class="sd">    Important distinction</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    There are two different buffers:</span>
+
+<span class="sd">    - Queue buffer: rows waiting in memory before the background thread writes</span>
+<span class="sd">      them.</span>
+<span class="sd">    - File buffer: rows already written by Python to the file object, but not</span>
+<span class="sd">      necessarily flushed to the operating system yet.</span>
+
+<span class="sd">    The parameters ``flush_every`` and ``flush_interval`` refer to the</span>
+<span class="sd">    file buffer, not to the queue.</span>
+
+<span class="sd">    Normal close behavior</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    Calling :meth:`close` guarantees that:</span>
+
+<span class="sd">    - no new rows are accepted;</span>
+<span class="sd">    - the queue is drained;</span>
+<span class="sd">    - all queued rows are written;</span>
+<span class="sd">    - the file buffer is flushed;</span>
+<span class="sd">    - the file is closed.</span>
+
+<span class="sd">    Therefore, under normal termination, queued data are not lost.</span>
+
+<span class="sd">    Overflow behavior</span>
+<span class="sd">    -----------------</span>
+<span class="sd">    If the queue becomes full, the behavior is controlled by</span>
+<span class="sd">    ``overflow_policy``:</span>
+
+<span class="sd">    - ``&quot;raise&quot;``:</span>
+<span class="sd">        Raise an error. Recommended for experiments, because a full queue means</span>
+<span class="sd">        the writer cannot keep up.</span>
+
+<span class="sd">    - ``&quot;block&quot;``:</span>
+<span class="sd">        Wait until there is space in the queue. This prevents data loss but can</span>
+<span class="sd">        block the acquisition loop.</span>
+
+<span class="sd">    - ``&quot;drop&quot;``:</span>
+<span class="sd">        Discard the new row and print a warning. This avoids blocking, but data</span>
+<span class="sd">        are lost.</span>
+
+<span class="sd">    File format</span>
+<span class="sd">    -----------</span>
+<span class="sd">    The output file contains:</span>
+
+<span class="sd">    - optional metadata lines, prefixed by ``#``;</span>
+<span class="sd">    - one header row;</span>
+<span class="sd">    - one data row per call to :meth:`write` or :meth:`write_sv`.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       writer = BufferedFileWriter(</span>
+<span class="sd">           path_to_file=&quot;Data&quot;,</span>
+<span class="sd">           filename=&quot;subject01&quot;,</span>
+<span class="sd">           headers=[&quot;time&quot;, &quot;x&quot;, &quot;y&quot;, &quot;trg1&quot;],</span>
+<span class="sd">           metadata={&quot;subject&quot;: &quot;subject01&quot;, &quot;condition&quot;: &quot;baseline&quot;},</span>
+<span class="sd">           overflow_policy=&quot;raise&quot;,</span>
+<span class="sd">       )</span>
+
+<span class="sd">       writer.write_sv([0.001, 123.4, 88.2, 1])</span>
+<span class="sd">       writer.close()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">VALID_OVERFLOW_POLICIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;drop&quot;</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">path_to_file</span><span class="p">,</span>
-        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="n">buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
         <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span>
+        <span class="n">extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+        <span class="n">flush_every</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">flush_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">overflow_policy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the BufferedFileWriter.</span>
+<span class="sd">        Initialize the writer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        path_to_file : str or pathlib.Path</span>
-<span class="sd">            Directory where the file will be created.</span>
-<span class="sd">        filename : str, optional</span>
-<span class="sd">            Base filename (without extension). A timestamp is prepended and the</span>
-<span class="sd">            extension ``.txt`` is appended.</span>
-<span class="sd">        buffer_size : int, optional</span>
-<span class="sd">            Maximum number of queued lines allowed before new values are dropped.</span>
-<span class="sd">        metadata : dict, optional</span>
-<span class="sd">            Metadata written at the top of the file as comment lines in the form</span>
-<span class="sd">            ``# key: value``.</span>
-<span class="sd">        headers : list of str, optional</span>
-<span class="sd">            Column names written as the first non-metadata row.</span>
-<span class="sd">        sep : str, optional</span>
-<span class="sd">            Separator used for header and list serialization (default ``&#39;;&#39;``).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path_str</span> <span class="o">=</span> <span class="n">path_to_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">filename_str</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S-&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_str</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename_str</span>
+<span class="sd">            Directory where the output file will be created.</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span> <span class="o">=</span> <span class="n">buffer_size</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            Base filename. A timestamp is prepended and ``extension`` is appended.</span>
+
+<span class="sd">            Example:</span>
+<span class="sd">                filename=&quot;subject01&quot;</span>
+
+<span class="sd">            produces something like:</span>
+<span class="sd">                20260519_154201-subject01.txt</span>
+
+<span class="sd">        buffer_size : int, optional</span>
+<span class="sd">            Maximum number of rows allowed in the queue.</span>
+
+<span class="sd">            If the acquisition loop produces rows faster than the background</span>
+<span class="sd">            thread can write them, the queue grows. Once it reaches</span>
+<span class="sd">            ``buffer_size``, the behavior depends on ``overflow_policy``.</span>
+
+<span class="sd">        metadata : dict or None, optional</span>
+<span class="sd">            Metadata written at the top of the file as comment lines:</span>
+
+<span class="sd">                # subject: S01</span>
+<span class="sd">                # condition: baseline</span>
+
+<span class="sd">            Metadata are written once at file creation.</span>
+
+<span class="sd">        headers : list[str] or None, optional</span>
+<span class="sd">            Column names. Written as the first non-comment row.</span>
+
+<span class="sd">            If ``None``, defaults to:</span>
+
+<span class="sd">                [&quot;timestamp&quot;, &quot;value&quot;]</span>
+
+<span class="sd">        sep : str, optional</span>
+<span class="sd">            Separator used for headers and data rows. Default is ``&quot;;&quot;``.</span>
+
+<span class="sd">        extension : str, optional</span>
+<span class="sd">            File extension. Default is ``&quot;.txt&quot;``.</span>
+
+<span class="sd">        flush_every : int, optional</span>
+<span class="sd">            Flush the Python file buffer after this many written rows.</span>
+
+<span class="sd">            This does not drain the queue. It only forces rows that have already</span>
+<span class="sd">            been written to the file object to be pushed from Python&#39;s buffer to</span>
+<span class="sd">            the operating system.</span>
+
+<span class="sd">            Smaller value:</span>
+<span class="sd">                safer in case of crash, but slower.</span>
+
+<span class="sd">            Larger value:</span>
+<span class="sd">                faster, but more recently written rows may remain unflushed if</span>
+<span class="sd">                the process crashes.</span>
+
+<span class="sd">        flush_interval : float, optional</span>
+<span class="sd">            Flush the Python file buffer at least every this many seconds.</span>
+
+<span class="sd">            This is useful when the acquisition rate is low. For example, if</span>
+<span class="sd">            ``flush_every=50`` but only 5 rows are written per second, then</span>
+<span class="sd">            without ``flush_interval`` the file might not flush for 10 seconds.</span>
+
+<span class="sd">            The file is always flushed on :meth:`close`.</span>
+
+<span class="sd">        overflow_policy : {&quot;raise&quot;, &quot;block&quot;, &quot;drop&quot;}, optional</span>
+<span class="sd">            Behavior when the queue is full.</span>
+
+<span class="sd">            &quot;raise&quot;:</span>
+<span class="sd">                Raise a RuntimeError immediately. Recommended for experiments.</span>
+
+<span class="sd">            &quot;block&quot;:</span>
+<span class="sd">                Block until queue space is available. No data loss, but the</span>
+<span class="sd">                acquisition loop may pause.</span>
+
+<span class="sd">            &quot;drop&quot;:</span>
+<span class="sd">                Discard the new row and print a warning. Fast, but data loss is</span>
+<span class="sd">                possible.</span>
+
+<span class="sd">        encoding : str, optional</span>
+<span class="sd">            File encoding. Default is ``&quot;utf-8&quot;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">overflow_policy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_OVERFLOW_POLICIES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;overflow_policy must be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">VALID_OVERFLOW_POLICIES</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">overflow_policy</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_to_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_to_file</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">extension</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">extension</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">safe_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="k">if</span> <span class="n">filename</span> <span class="k">else</span> <span class="s2">&quot;data&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">safe_filename</span><span class="si">}{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_to_file</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;buffer_size must be positive.&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
 
-        <span class="c1"># Open the file for writing and write metadata + header immediately.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_write_metadata</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flush_every</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">flush_every</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flush_interval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">flush_interval</span><span class="p">))</span>
 
-        <span class="c1"># Queue used as a bounded buffer (drops values on overflow in write()).</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overflow_policy</span> <span class="o">=</span> <span class="n">overflow_policy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
 
-        <span class="c1"># Event signaling the thread to stop; thread continues until queue drained.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop_event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
 
-        <span class="c1"># Background daemon thread that writes queued lines to disk.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_write_to_file</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows_written</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows_dropped</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+            <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_metadata_and_header</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_write_loop</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;BufferedFileWriterThread&quot;</span><span class="p">,</span>
+            <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write metadata and header row at the beginning of the file.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;## BufferedFileWriter ## Writing to: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        Metadata entries are written as comment lines (prefixed with ``#``),</span>
-<span class="sd">        followed by a header row joined with :attr:`sep`.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable use as a context manager.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        with BufferedFileWriter(&quot;Data&quot;, filename=&quot;test&quot;) as writer:</span>
+<span class="sd">            writer.write_sv([1, 2, 3])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_metadata_and_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write metadata and header row.</span>
+
+<span class="sd">        Metadata lines start with ``#`` so they can be ignored easily when</span>
+<span class="sd">        reading the file as a table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Header row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Background thread loop that drains the queue and writes lines to disk.</span>
+<span class="sd">        Background writer thread.</span>
 
-<span class="sd">        The loop exits only when:</span>
-<span class="sd">        - :attr:`stop_event` is set, AND</span>
-<span class="sd">        - the buffer queue is empty</span>
+<span class="sd">        The loop continues until:</span>
 
-<span class="sd">        This ensures :meth:`close` can flush remaining queued data reliably.</span>
+<span class="sd">        - ``stop_event`` is set, and</span>
+<span class="sd">        - the queue is empty.</span>
+
+<span class="sd">        This allows :meth:`close` to flush all queued rows before closing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rows_since_flush</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">last_flush_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># Retrieve a queued line; timeout allows periodic stop checks.</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-
-                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
-                <span class="c1"># Nothing available right now; try again.</span>
+                <span class="n">rows_since_flush</span><span class="p">,</span> <span class="n">last_flush_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_if_needed</span><span class="p">(</span>
+                    <span class="n">rows_since_flush</span><span class="p">,</span>
+                    <span class="n">last_flush_time</span><span class="p">,</span>
+                    <span class="n">force_by_interval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="c1"># Small sleep to reduce tight-loop CPU usage.</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rows_written</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">rows_since_flush</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">rows_since_flush</span><span class="p">,</span> <span class="n">last_flush_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_if_needed</span><span class="p">(</span>
+                    <span class="n">rows_since_flush</span><span class="p">,</span>
+                    <span class="n">last_flush_time</span><span class="p">,</span>
+                    <span class="n">force_by_interval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_flush_if_needed</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">rows_since_flush</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">last_flush_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">force_by_interval</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Flush file buffer if row-count or time-based threshold is reached.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple[int, float]</span>
+<span class="sd">            Updated ``rows_since_flush`` and ``last_flush_time``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">should_flush</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">rows_since_flush</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush_every</span><span class="p">:</span>
+            <span class="n">should_flush</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">force_by_interval</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush_interval</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_flush_time</span>
+            <span class="k">if</span> <span class="n">rows_since_flush</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">elapsed</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush_interval</span><span class="p">:</span>
+                <span class="n">should_flush</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">should_flush</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">rows_since_flush</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">last_flush_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">rows_since_flush</span><span class="p">,</span> <span class="n">last_flush_time</span>
 
 <div class="viewcode-block" id="BufferedFileWriter.write">
 <a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter.write">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Queue a pre-formatted line for writing.</span>
+<span class="sd">        Queue a pre-formatted row.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        string : str</span>
-<span class="sd">            The line to write (without a trailing newline). A newline will be</span>
-<span class="sd">            appended by the writer thread.</span>
+<span class="sd">            Row to write, without trailing newline.</span>
 
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        If the buffer is full, the value is discarded and a warning is printed.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            ``True`` if the row was queued.</span>
+<span class="sd">            ``False`` only if ``overflow_policy=&quot;drop&quot;`` and the queue is full.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        RuntimeError</span>
+<span class="sd">            If called after :meth:`close`.</span>
+
+<span class="sd">            If ``overflow_policy=&quot;raise&quot;`` and the queue is full.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">Full</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">&quot;## BufferedFileWriter ## WARNING: Buffer is full. Discarding value. &quot;</span>
-                <span class="s2">&quot;Increase buffer size or reduce data to write.&quot;</span>
-            <span class="p">)</span></div>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;BufferedFileWriter.write() called after close().&quot;</span><span class="p">)</span>
+
+        <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overflow_policy</span> <span class="o">==</span> <span class="s2">&quot;block&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overflow_policy</span> <span class="o">==</span> <span class="s2">&quot;drop&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="n">Full</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rows_dropped</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;## BufferedFileWriter ## WARNING: queue is full. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Dropping row. Dropped rows: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows_dropped</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overflow_policy</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="n">Full</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;BufferedFileWriter queue is full. &quot;</span>
+                    <span class="s2">&quot;The writer cannot keep up with acquisition. &quot;</span>
+                    <span class="s2">&quot;Increase buffer_size, reduce write rate, or use &quot;</span>
+                    <span class="s2">&quot;overflow_policy=&#39;block&#39; or &#39;drop&#39;.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown overflow_policy: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">overflow_policy</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BufferedFileWriter.write_sv">
 <a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter.write_sv">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">write_sv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lista</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_sv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Queue a list of values as a separator-joined line.</span>
+<span class="sd">        Queue a separator-separated row.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        lista : iterable</span>
-<span class="sd">            Values to serialize. Each element is converted to ``str`` and joined</span>
-<span class="sd">            with :attr:`sep`.</span>
+<span class="sd">        values : iterable</span>
+<span class="sd">            Values to serialize. Each element is converted to text.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Same return value as :meth:`write`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">lista</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+
+        <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a Python value to a compact string representation.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - ``None`` is written as an empty field.</span>
+<span class="sd">        - floats are written with compact precision.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.10g</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BufferedFileWriter.qsize">
+<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter.qsize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">qsize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the approximate number of rows currently waiting in the queue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BufferedFileWriter.stats">
+<a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter.stats">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return writer statistics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary with queued, written, dropped, and current queue size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;rows_queued&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span><span class="p">,</span>
+            <span class="s2">&quot;rows_written&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows_written</span><span class="p">,</span>
+            <span class="s2">&quot;rows_dropped&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows_dropped</span><span class="p">,</span>
+            <span class="s2">&quot;queue_size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qsize</span><span class="p">(),</span>
+            <span class="s2">&quot;closed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">,</span>
+            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+        <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="BufferedFileWriter.close">
 <a class="viewcode-back" href="../../api/meyelens.fileio.html#meyelens.fileio.BufferedFileWriter.close">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Stop the background thread and close the file.</span>
+<span class="sd">        Stop the writer, drain the queue, flush the file buffer, and close.</span>
 
-<span class="sd">        This method:</span>
-<span class="sd">        1. Signals the thread to stop</span>
-<span class="sd">        2. Waits for the thread to finish flushing queued data</span>
-<span class="sd">        3. Closes the underlying file handle</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        Always call this method to avoid losing buffered data.</span>
+<span class="sd">        This method is safe to call more than once.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Prevent new writes from this point.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Tell the background thread to stop after the queue is empty.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+        <span class="c1"># Wait until every queued item has called task_done().</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="c1"># Wait for the writer thread to exit.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;BufferedFileWriter thread did not stop within timeout. &quot;</span>
+                <span class="s2">&quot;File may not have been fully flushed.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;## BufferedFileWriter ## Closed. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Queued: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows_queued</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Written: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows_written</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Dropped: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rows_dropped</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -378,7 +616,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -389,7 +627,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

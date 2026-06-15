@@ -1,7 +1,7 @@
-meyelens.fileio
-===============
+File I/O
+========
 
 .. automodule:: meyelens.fileio
    :members:
    :show-inheritance:
-   :undoc-members:
+   :member-order: bysource

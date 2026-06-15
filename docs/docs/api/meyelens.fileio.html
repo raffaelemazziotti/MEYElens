@@ -6,32 +6,34 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>meyelens.fileio &mdash; MEYELens 0.2.2 documentation</title>
+  <title>File I/O &mdash; MEYELens 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
-  
+
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=000c92bf"></script>
+      <script src="../_static/documentation_options.js?v=51b770b3"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Offline GUI" href="meyelens.gui.html" />
+    <link rel="prev" title="Signal Analysis" href="meyelens.analysis.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="../index.html" class="icon icon-home">
             MEYELens
           </a>
@@ -43,8 +45,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">meyelens</a></li>
+              <p class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html">Public Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.meye.html">Inference, Camera, Recording, And Gaze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.analysis.html">Signal Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">File I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.write"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.write_sv"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.write_sv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.qsize"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.qsize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.stats"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.close"><code class="docutils literal notranslate"><span class="pre">BufferedFileWriter.close()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.gui.html">Offline GUI</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -61,7 +81,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">meyelens.fileio</li>
+          <li class="breadcrumb-item"><a href="modules.html">API Modules</a></li>
+      <li class="breadcrumb-item active">File I/O</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/meyelens.fileio.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -70,114 +91,136 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <section id="module-meyelens.fileio">
-<span id="meyelens-fileio"></span><h1>meyelens.fileio<a class="headerlink" href="#module-meyelens.fileio" title="Link to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="meyelens.fileio.FileWriter">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.fileio.</span></span><span class="sig-name descname"><span class="pre">FileWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">';'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/fileio.html#FileWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.FileWriter" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Simple synchronous text file writer.</p>
-<p>This class creates a timestamped <code class="docutils literal notranslate"><span class="pre">.txt</span></code> file and exposes convenience
-methods to write either a single string (one line) or a list of values
-separated by a custom delimiter.</p>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>This writer is <strong>synchronous</strong>: each call writes directly to disk.</p></li>
-<li><p>The filename is always timestamped to reduce accidental overwrites.</p></li>
-<li><p>The file is opened immediately on initialization and must be closed
-by calling <a class="reference internal" href="#meyelens.fileio.FileWriter.close" title="meyelens.fileio.FileWriter.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>.</p></li>
-</ul>
-<dl class="py method">
-<dt class="sig sig-object py" id="meyelens.fileio.FileWriter.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stringa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#FileWriter.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.FileWriter.write" title="Link to this definition"></a></dt>
-<dd><p>Write a single line to the file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>stringa</strong> (<em>str</em>) – Line content. A newline character is automatically appended.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="meyelens.fileio.FileWriter.write_sv">
-<span class="sig-name descname"><span class="pre">write_sv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lista</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#FileWriter.write_sv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.FileWriter.write_sv" title="Link to this definition"></a></dt>
-<dd><p>Write a list of values as a separator-joined line.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lista</strong> (<em>iterable</em>) – Values to serialize. Each element is converted to <code class="docutils literal notranslate"><span class="pre">str</span></code>.
-The resulting line is written with a trailing newline.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="meyelens.fileio.FileWriter.is_open">
-<span class="sig-name descname"><span class="pre">is_open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#FileWriter.is_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.FileWriter.is_open" title="Link to this definition"></a></dt>
-<dd><p>Check whether the underlying file handle is still open.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the file is open, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="meyelens.fileio.FileWriter.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#FileWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.FileWriter.close" title="Link to this definition"></a></dt>
-<dd><p>Close the underlying file handle.</p>
-<p class="rubric">Notes</p>
-<p>After closing, further write attempts will raise an exception.</p>
-</dd></dl>
-
-</dd></dl>
-
+<span id="file-i-o"></span><h1>File I/O<a class="headerlink" href="#module-meyelens.fileio" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.fileio.</span></span><span class="sig-name descname"><span class="pre">BufferedFileWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">';'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.fileio.</span></span><span class="sig-name descname"><span class="pre">BufferedFileWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">';'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flush_every</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flush_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overflow_policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'raise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Buffered asynchronous text file writer.</p>
-<p>This writer uses an in-memory <code class="xref py py-class docutils literal notranslate"><span class="pre">queue.Queue</span></code> as a buffer and a
-background thread to flush lines to disk. This is useful for time-critical
-data acquisition loops where direct disk writes would introduce latency.</p>
-<p>The file format is:</p>
-<ul class="simple">
-<li><p>optional metadata lines (prefixed with <code class="docutils literal notranslate"><span class="pre">#</span></code>)</p></li>
-<li><p>a header row (separator-joined)</p></li>
-<li><p>data rows (one per buffered entry)</p></li>
-</ul>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The background thread is started automatically at initialization.</p></li>
-<li><p>Call <a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.close" title="meyelens.fileio.BufferedFileWriter.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> to stop the thread and ensure all queued data is written.</p></li>
-<li><p>If the buffer is full, new entries are discarded and a <code class="docutils literal notranslate"><span class="pre">print</span></code> warning
-is emitted (per your request, no logging is used).</p></li>
-</ul>
-<dl class="py method">
-<dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.write" title="Link to this definition"></a></dt>
-<dd><p>Queue a pre-formatted line for writing.</p>
+<p>Initialize the writer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>string</strong> (<em>str</em>) – The line to write (without a trailing newline). A newline will be
-appended by the writer thread.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_to_file</strong> (<em>str</em><em> or </em><em>pathlib.Path</em>) – Directory where the output file will be created.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Base filename. A timestamp is prepended and <code class="docutils literal notranslate"><span class="pre">extension</span></code> is appended.</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>filename=”subject01”</p>
+</dd>
+<dt>produces something like:</dt><dd><p>20260519_154201-subject01.txt</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>If the buffer is full, the value is discarded and a warning is printed.</p>
+</p></li>
+<li><p><strong>buffer_size</strong> (<em>int</em><em>, </em><em>optional</em>) – <p>Maximum number of rows allowed in the queue.</p>
+<p>If the acquisition loop produces rows faster than the background
+thread can write them, the queue grows. Once it reaches
+<code class="docutils literal notranslate"><span class="pre">buffer_size</span></code>, the behavior depends on <code class="docutils literal notranslate"><span class="pre">overflow_policy</span></code>.</p>
+</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Metadata written at the top of the file as comment lines:</p>
+<blockquote>
+<div><p># subject: S01
+# condition: baseline</p>
+</div></blockquote>
+<p>Metadata are written once at file creation.</p>
+</p></li>
+<li><p><strong>headers</strong> (<em>list</em><em>[</em><em>str</em><em>] or </em><em>None</em><em>, </em><em>optional</em>) – <p>Column names. Written as the first non-comment row.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to:</p>
+<blockquote>
+<div><p>[“timestamp”, “value”]</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>sep</strong> (<em>str</em><em>, </em><em>optional</em>) – Separator used for headers and data rows. Default is <code class="docutils literal notranslate"><span class="pre">&quot;;&quot;</span></code>.</p></li>
+<li><p><strong>extension</strong> (<em>str</em><em>, </em><em>optional</em>) – File extension. Default is <code class="docutils literal notranslate"><span class="pre">&quot;.txt&quot;</span></code>.</p></li>
+<li><p><strong>flush_every</strong> (<em>int</em><em>, </em><em>optional</em>) – <p>Flush the Python file buffer after this many written rows.</p>
+<p>This does not drain the queue. It only forces rows that have already
+been written to the file object to be pushed from Python’s buffer to
+the operating system.</p>
+<dl class="simple">
+<dt>Smaller value:</dt><dd><p>safer in case of crash, but slower.</p>
+</dd>
+<dt>Larger value:</dt><dd><p>faster, but more recently written rows may remain unflushed if
+the process crashes.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>flush_interval</strong> (<em>float</em><em>, </em><em>optional</em>) – <p>Flush the Python file buffer at least every this many seconds.</p>
+<p>This is useful when the acquisition rate is low. For example, if
+<code class="docutils literal notranslate"><span class="pre">flush_every=50</span></code> but only 5 rows are written per second, then
+without <code class="docutils literal notranslate"><span class="pre">flush_interval</span></code> the file might not flush for 10 seconds.</p>
+<p>The file is always flushed on <a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.close" title="meyelens.fileio.BufferedFileWriter.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>.</p>
+</p></li>
+<li><p><strong>overflow_policy</strong> (<em>{&quot;raise&quot;</em><em>, </em><em>&quot;block&quot;</em><em>, </em><em>&quot;drop&quot;}</em><em>, </em><em>optional</em>) – <p>Behavior when the queue is full.</p>
+<dl class="simple">
+<dt>”raise”:</dt><dd><p>Raise a RuntimeError immediately. Recommended for experiments.</p>
+</dd>
+<dt>”block”:</dt><dd><p>Block until queue space is available. No data loss, but the
+acquisition loop may pause.</p>
+</dd>
+<dt>”drop”:</dt><dd><p>Discard the new row and print a warning. Fast, but data loss is
+possible.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>encoding</strong> (<em>str</em><em>, </em><em>optional</em>) – File encoding. Default is <code class="docutils literal notranslate"><span class="pre">&quot;utf-8&quot;</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.write" title="Link to this definition"></a></dt>
+<dd><p>Queue a pre-formatted row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string</strong> (<em>str</em>) – Row to write, without trailing newline.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the row was queued.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> only if <code class="docutils literal notranslate"><span class="pre">overflow_policy=&quot;drop&quot;</span></code> and the queue is full.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If called after <a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.close" title="meyelens.fileio.BufferedFileWriter.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a>.
+
+    If <code class="docutils literal notranslate"><span class="pre">overflow_policy=&quot;raise&quot;</span></code> and the queue is full.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.write_sv">
-<span class="sig-name descname"><span class="pre">write_sv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lista</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.write_sv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.write_sv" title="Link to this definition"></a></dt>
-<dd><p>Queue a list of values as a separator-joined line.</p>
+<span class="sig-name descname"><span class="pre">write_sv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.write_sv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.write_sv" title="Link to this definition"></a></dt>
+<dd><p>Queue a separator-separated row.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lista</strong> (<em>iterable</em>) – Values to serialize. Each element is converted to <code class="docutils literal notranslate"><span class="pre">str</span></code> and joined
-with <code class="xref py py-attr docutils literal notranslate"><span class="pre">sep</span></code>.</p>
+<dd class="field-odd"><p><strong>values</strong> (<em>iterable</em>) – Values to serialize. Each element is converted to text.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Same return value as <a class="reference internal" href="#meyelens.fileio.BufferedFileWriter.write" title="meyelens.fileio.BufferedFileWriter.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.qsize">
+<span class="sig-name descname"><span class="pre">qsize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.qsize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.qsize" title="Link to this definition"></a></dt>
+<dd><p>Return the approximate number of rows currently waiting in the queue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.stats">
+<span class="sig-name descname"><span class="pre">stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.stats" title="Link to this definition"></a></dt>
+<dd><p>Return writer statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with queued, written, dropped, and current queue size.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -185,13 +228,8 @@ with <code class="xref py py-attr docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="meyelens.fileio.BufferedFileWriter.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/meyelens/fileio.html#BufferedFileWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.fileio.BufferedFileWriter.close" title="Link to this definition"></a></dt>
-<dd><p>Stop the background thread and close the file.</p>
-<p>This method:
-1. Signals the thread to stop
-2. Waits for the thread to finish flushing queued data
-3. Closes the underlying file handle</p>
-<p class="rubric">Notes</p>
-<p>Always call this method to avoid losing buffered data.</p>
+<dd><p>Stop the writer, drain the queue, flush the file buffer, and close.</p>
+<p>This method is safe to call more than once.</p>
 </dd></dl>
 
 </dd></dl>
@@ -201,7 +239,10 @@ with <code class="xref py py-attr docutils literal notranslate"><span class="pre
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="meyelens.analysis.html" class="btn btn-neutral float-left" title="Signal Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="meyelens.gui.html" class="btn btn-neutral float-right" title="Offline GUI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -212,7 +253,7 @@ with <code class="xref py py-attr docutils literal notranslate"><span class="pre
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -223,7 +264,7 @@ with <code class="xref py py-attr docutils literal notranslate"><span class="pre
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

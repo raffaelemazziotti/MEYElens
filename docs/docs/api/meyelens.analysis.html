@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Analysis &mdash; MEYELens 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File I/O" href="meyelens.fileio.html" />
+    <link rel="prev" title="Inference, Camera, Recording, And Gaze" href="meyelens.meye.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+
+          <a href="../index.html" class="icon icon-home">
+            MEYELens
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="meyelens.html">Public Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.meye.html">Inference, Camera, Recording, And Gaze</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Signal Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.analysis.AdaptiveGazeFilter"><code class="docutils literal notranslate"><span class="pre">AdaptiveGazeFilter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.analysis.DeBlink"><code class="docutils literal notranslate"><span class="pre">DeBlink</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.clean"><code class="docutils literal notranslate"><span class="pre">DeBlink.clean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.get_blink_mask"><code class="docutils literal notranslate"><span class="pre">DeBlink.get_blink_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.get_derivative_mask"><code class="docutils literal notranslate"><span class="pre">DeBlink.get_derivative_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.get_zero_mask"><code class="docutils literal notranslate"><span class="pre">DeBlink.get_zero_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.get_diagnostics"><code class="docutils literal notranslate"><span class="pre">DeBlink.get_diagnostics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.clean_dataframe"><code class="docutils literal notranslate"><span class="pre">DeBlink.clean_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.compute_derivative"><code class="docutils literal notranslate"><span class="pre">DeBlink.compute_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.normalize_by_max"><code class="docutils literal notranslate"><span class="pre">DeBlink.normalize_by_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.add_flankers"><code class="docutils literal notranslate"><span class="pre">DeBlink.add_flankers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.interpolate"><code class="docutils literal notranslate"><span class="pre">DeBlink.interpolate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.DeBlink.plot_diagnostics"><code class="docutils literal notranslate"><span class="pre">DeBlink.plot_diagnostics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.analysis.Filters"><code class="docutils literal notranslate"><span class="pre">Filters</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.Filters.lowpass"><code class="docutils literal notranslate"><span class="pre">Filters.lowpass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.Filters.highpass"><code class="docutils literal notranslate"><span class="pre">Filters.highpass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.Filters.bandpass"><code class="docutils literal notranslate"><span class="pre">Filters.bandpass()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.analysis.MeyeReader"><code class="docutils literal notranslate"><span class="pre">MeyeReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.MeyeReader.copy"><code class="docutils literal notranslate"><span class="pre">MeyeReader.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.MeyeReader.columns"><code class="docutils literal notranslate"><span class="pre">MeyeReader.columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.MeyeReader.get_metadata"><code class="docutils literal notranslate"><span class="pre">MeyeReader.get_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.MeyeReader.print_summary"><code class="docutils literal notranslate"><span class="pre">MeyeReader.print_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#meyelens.analysis.TrialEpochs"><code class="docutils literal notranslate"><span class="pre">TrialEpochs</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.TrialEpochs.extract"><code class="docutils literal notranslate"><span class="pre">TrialEpochs.extract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.TrialEpochs.get_event_times"><code class="docutils literal notranslate"><span class="pre">TrialEpochs.get_event_times()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.TrialEpochs.get_event_indices"><code class="docutils literal notranslate"><span class="pre">TrialEpochs.get_event_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.TrialEpochs.apply_baseline_transform"><code class="docutils literal notranslate"><span class="pre">TrialEpochs.apply_baseline_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meyelens.analysis.TrialEpochs.find_events"><code class="docutils literal notranslate"><span class="pre">TrialEpochs.find_events()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.fileio.html">File I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meyelens.gui.html">Offline GUI</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MEYELens</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Modules</a></li>
+      <li class="breadcrumb-item active">Signal Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/meyelens.analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="module-meyelens.analysis">
+<span id="signal-analysis"></span><h1>Signal Analysis<a class="headerlink" href="#module-meyelens.analysis" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.analysis.AdaptiveGazeFilter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.analysis.</span></span><span class="sig-name descname"><span class="pre">AdaptiveGazeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump_reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#AdaptiveGazeFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.AdaptiveGazeFilter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Adaptive gaze filter for live gaze pointer smoothing.</p>
+<p>It uses a One Euro filter:
+- strong smoothing when gaze is stable
+- weaker smoothing when gaze moves quickly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_cutoff</strong> – Base smoothing. Lower = smoother during fixation, but more lag.
+Try 0.6 to 1.2.</p></li>
+<li><p><strong>beta</strong> – Motion adaptation. Higher = faster response during eye movements.
+Try 0.02 to 0.15.</p></li>
+<li><p><strong>d_cutoff</strong> – Smoothing applied to velocity estimate.
+Usually 1.0 is fine.</p></li>
+<li><p><strong>jump_reset</strong> – If prediction jumps more than this distance, optionally reset the filter.
+Useful for very large gaze shifts or recovery from bad samples.
+In PsychoPy norm units, try 0.5 or None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.analysis.</span></span><span class="sig-name descname"><span class="pre">DeBlink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flankers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Blink cleaner for pupil traces.</p>
+<section id="main-logic">
+<h2>Main logic<a class="headerlink" href="#main-logic" title="Link to this heading"></a></h2>
+<p>A sample is marked as blink/artifact if:</p>
+<blockquote>
+<div><p>abs(derivative) / max(abs(derivative)) &gt; threshold</p>
+</div></blockquote>
+<p>or, if remove_zeros=True:</p>
+<blockquote>
+<div><p>signal == zero_value</p>
+</div></blockquote>
+<p>Then flankers are added around the detected samples. The detected samples are
+replaced with NaN and interpolated.</p>
+</section>
+<section id="main-use">
+<h2>Main use<a class="headerlink" href="#main-use" title="Link to this heading"></a></h2>
+<p>deblink = DeBlink(threshold=0.25, flankers=5)</p>
+<p>pupil_clean = deblink.clean(pupil_area)
+blink_mask = deblink.get_blink_mask(pupil_area)
+diagnostics = deblink.get_diagnostics(pupil_area)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.clean" title="Link to this definition"></a></dt>
+<dd><p>Return only the cleaned pupil signal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.get_blink_mask">
+<span class="sig-name descname"><span class="pre">get_blink_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.get_blink_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.get_blink_mask" title="Link to this definition"></a></dt>
+<dd><p>Return the final blink/artifact mask.</p>
+<p>True means that the sample is marked as blink/artifact and will be
+interpolated.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.get_derivative_mask">
+<span class="sig-name descname"><span class="pre">get_derivative_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.get_derivative_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.get_derivative_mask" title="Link to this definition"></a></dt>
+<dd><p>Return the blink/artifact mask based only on the derivative.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.get_zero_mask">
+<span class="sig-name descname"><span class="pre">get_zero_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.get_zero_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.get_zero_mask" title="Link to this definition"></a></dt>
+<dd><p>Return the mask for zero-valued samples.</p>
+<p>If remove_zeros=False, this returns an all-False mask.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.get_diagnostics">
+<span class="sig-name descname"><span class="pre">get_diagnostics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.get_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.get_diagnostics" title="Link to this definition"></a></dt>
+<dd><p>Return intermediate arrays useful for plotting/debugging.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.clean_dataframe">
+<span class="sig-name descname"><span class="pre">clean_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pupil_area'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blink_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.clean_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.clean_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Return a copy of df with a cleaned pupil column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – Input pandas DataFrame.</p></li>
+<li><p><strong>column</strong> – Input signal column.</p></li>
+<li><p><strong>output_column</strong> – Output cleaned signal column. If None, uses f”{column}_clean”.</p></li>
+<li><p><strong>blink_column</strong> – Optional output column for the final blink mask.</p></li>
+<li><p><strong>zero_column</strong> – Optional output column for zero-valued samples.</p></li>
+<li><p><strong>derivative_column</strong> – Optional output column for abs(derivative) / max(abs(derivative)).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.compute_derivative">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">compute_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.compute_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.compute_derivative" title="Link to this definition"></a></dt>
+<dd><p>Compute derivative while preserving signal length.</p>
+<p>np.gradient is used instead of np.diff so the derivative and mask have
+the same length as the original signal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.normalize_by_max">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">normalize_by_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.normalize_by_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.normalize_by_max" title="Link to this definition"></a></dt>
+<dd><p>Normalize a non-negative signal by its maximum.</p>
+<p>Intended for abs(derivative):</p>
+<blockquote>
+<div><p>0 = no change
+1 = largest detected change</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.add_flankers">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">add_flankers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flankers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.add_flankers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.add_flankers" title="Link to this definition"></a></dt>
+<dd><p>Expand a boolean mask by N samples on each side.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.interpolate">
+<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_with_nan</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.interpolate" title="Link to this definition"></a></dt>
+<dd><p>Interpolate NaN samples.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.DeBlink.plot_diagnostics">
+<span class="sig-name descname"><span class="pre">plot_diagnostics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#DeBlink.plot_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.DeBlink.plot_diagnostics" title="Link to this definition"></a></dt>
+<dd><p>Plot the pupil trace, cleaned trace, derivative, threshold, and mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> – One-dimensional pupil trace.</p></li>
+<li><p><strong>time</strong> – Optional time vector. If None, sample index is used.</p></li>
+<li><p><strong>show_clean</strong> – If True, plot the cleaned interpolated trace.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.analysis.Filters">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.analysis.</span></span><span class="sig-name descname"><span class="pre">Filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sos'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#Filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.Filters" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Frequency filter for pupil traces.</p>
+<dl class="simple">
+<dt>Supports:</dt><dd><ul class="simple">
+<li><p>lowpass</p></li>
+<li><p>highpass</p></li>
+<li><p>bandpass</p></li>
+</ul>
+</dd>
+</dl>
+<section id="id1">
+<h2>Main use<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>filt = PupilFilter(fs=30)</p>
+<p>pupil_low = filt.lowpass(pupil, cutoff=4.0)
+pupil_high = filt.highpass(pupil, cutoff=0.05)
+pupil_band = filt.bandpass(pupil, lowcut=0.05, highcut=4.0)</p>
+<dl class="field-list">
+<dt class="field-odd">param fs<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sampling frequency in Hz.</p>
+</dd>
+<dt class="field-even">type fs<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+<dt class="field-odd">param order<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Butterworth filter order.</p>
+</dd>
+<dt class="field-even">type order<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param method<span class="colon">:</span></dt>
+<dd class="field-odd"><p>“sos” or “ba”.</p>
+<p>“sos” is recommended because it is more numerically stable.</p>
+</dd>
+<dt class="field-even">type method<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.Filters.lowpass">
+<span class="sig-name descname"><span class="pre">lowpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#Filters.lowpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.Filters.lowpass" title="Link to this definition"></a></dt>
+<dd><p>Lowpass filter.</p>
+<p>Keeps frequencies below cutoff.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.Filters.highpass">
+<span class="sig-name descname"><span class="pre">highpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#Filters.highpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.Filters.highpass" title="Link to this definition"></a></dt>
+<dd><p>Highpass filter.</p>
+<p>Keeps frequencies above cutoff.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.Filters.bandpass">
+<span class="sig-name descname"><span class="pre">bandpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lowcut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highcut</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#Filters.bandpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.Filters.bandpass" title="Link to this definition"></a></dt>
+<dd><p>Bandpass filter.</p>
+<p>Keeps frequencies between lowcut and highcut.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.analysis.MeyeReader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.analysis.</span></span><span class="sig-name descname"><span class="pre">MeyeReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">';'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#MeyeReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.MeyeReader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Minimal reader for files created with MeyeRecorder.</p>
+<p>The path must be provided explicitly.</p>
+<section id="expected-file-format">
+<h2>Expected file format<a class="headerlink" href="#expected-file-format" title="Link to this heading"></a></h2>
+<p># metadata_key: metadata_value
+# metadata_key: metadata_value
+frame_index;t_call;t_frame;…;trg1;trg2;…
+0;0.001;0.010;…</p>
+</section>
+<section id="basic-usage">
+<h2>Basic usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
+<p>reader = MeyeReader(“path/to/recording.txt”)</p>
+<p>df = reader.data
+metadata = reader.metadata</p>
+<p>reader.print_summary()</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.MeyeReader.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#MeyeReader.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.MeyeReader.copy" title="Link to this definition"></a></dt>
+<dd><p>Return a copy of the recording table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.MeyeReader.columns">
+<span class="sig-name descname"><span class="pre">columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#MeyeReader.columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.MeyeReader.columns" title="Link to this definition"></a></dt>
+<dd><p>Return the column names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.MeyeReader.get_metadata">
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#MeyeReader.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.MeyeReader.get_metadata" title="Link to this definition"></a></dt>
+<dd><p>Return a copy of the metadata dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.MeyeReader.print_summary">
+<span class="sig-name descname"><span class="pre">print_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#MeyeReader.print_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.MeyeReader.print_summary" title="Link to this definition"></a></dt>
+<dd><p>Print file, metadata, and column information.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">meyelens.analysis.</span></span><span class="sig-name descname"><span class="pre">TrialEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triggers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Extract stimulus-locked epochs from one signal and one or more trigger traces.</p>
+<p>This class does not perform trial rejection or signal cleaning.
+Clean/filter the signal before passing it here.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trialer</span> <span class="o">=</span> <span class="n">TrialEpochs</span><span class="p">(</span>
+    <span class="n">signal</span><span class="o">=</span><span class="n">pupil_signal</span><span class="p">,</span>
+    <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+    <span class="n">triggers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="n">trg_standard</span><span class="p">,</span>
+        <span class="s2">&quot;oddball&quot;</span><span class="p">:</span> <span class="n">trg_oddball</span><span class="p">,</span>
+        <span class="s2">&quot;distractor&quot;</span><span class="p">:</span> <span class="n">trg_distractor</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">epochs</span> <span class="o">=</span> <span class="n">trialer</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span>
+    <span class="n">tmin</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">tmax</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>
+    <span class="n">baseline</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;zscore&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="transform-options">
+<h2>Transform options<a class="headerlink" href="#transform-options" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>: raw epoch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;delta&quot;</span></code>: epoch minus baseline mean.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;percent&quot;</span></code>: percent change from baseline mean.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;zscore&quot;</span></code>: baseline-normalized z-score.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs.extract">
+<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rising'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_last</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs.extract" title="Link to this definition"></a></dt>
+<dd><p>Extract epochs for all trigger traces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tmin</strong> – Epoch window in seconds relative to trigger onset.</p></li>
+<li><p><strong>tmax</strong> – Epoch window in seconds relative to trigger onset.</p></li>
+<li><p><strong>baseline</strong> – None or tuple, for example (-1.0, 0.0).
+Baseline window is relative to trigger onset.</p></li>
+<li><p><strong>transform</strong> – “none”, “delta”, “percent”, or “zscore”.</p></li>
+<li><p><strong>trigger_value</strong> – Trigger value marking stimulus onset.</p></li>
+<li><p><strong>edge</strong> – <code class="docutils literal notranslate"><span class="pre">&quot;rising&quot;</span></code> detects transitions into the trigger value.
+<code class="docutils literal notranslate"><span class="pre">&quot;level&quot;</span></code> detects every sample equal to the trigger value.</p></li>
+<li><p><strong>n_points</strong> – Number of points in the interpolated epoch time base.</p></li>
+<li><p><strong>exclude_first</strong> – Number of first detected events to exclude for each condition.</p></li>
+<li><p><strong>exclude_last</strong> – Number of last detected events to exclude for each condition.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contains the common epoch time base and a <code class="docutils literal notranslate"><span class="pre">conditions</span></code> mapping.
+Each condition stores epochs, event indices, event times, mean, SEM,
+and trial count. With one trigger, those fields are also exposed at
+the top level.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs.get_event_times">
+<span class="sig-name descname"><span class="pre">get_event_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigger_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rising'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs.get_event_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs.get_event_times" title="Link to this definition"></a></dt>
+<dd><p>Return event times for one trigger.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs.get_event_indices">
+<span class="sig-name descname"><span class="pre">get_event_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigger_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rising'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs.get_event_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs.get_event_indices" title="Link to this definition"></a></dt>
+<dd><p>Return event indices for one trigger.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs.apply_baseline_transform">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">apply_baseline_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'none'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs.apply_baseline_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs.apply_baseline_transform" title="Link to this definition"></a></dt>
+<dd><p>Apply baseline correction or transformation to one epoch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meyelens.analysis.TrialEpochs.find_events">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">find_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rising'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/meyelens/analysis.html#TrialEpochs.find_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#meyelens.analysis.TrialEpochs.find_events" title="Link to this definition"></a></dt>
+<dd><p>Find trigger events.</p>
+<dl class="simple">
+<dt>edge=”rising”:</dt><dd><p>detect transition from not-value to value.</p>
+</dd>
+<dt>edge=”level”:</dt><dd><p>detect every sample equal to value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="meyelens.meye.html" class="btn btn-neutral float-left" title="Inference, Camera, Recording, And Gaze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="meyelens.fileio.html" class="btn btn-neutral float-right" title="File I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Giacomo Vecchieschi, Raffaele Mario Mazziotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>
