@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+
+- Standardize the release on Python 3.11 and pin the tested direct dependency
+  versions, including SciPy 1.17.1, to avoid incompatible binary upgrades.
+
 ## 2.0.0
 
 - Replaced TensorFlow/Keras inference with PyTorch.

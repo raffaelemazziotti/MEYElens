@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "meyelens"
-version = "2.0.0"
+version = "2.0.1"
 description = "PyTorch pupillometry, eye segmentation, recording, and gaze tracking"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.12"
 license = "GPL-3.0-only"
 license-files = ["LICENSE-SOFTWARE", "LICENSE-HARDWARE"]
 authors = [
@@ -31,26 +31,24 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Image Processing",
 ]
 # Install a platform-appropriate PyTorch 2.2+ build separately.
 dependencies = [
-  "matplotlib>=3.8",
-  "numpy>=1.26,<3",
-  "opencv-python>=4.9",
-  "pandas>=2.1",
-  "PyQt6>=6.6",
-  "scikit-learn>=1.4",
-  "scipy>=1.11",
-  "toml>=0.10.2",
-  "transformers>=4.57,<=5.8.1",
+  "matplotlib==3.10.9",
+  "numpy==2.4.6",
+  "opencv-python==4.13.0.92",
+  "pandas==3.0.3",
+  "PyQt6==6.11.0",
+  "scikit-learn==1.9.0",
+  "scipy==1.17.1",
+  "toml==0.10.2",
+  "transformers==5.8.1",
 ]
 
 [project.optional-dependencies]
-pt = ["torch>=2.2"]
+pt = ["torch==2.12.0"]
 efficientformer = ["timm>=1.0"]
 experiments = ["psychopy>=2024.1"]
 docs = [
