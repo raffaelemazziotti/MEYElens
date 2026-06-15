@@ -50,6 +50,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+pt = ["torch>=2.2"]
 efficientformer = ["timm>=1.0"]
 experiments = ["psychopy>=2024.1"]
 docs = [

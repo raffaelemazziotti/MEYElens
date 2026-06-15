@@ -17,6 +17,19 @@ python -m pip install "meyelens>=2,<3"
 Version 2.0 intentionally does not install PyTorch as a package dependency.
 This preserves the PyTorch build selected for the target hardware.
 
+For users who want pip to install the standard PyPI PyTorch build:
+
+```bash
+python -m pip install "meyelens[pt]>=2,<3"
+```
+
+For a specific CUDA build, install PyTorch from the official PyTorch package
+index first, then install plain `meyelens`.
+
+The legacy `meyelens-headless` distribution is not continued in 2.0. The
+separate distribution installed the same `meyelens` import package and could
+not safely coexist with the normal distribution.
+
 ## Imports
 
 Use public package imports:
