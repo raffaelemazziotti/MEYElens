@@ -104,8 +104,17 @@ Verify the public package in a clean environment:
 ```bash
 conda create -n meyelens-pypi-test python=3.11 -y
 conda activate meyelens-pypi-test
-python -m pip install torch
-python -m pip install "meyelens==2.0.0"
+python -m pip install "meyelens[pt]==2.0.0"
 python -c "import meyelens; print(meyelens.__version__)"
 meyelens-gui
 ```
+
+Also verify that plain installation leaves PyTorch user-managed:
+
+```bash
+python -m pip install "meyelens==2.0.0"
+```
+
+Do not publish `meyelens-pt`, `meyelens-headless-pt`, or a 2.0 update of
+`meyelens-headless`. Version 2.0 uses one canonical PyPI project and provides
+PyTorch through the `pt` extra.

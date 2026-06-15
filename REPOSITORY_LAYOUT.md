@@ -56,3 +56,9 @@ Camera, inference, recording, result features, and gaze calibration remain in
 PyTorch is present in `environment.yml` for the tested development environment
 but is intentionally absent from `pyproject.toml` and `requirements.txt`.
 End users install the hardware-appropriate PyTorch build before MEYElens.
+The optional `pt` extra provides a convenience installation of the standard
+PyPI PyTorch build.
+
+The legacy `meyelens-headless` distribution is not rebuilt for 2.0 because it
+used the same `meyelens` import namespace as the normal distribution. Keeping
+one canonical package avoids conflicting ownership of installed files.
