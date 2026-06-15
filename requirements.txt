@@ -5,6 +5,6 @@ opencv-python>=4.9
 pandas>=2.1
 PyQt6>=6.6
 scikit-learn>=1.4
-scipy>=1.11
+scipy>=1.16
 toml>=0.10.2
 transformers>=4.57,<=5.8.1

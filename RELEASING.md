@@ -1,7 +1,8 @@
 # Release Checklist
 
-All releases are built and uploaded manually. This repository intentionally
-contains no GitHub Actions publishing workflow.
+Releases are published to PyPI by `.github/workflows/publish.yml` when a
+GitHub release is published. PyPI Trusted Publishing is configured for that
+workflow, so no API token is required.
 
 ## Preserved 1.x Release
 
@@ -16,7 +17,7 @@ git push origin legacy/1.x
 
 Do not move or recreate `v1.1.0`.
 
-## Prepare 2.0
+## Prepare A Release
 
 Create the release environment and install the project:
 
@@ -43,8 +44,9 @@ python -m twine check dist/*
 Inspect the archive contents before uploading:
 
 ```bash
-python -m zipfile -l dist/meyelens-2.0.0-py3-none-any.whl
-tar -tf dist/meyelens-2.0.0.tar.gz
+VERSION=2.0.1
+python -m zipfile -l "dist/meyelens-${VERSION}-py3-none-any.whl"
+tar -tf "dist/meyelens-${VERSION}.tar.gz"
 ```
 
 Verify the wheel in a separate environment:
@@ -52,8 +54,9 @@ Verify the wheel in a separate environment:
 ```bash
 conda create -n meyelens-wheel-test python=3.11 -y
 conda activate meyelens-wheel-test
+VERSION=2.0.1
 python -m pip install torch
-python -m pip install dist/meyelens-2.0.0-py3-none-any.whl
+python -m pip install "dist/meyelens-${VERSION}-py3-none-any.whl"
 python -c "import meyelens; print(meyelens.__version__)"
 python -c "from meyelens import Meye; print(Meye(gpu_device='cpu', verbose=False).device)"
 meyelens-gui
@@ -61,50 +64,36 @@ meyelens-gui
 
 ## Merge And Tag
 
-Commit the reviewed migration branch and push it:
+Commit and push the reviewed release changes:
 
 ```bash
 git add -A
-git commit -m "Release PyTorch-based MEYElens 2.0"
-git push -u origin pytorch-2.0
+git commit -m "Prepare MEYElens 2.0.1"
+git push origin main
 ```
 
-Open a pull request from `pytorch-2.0` to `main`. The top-level website files
-under `docs/` must not be changed by this release; only `docs/docs/` contains
-the regenerated Python API reference.
-
-After review and merge:
+After the commit is on `main`:
 
 ```bash
-git switch main
-git pull --ff-only
-git tag -a v2.0.0 -m "MEYElens 2.0.0"
-git push origin v2.0.0
+git tag -a v2.0.1 -m "MEYElens 2.0.1"
+git push origin v2.0.1
 ```
 
-Create a GitHub release from `v2.0.0` and attach the wheel and source archive
-from `dist/`.
+Do not modify the top-level website files under `docs/` as part of a package
+release.
 
 ## Publish To PyPI
 
-Upload manually with a PyPI API token:
-
-```bash
-python -m twine upload dist/*
-```
-
-For a dry run, upload to TestPyPI first:
-
-```bash
-python -m twine upload --repository testpypi dist/*
-```
+Create and publish a GitHub release from `v2.0.1`. The release event runs the
+Trusted Publishing workflow, which builds fresh distributions and uploads them
+to PyPI. Check the result under GitHub Actions.
 
 Verify the public package in a clean environment:
 
 ```bash
 conda create -n meyelens-pypi-test python=3.11 -y
 conda activate meyelens-pypi-test
-python -m pip install "meyelens[pt]==2.0.0"
+python -m pip install "meyelens[pt]==2.0.1"
 python -c "import meyelens; print(meyelens.__version__)"
 meyelens-gui
 ```
@@ -112,7 +101,7 @@ meyelens-gui
 Also verify that plain installation leaves PyTorch user-managed:
 
 ```bash
-python -m pip install "meyelens==2.0.0"
+python -m pip install "meyelens==2.0.1"
 ```
 
 Do not publish `meyelens-pt`, `meyelens-headless-pt`, or a 2.0 update of

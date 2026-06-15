@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+- Require Python 3.11+ and SciPy 1.16+ so pip selects current scientific
+  Python wheels on modern macOS instead of the incompatible SciPy 1.15
+  wheel limited to Python 3.10.
+
 ## 2.0.0
 
 - Replaced TensorFlow/Keras inference with PyTorch.
