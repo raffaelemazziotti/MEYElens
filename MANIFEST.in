@@ -1,0 +1,7 @@
+include CHANGELOG.md
+include MIGRATION.md
+include RELEASING.md
+include REPOSITORY_LAYOUT.md
+include environment.yml
+include requirements.txt
+recursive-include meyelens/models *.pt

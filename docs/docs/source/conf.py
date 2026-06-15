@@ -3,7 +3,7 @@
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from importlib.util import find_spec
 
 # Make sure Sphinx can import your package from the repo root.
@@ -13,7 +13,10 @@ sys.path.insert(0, os.path.abspath("../../.."))
 # sys.path.insert(0, os.path.abspath("../../src"))
 
 project = "MEYELens"
-copyright = f"{datetime.utcnow().year}, Giacomo Vecchieschi, Raffaele Mario Mazziotti"
+copyright = (
+    f"{datetime.now(timezone.utc).year}, "
+    "Giacomo Vecchieschi, Raffaele Mario Mazziotti"
+)
 author = "Giacomo Vecchieschi, Raffaele Mario Mazziotti"
 
 
@@ -59,32 +62,25 @@ autosummary_generate = True
 # This is what makes autodoc actually list your functions/classes
 autodoc_default_options = {
     "members": True,
-    "undoc-members": True,
     "show-inheritance": True,
     "member-order": "bysource",
 }
+autoclass_content = "init"
 
 # Docstring style support (Google / NumPy)
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
 
-# Avoid importing heavy dependencies during docs build
+# Mock optional experiment and hardware dependencies only. Runtime dependencies
+# are imported normally so broken public API imports fail the documentation build.
 autodoc_mock_imports = [
-    "cv2",
     "joblib",
-    "matplotlib",
-    "numpy",
-    "pandas",
-    "wx",
-    "wxPython",
-    "PyQt6",
     "pyo",
+    "psychopy",
     "sounddevice",
     "soundfile",
     "pygame",
     "pyobjc",
     "skimage",
-    "sklearn",
-    "tensorflow",
-    "toml",
+    "timm",
 ]

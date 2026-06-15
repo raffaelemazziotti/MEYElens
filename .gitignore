@@ -1,44 +1,19 @@
 __pycache__/
 *.py[cod]
 *.so
-*.egg-info/
-dist/
-build/
-.eggs/
-*.egg
-.pytest_cache/
-.mypy_cache/
-.coverage
-.venv/
-.env
-.DS_Store
-docs/_build/
-
-# Sphinx
-/docs/build/
-/docs/source/api/
-
-# --- virtualenvs ---
-.venv/
-.venv-docs/
-venv/
-ENV/
-
-# --- python build / install artifacts ---
-__pycache__/
-*.py[cod]
-*.so
 *.dylib
 *.egg-info/
 .eggs/
 build/
 dist/
-
-# --- Sphinx ---
-docs/build/
-docs/source/api/
-
-# --- OS / IDE ---
+.pytest_cache/
+.mypy_cache/
+.coverage
+.venv/
+venv/
+.env
 .DS_Store
-.vscode/
 .idea/
+.vscode/
+docs/_build/
+docs/docs/.doctrees/

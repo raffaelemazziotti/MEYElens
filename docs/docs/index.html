@@ -6,15 +6,15 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MEYELens &mdash; MEYELens 0.2.2 documentation</title>
+  <title>MEYElens Python API &mdash; MEYELens 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
-  
+
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=000c92bf"></script>
+      <script src="_static/documentation_options.js?v=51b770b3"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -22,17 +22,17 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="meyelens" href="api/modules.html" /> 
+    <link rel="next" title="API Modules" href="api/modules.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="#" class="icon icon-home">
             MEYELens
           </a>
@@ -44,8 +44,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/modules.html">meyelens</a></li>
+              <p class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Modules</a></li>
 </ul>
 
         </div>
@@ -62,7 +63,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">MEYELens</li>
+      <li class="breadcrumb-item active">MEYElens Python API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -71,39 +72,41 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <section id="meyelens">
-<h1>MEYELens<a class="headerlink" href="#meyelens" title="Link to this heading"></a></h1>
-<p><strong>MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking</strong></p>
-<img src="assets/intro_picture.png" width="700" alt="MEYELens">
-<p>For more info visit our website <a class="reference external" href="https://www.meyelens.com">meyelens.com</a></p>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
-<p>If you use MEYELens in your work, please cite the following papers:</p>
-<p><strong>MEYELens: 3D-Printable Wearable System for Pupillometry and Gaze Tracking</strong><br />
-G. Vecchieschi, L. Ingenito, A. Benedetto, C. Luciani, F. Carrara, G. Cioni, A. Guzzetta, T. Pizzorusso, L. Baroncelli, R. M. Mazziotti<br />
-DOI: <strong>[ADD LINK]</strong></p>
-<p><strong>MEYE: Web App for Translational and Real-Time Pupillometry</strong><br />
-R. Mazziotti, F. Carrara, A. Viglione, L. Lupori, L. Lo Verde, A. Benedetto, G. Ricci, G. Sagona, G. Amato, T. Pizzorusso<br />
-eNeuro (2021) 8(5): ENEURO.0122-21.2021<br />
-DOI: <strong>https://doi.org/10.1523/ENEURO.0122-21.2021</strong></p>
-</section>
-<section id="license">
-<h2>LICENSE<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Code: GPL-3.0 license</p></li>
-<li><p>Hardware files: CERN-OHL-P-2.0</p></li>
-</ul>
-</section>
-</section>
-<div class="toctree-wrapper compound">
+
+  <section id="meyelens-python-api">
+<h1>MEYElens Python API<a class="headerlink" href="#meyelens-python-api" title="Link to this heading"></a></h1>
+<p>MEYElens 2.0 provides PyTorch pupil and eye segmentation, camera acquisition,
+recording, gaze calibration, signal analysis, and offline batch processing.</p>
+<p>Install a hardware-appropriate PyTorch 2.2+ build first, then install MEYElens:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install meyelens</span>
+</pre></div>
 </div>
+<p>MEYElens intentionally leaves PyTorch out of its package dependencies so users
+can select CPU, NVIDIA CUDA, or Apple MPS support.</p>
+<p>Launch the offline GUI with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">meyelens-gui</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/meyelens.html">Public Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/meyelens.meye.html">Inference, Camera, Recording, And Gaze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/meyelens.analysis.html">Signal Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/meyelens.fileio.html">File I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/meyelens.gui.html">Offline GUI</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="api/modules.html" class="btn btn-neutral float-right" title="meyelens" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="API Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
@@ -115,7 +118,7 @@ DOI: <strong>https://doi.org/10.1523/ENEURO.0122-21.2021</strong></p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -126,7 +129,7 @@ DOI: <strong>https://doi.org/10.1523/ENEURO.0122-21.2021</strong></p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
