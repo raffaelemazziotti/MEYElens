@@ -1,11 +1,14 @@
 # Changelog
 
+## 2.0.2
+
+- Restore the `meyelens-headless` distribution for non-GUI installs, including
+  the `meyelens-headless[pt]` extra for the pinned PyTorch dependency.
+
 ## 2.0.1
 
 - Standardize the release on Python 3.11 and pin the tested direct dependency
   versions, including SciPy 1.17.1, to avoid incompatible binary upgrades.
-- Restore the `meyelens-headless` distribution for non-GUI installs, including
-  the `meyelens-headless[pt]` extra for the pinned PyTorch dependency.
 
 ## 2.0.0
 

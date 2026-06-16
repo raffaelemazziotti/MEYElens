@@ -44,7 +44,7 @@ python -m twine check dist/*
 Inspect the archive contents before uploading:
 
 ```bash
-VERSION=2.0.1
+VERSION=2.0.2
 python -m zipfile -l "dist/meyelens-${VERSION}-py3-none-any.whl"
 tar -tf "dist/meyelens-${VERSION}.tar.gz"
 ```
@@ -54,7 +54,7 @@ Verify the wheel in a separate environment:
 ```bash
 conda create -n meyelens-wheel-test python=3.11 -y
 conda activate meyelens-wheel-test
-VERSION=2.0.1
+VERSION=2.0.2
 python -m pip install torch
 python -m pip install "dist/meyelens-${VERSION}-py3-none-any.whl"
 python -c "import meyelens; print(meyelens.__version__)"
@@ -68,15 +68,15 @@ Commit and push the reviewed release changes:
 
 ```bash
 git add -A
-git commit -m "Prepare MEYElens 2.0.1"
+git commit -m "Prepare MEYElens 2.0.2"
 git push origin main
 ```
 
 After the commit is on `main`:
 
 ```bash
-git tag -a v2.0.1 -m "MEYElens 2.0.1"
-git push origin v2.0.1
+git tag -a v2.0.2 -m "MEYElens 2.0.2"
+git push origin v2.0.2
 ```
 
 Do not modify the top-level website files under `docs/` as part of a package
@@ -84,7 +84,7 @@ release.
 
 ## Publish To PyPI
 
-Create and publish a GitHub release from `v2.0.1`. The release event runs the
+Create and publish a GitHub release from `v2.0.2`. The release event runs the
 Trusted Publishing workflows, which build fresh distributions and upload both
 `meyelens` and `meyelens-headless` to PyPI. Check the result under GitHub
 Actions.
@@ -94,7 +94,7 @@ Verify the public package in a clean environment:
 ```bash
 conda create -n meyelens-pypi-test python=3.11 -y
 conda activate meyelens-pypi-test
-python -m pip install "meyelens[pt]==2.0.1"
+python -m pip install "meyelens[pt]==2.0.2"
 python -c "import meyelens; print(meyelens.__version__)"
 meyelens-gui
 ```
@@ -102,9 +102,9 @@ meyelens-gui
 Also verify that plain installation leaves PyTorch user-managed:
 
 ```bash
-python -m pip install "meyelens==2.0.1"
-python -m pip install "meyelens-headless==2.0.1"
-python -m pip install "meyelens-headless[pt]==2.0.1"
+python -m pip install "meyelens==2.0.2"
+python -m pip install "meyelens-headless==2.0.2"
+python -m pip install "meyelens-headless[pt]==2.0.2"
 ```
 
 Do not publish `meyelens-pt` or `meyelens-headless-pt`. Version 2.0 provides

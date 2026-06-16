@@ -7,7 +7,7 @@ from meyelens import Meye
 
 
 def test_public_api_exports():
-    assert meyelens.__version__ == "2.0.1"
+    assert meyelens.__version__ == "2.0.2"
     assert meyelens.Camera is not None
     assert meyelens.MeyeRecorder is not None
     assert meyelens.MeyeGazeCalibrator is not None
