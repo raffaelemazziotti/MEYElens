@@ -4931,6 +4931,552 @@ class MeyeRecorder:
         self.meye.preview(self.cam)
 
 
+class EyeVideoRecorder:
+    """
+            Raw eye-video recorder with synchronized frame triggers.
+
+            ``EyeVideoRecorder`` records camera frames to a video file and writes a
+            synchronized trigger table with one row per saved frame. It is intended for
+            experiments where the raw eye movie should be stored without running
+            MEYELens segmentation online.
+
+            The class uses the same :class:`Camera` object used by the rest of the
+            MEYELens acquisition workflow, but it does not require a :class:`Meye`
+            instance and it never calls :meth:`Meye.predict`. This makes it useful when:
+
+            - the goal is to archive raw eye videos for later offline analysis;
+            - online segmentation would be too slow or unnecessary;
+            - stimulus or behavioural triggers must be synchronized to each video frame;
+            - raw image acquisition should be kept separate from pupil-feature extraction.
+
+            Output Structure
+            ----------------
+            By default, recordings are saved in the standard MEYELens data folder:
+
+            ``~/Documents/meyeDATA``
+
+            Each call to :meth:`start` creates one timestamped session folder:
+
+            ``YYYYMMDD_HHMMSS-eye_video``
+
+            Inside the session folder, two files are created with predictable names:
+
+            ``video.mp4``
+                Raw eye video. The frames are the images returned by
+                :meth:`Camera.get_frame`, therefore any active camera crop, vertical flip,
+                or undistortion setting is already applied.
+
+            ``triggers.csv``
+                Comma-separated frame table. The file contains optional metadata lines
+                prefixed by ``#``, followed by one row per written video frame.
+
+            Trigger Table
+            -------------
+            The trigger file contains the following columns:
+
+            ``frame_index``
+                Zero-based index of the written video frame.
+
+            ``t_call``
+                Time, in seconds, at which :meth:`save_frame` was called, relative to
+                recording start.
+
+            ``t_frame``
+                Time, in seconds, immediately before the frame is written to disk,
+                relative to recording start.
+
+            ``video_time_sec``
+                Nominal video timestamp computed as ``frame_index / fps``.
+
+            ``trg1`` ... ``trg9``
+                User-defined trigger channels. These can be used to store stimulus
+                onsets, trial numbers, response codes, condition labels, or any other
+                frame-wise experimental variable.
+
+            One trigger row is written only when a frame is successfully acquired and
+            written to the video file. Failed camera acquisitions therefore do not create
+            trigger rows.
+
+            Parameters
+            ----------
+            cam : Camera-like object
+                Camera object used for frame acquisition. A :class:`Camera` instance is
+                the intended input. The object must provide a :meth:`get_frame` method.
+
+            filename : str, default="eye_video"
+                Session name appended to the timestamped output folder. For example,
+                ``filename="subject01"`` creates a folder similar to:
+
+                ``20260616_153000-subject01``
+
+            path_to_file : str or pathlib.Path or None, default=None
+                Root directory in which the timestamped session folder is created.
+
+                If ``None``, the default root is:
+
+                ``~/Documents/meyeDATA``
+
+            fps : int or float, default=30
+                Frame rate written in the video file header. This should match the
+                intended acquisition frame rate. The actual acquisition timing is stored
+                separately in ``t_call`` and ``t_frame``.
+
+            codec : str, default="mp4v"
+                Four-character OpenCV video codec passed to
+                ``cv2.VideoWriter_fourcc``. The default creates MP4-compatible output
+                on most systems.
+
+            video_extension : str, default=".mp4"
+                Video file extension. This is mainly informational if ``video_filename``
+                already includes an extension.
+
+            trigger_filename : str, default="triggers.csv"
+                Name of the trigger table inside the session folder.
+
+            video_filename : str, default="video.mp4"
+                Name of the video file inside the session folder.
+
+            show_preview : bool, default=False
+                If ``True``, show a live OpenCV preview of the raw frame during
+                recording. The preview is for monitoring only and does not alter the
+                saved video.
+
+            preview_window_name : str, default="Eye video recorder"
+                Name of the OpenCV preview window.
+
+            draw_preview_text : bool, default=True
+                If ``True`` and ``show_preview=True``, draw the current frame index and
+                a compact trigger summary on the preview window. The text is not written
+                to the saved video.
+
+            Attributes
+            ----------
+            session_dir : pathlib.Path or None
+                Timestamped output folder created by :meth:`start`.
+
+            video_path : pathlib.Path or None
+                Full path to the saved video file.
+
+            trigger_path : pathlib.Path or None
+                Full path to the saved trigger CSV file.
+
+            frame_index : int
+                Number of frames written so far. Also used as the index of the next
+                frame to be saved.
+
+            started : bool
+                Whether a recording is currently active.
+
+            closed : bool
+                Whether the current recording resources have been closed.
+
+            Methods
+            -------
+            start(metadata=None)
+                Create the session folder, open the video and trigger files, write
+                metadata, and start recording.
+
+            save_frame(trg1=0, ..., trg9=0)
+                Acquire one frame from the camera, append it to the video, and write
+                the corresponding trigger row.
+
+            stop()
+                Flush and close the trigger file, release the video writer, and close
+                the preview window if needed.
+
+            close_all()
+                Alias-like convenience method for :meth:`stop`, matching the style of
+                :class:`MeyeRecorder`.
+
+            Notes
+            -----
+            ``EyeVideoRecorder`` deliberately stores raw frames only. It does not compute
+            pupil masks, eye masks, pupil area, centroids, ellipses, or inference timing.
+            To extract pupil features later, the saved video can be processed offline
+            with :class:`Meye` or with the MEYELens offline analysis GUI.
+
+            The video timestamp stored in ``video_time_sec`` is nominal and depends on
+            the requested ``fps``. For experimental timing, prefer the measured
+            ``t_call`` and ``t_frame`` columns in ``triggers.csv``.
+
+            The class can be used as a context manager, but the camera is not released
+            by :meth:`stop` or :meth:`close_all`. Camera ownership remains with the code
+            that created the :class:`Camera` object, typically a ``with Camera(...)`` block.
+
+            Example
+            -------
+            .. code-block:: python
+
+                from meyelens import Camera, EyeVideoRecorder
+
+                with Camera(camera_index=0, framerate=30) as cam:
+                    cam.select_roi()
+
+                    recorder = EyeVideoRecorder(
+                        cam=cam,
+                        filename="subject01_baseline",
+                        fps=30,
+                        show_preview=True,
+                    )
+
+                    try:
+                        recorder.start(
+                            metadata={
+                                "subject": "S01",
+                                "condition": "baseline",
+                            }
+                        )
+
+                        for frame in range(300):
+                            recorder.save_frame(
+                                trg1=1 if frame == 100 else 0,
+                                trg2=frame,
+                            )
+
+                    finally:
+                        recorder.close_all()
+        """
+
+    def __init__(
+        self,
+        cam,
+        filename="eye_video",
+        path_to_file=None,
+        fps=30,
+        codec="mp4v",
+        video_extension=".mp4",
+        trigger_filename="triggers.csv",
+        video_filename="video.mp4",
+        show_preview=False,
+        preview_window_name="Eye video recorder",
+        draw_preview_text=True,
+    ):
+        self.cam = cam
+        self.filename = str(filename)
+        self.fps = float(fps)
+        self.codec = str(codec)
+        self.video_extension = str(video_extension)
+        self.trigger_filename = str(trigger_filename)
+        self.video_filename = str(video_filename)
+
+        self.show_preview = bool(show_preview)
+        self.preview_window_name = str(preview_window_name)
+        self.draw_preview_text = bool(draw_preview_text)
+
+        if path_to_file is None:
+            self.root = Path.home() / "Documents" / "meyeDATA"
+        else:
+            self.root = Path(path_to_file).expanduser()
+
+        self.session_dir = None
+        self.video_path = None
+        self.trigger_path = None
+
+        self.video_writer = None
+        self.trigger_writer = None
+
+        self.frame_index = 0
+        self.started = False
+        self.closed = False
+
+        self.t0 = None
+
+    def start(self, metadata=None):
+        """
+        Start the raw video recording.
+
+        Parameters
+        ----------
+        metadata : dict or None
+            Optional metadata written at the top of triggers.csv as comment lines.
+        """
+        if self.started:
+            raise RuntimeError("EyeVideoRecorder.start() called more than once.")
+
+        metadata = dict(metadata or {})
+
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        safe_name = self.filename if self.filename else "eye_video"
+
+        self.session_dir = self.root / f"{timestamp}-{safe_name}"
+        self.session_dir.mkdir(parents=True, exist_ok=True)
+
+        self.video_path = self.session_dir / self.video_filename
+        self.trigger_path = self.session_dir / self.trigger_filename
+
+        frame = self.cam.get_frame()
+
+        if frame is None:
+            raise RuntimeError("Could not acquire first frame. Recording not started.")
+
+        height, width = frame.shape[:2]
+
+        fourcc = cv2.VideoWriter_fourcc(*self.codec)
+
+        self.video_writer = cv2.VideoWriter(
+            str(self.video_path),
+            fourcc,
+            self.fps,
+            (width, height),
+            True,
+        )
+
+        if not self.video_writer.isOpened():
+            self.video_writer.release()
+            self.video_writer = None
+            raise RuntimeError(f"Could not create video file: {self.video_path}")
+
+        metadata.update(
+            {
+                "recorder": "EyeVideoRecorder",
+                "video_file": self.video_filename,
+                "trigger_file": self.trigger_filename,
+                "fps": self.fps,
+                "width": width,
+                "height": height,
+                "camera_crop": getattr(self.cam, "crop", None),
+                "camera_index": getattr(self.cam, "camera_index", ""),
+            }
+        )
+
+        headers = [
+            "frame_index",
+            "t_call",
+            "t_frame",
+            "video_time_sec",
+            "trg1",
+            "trg2",
+            "trg3",
+            "trg4",
+            "trg5",
+            "trg6",
+            "trg7",
+            "trg8",
+            "trg9",
+        ]
+
+        self.trigger_writer = BufferedFileWriter(
+            path_to_file=self.session_dir,
+            filename=Path(self.trigger_filename).stem,
+            metadata=metadata,
+            headers=headers,
+            sep=",",
+            extension=Path(self.trigger_filename).suffix or ".csv",
+            overflow_policy="raise",
+        )
+
+        # BufferedFileWriter prepends its own timestamp to filenames.
+        # For this recorder we want a predictable fixed filename, so replace it
+        # with a direct file writer.
+        self.trigger_writer.close()
+
+        self._open_fixed_trigger_file(metadata=metadata, headers=headers)
+
+        self.t0 = time.perf_counter()
+        self.started = True
+        self.closed = False
+
+        # Save the first frame too, so start() does not silently discard it.
+        self._write_frame_and_triggers(
+            frame=frame,
+            t_call=0.0,
+            trg1=0,
+            trg2=0,
+            trg3=0,
+            trg4=0,
+            trg5=0,
+            trg6=0,
+            trg7=0,
+            trg8=0,
+            trg9=0,
+        )
+
+        print(f"## EyeVideoRecorder ## Session folder: {self.session_dir}")
+        print(f"## EyeVideoRecorder ## Video: {self.video_path}")
+        print(f"## EyeVideoRecorder ## Triggers: {self.trigger_path}")
+
+    def _open_fixed_trigger_file(self, metadata, headers):
+        """
+        Open triggers.csv with a predictable fixed filename.
+        """
+        self.trigger_file_handle = self.trigger_path.open(
+            "w",
+            encoding="utf-8",
+            newline="\n",
+        )
+
+        for key, value in metadata.items():
+            self.trigger_file_handle.write(f"# {key}: {value}\n")
+
+        self.trigger_file_handle.write(",".join(headers) + "\n")
+        self.trigger_file_handle.flush()
+
+        self.trigger_headers = headers
+
+    def save_frame(
+        self,
+        trg1=0,
+        trg2=0,
+        trg3=0,
+        trg4=0,
+        trg5=0,
+        trg6=0,
+        trg7=0,
+        trg8=0,
+        trg9=0,
+    ):
+        """
+        Acquire one camera frame, write it to video, and append one trigger row.
+
+        One trigger row is written only if the frame was successfully acquired and
+        written to the video.
+        """
+        if not self.started:
+            raise RuntimeError("Call EyeVideoRecorder.start() before save_frame().")
+
+        if self.closed:
+            raise RuntimeError("EyeVideoRecorder.save_frame() called after close().")
+
+        t_call = time.perf_counter() - self.t0
+
+        frame = self.cam.get_frame()
+
+        if frame is None:
+            return False
+
+        self._write_frame_and_triggers(
+            frame=frame,
+            t_call=t_call,
+            trg1=trg1,
+            trg2=trg2,
+            trg3=trg3,
+            trg4=trg4,
+            trg5=trg5,
+            trg6=trg6,
+            trg7=trg7,
+            trg8=trg8,
+            trg9=trg9,
+        )
+
+        return True
+
+    def _write_frame_and_triggers(
+        self,
+        frame,
+        t_call,
+        trg1=0,
+        trg2=0,
+        trg3=0,
+        trg4=0,
+        trg5=0,
+        trg6=0,
+        trg7=0,
+        trg8=0,
+        trg9=0,
+    ):
+        """
+        Write an already-acquired frame and its trigger row.
+        """
+        if frame.ndim == 2:
+            frame_to_write = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+        else:
+            frame_to_write = frame
+
+        t_frame = time.perf_counter() - self.t0
+        video_time_sec = self.frame_index / self.fps if self.fps > 0 else np.nan
+
+        self.video_writer.write(frame_to_write)
+
+        row = [
+            self.frame_index,
+            f"{float(t_call):.9f}",
+            f"{float(t_frame):.9f}",
+            f"{float(video_time_sec):.9f}",
+            trg1,
+            trg2,
+            trg3,
+            trg4,
+            trg5,
+            trg6,
+            trg7,
+            trg8,
+            trg9,
+        ]
+
+        self.trigger_file_handle.write(",".join(map(str, row)) + "\n")
+
+        if self.frame_index % 50 == 0:
+            self.trigger_file_handle.flush()
+
+        if self.show_preview:
+            preview = frame_to_write.copy()
+
+            if self.draw_preview_text:
+                cv2.putText(
+                    preview,
+                    f"frame={self.frame_index}",
+                    (20, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7,
+                    (255, 255, 255),
+                    2,
+                    cv2.LINE_AA,
+                )
+
+                cv2.putText(
+                    preview,
+                    f"trg1={trg1} trg2={trg2} trg3={trg3}",
+                    (20, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7,
+                    (255, 255, 255),
+                    2,
+                    cv2.LINE_AA,
+                )
+
+            cv2.imshow(self.preview_window_name, preview)
+            cv2.waitKey(1)
+
+        self.frame_index += 1
+
+    def stop(self):
+        """
+        Stop recording and close video/trigger files.
+        """
+        if self.closed:
+            return
+
+        if hasattr(self, "trigger_file_handle") and self.trigger_file_handle is not None:
+            self.trigger_file_handle.flush()
+            self.trigger_file_handle.close()
+            self.trigger_file_handle = None
+
+        if self.video_writer is not None:
+            self.video_writer.release()
+            self.video_writer = None
+
+        if self.show_preview:
+            cv2.destroyWindow(self.preview_window_name)
+
+        self.closed = True
+        self.started = False
+
+    def close_all(self):
+        """
+        Stop recording and release resources owned by the recorder.
+
+        The Camera itself is not closed here if it is managed by a with-block.
+        """
+        self.stop()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close_all()
+        return False
+
+
 class MeyeGazeCalibrator:
     """
         In-memory gaze calibration model for MEYELens.
