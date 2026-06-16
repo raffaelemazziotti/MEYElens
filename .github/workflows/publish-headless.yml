@@ -1,0 +1,57 @@
+name: Publish Headless to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build headless distributions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install build frontend
+        run: python -m pip install --upgrade build
+
+      - name: Build headless wheel and source distribution
+        run: python scripts/build_headless_dist.py
+
+      - name: Store headless distributions
+        uses: actions/upload-artifact@v5
+        with:
+          name: python-headless-package-distributions
+          path: dist-headless/
+          if-no-files-found: error
+
+  publish:
+    name: Publish headless distributions to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download headless distributions
+        uses: actions/download-artifact@v6
+        with:
+          name: python-headless-package-distributions
+          path: dist-headless/
+
+      - name: Publish headless distributions
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist-headless/

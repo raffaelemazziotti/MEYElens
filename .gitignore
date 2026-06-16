@@ -6,6 +6,7 @@ __pycache__/
 .eggs/
 build/
 dist/
+dist-headless/
 .pytest_cache/
 .mypy_cache/
 .coverage

@@ -85,8 +85,9 @@ release.
 ## Publish To PyPI
 
 Create and publish a GitHub release from `v2.0.1`. The release event runs the
-Trusted Publishing workflow, which builds fresh distributions and uploads them
-to PyPI. Check the result under GitHub Actions.
+Trusted Publishing workflows, which build fresh distributions and upload both
+`meyelens` and `meyelens-headless` to PyPI. Check the result under GitHub
+Actions.
 
 Verify the public package in a clean environment:
 
@@ -102,8 +103,9 @@ Also verify that plain installation leaves PyTorch user-managed:
 
 ```bash
 python -m pip install "meyelens==2.0.1"
+python -m pip install "meyelens-headless==2.0.1"
+python -m pip install "meyelens-headless[pt]==2.0.1"
 ```
 
-Do not publish `meyelens-pt`, `meyelens-headless-pt`, or a 2.0 update of
-`meyelens-headless`. Version 2.0 uses one canonical PyPI project and provides
+Do not publish `meyelens-pt` or `meyelens-headless-pt`. Version 2.0 provides
 PyTorch through the `pt` extra.
