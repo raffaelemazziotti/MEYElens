@@ -2,6 +2,7 @@ from .analysis import AdaptiveGazeFilter, DeBlink, Filters, MeyeReader, TrialEpo
 from .fileio import BufferedFileWriter
 from .meye import (
     Camera,
+    EyeVideoRecorder,
     Meye,
     MeyeGazeCalibrator,
     MeyeMaskFeatures,
@@ -15,6 +16,7 @@ __all__ = [
     "AdaptiveGazeFilter",
     "BufferedFileWriter",
     "Camera",
+    "EyeVideoRecorder",
     "DeBlink",
     "Filters",
     "Meye",
