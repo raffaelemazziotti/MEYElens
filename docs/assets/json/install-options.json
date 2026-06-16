@@ -15,12 +15,12 @@
         {
           "value": "full",
           "label": "Full",
-          "extra": ""
+          "package": "meyelens"
         },
         {
           "value": "headless",
           "label": "Headless",
-          "extra": "headless",
+          "package": "meyelens-headless",
           "show_warning": true
         }
       ]
@@ -68,7 +68,7 @@
     },
     "cpu": {
       "default": {
-        "title": "This installation runs on CPU",
+        "title": "This installation runs on CPU.",
         "small_text": "You are installing the CPU version of MEYELens. This version is compatible with systems without a supported GPU, but it is slower than the GPU version. For faster performance, select the GPU installation option."
       }
     }

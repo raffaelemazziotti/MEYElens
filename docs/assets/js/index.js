@@ -334,25 +334,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return extras;
     }
 
+    function getPackageName(config, state) {
+        const selectedOptions = getSelectedOptions(config, state);
+
+        const packageOption = selectedOptions.find((option) => option.package);
+
+        return packageOption
+            ? packageOption.package
+            : config.package || "meyelens";
+    }
+
     function buildCommand(config, state) {
+        const packageName = getPackageName(config, state);
         const extras = getExtras(config, state);
         const extrasText = extras.length ? `[${extras.join(",")}]` : "";
 
-        /*
-            If there are extras:
-            pip install "meyelens[tensorflow,gui]"
-
-            If there are no extras:
-            pip install meyelens
-        */
         if (!extras.length) {
-            return `pip install ${config.package || "meyelens"}`;
+            return `pip install ${packageName}`;
         }
 
         const template = config.default_command_template || "pip install \"{package}{extras}\"";
 
         return template
-            .replaceAll("{package}", config.package || "meyelens")
+            .replaceAll("{package}", packageName)
             .replaceAll("{extras}", extrasText);
     }
 
