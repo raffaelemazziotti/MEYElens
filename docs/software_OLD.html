@@ -62,7 +62,7 @@
         <div class="container software-hero-grid">
             <div>
                 <div class="eyebrow">Software</div>
-                <h1>Software setup, configuration, and model-zoo.</h1>
+                <h1>Software setup, tutorials, and configuration.</h1>
                 <p class="lead">
                     The <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> library is designed to support acquisition, pupil detection,
                     gaze-related workflows, and export of reproducible outputs.
@@ -73,50 +73,25 @@
                 <div class="toc-title">Contents</div>
                 <nav class="toc" aria-label="Software contents">
                     <a href="#installation">Installation</a>
-                    <a href="#model-zoo">Model zoo</a>
+                    <a href="#tutorials">Tutorials</a>
                 </nav>
             </aside>
-        </div>
-    </section>
-
-    <!-- Future Selector -->
-    <section class="section" id="selection">
-        <div class="container">
-            <div class="section-head">
-                <h2>Installation Selector</h2>
-                <p class="muted">
-                    Select your MEYELens configuration and copy the generated install command.
-                </p>
-            </div>
-
-            <div
-                class="install-matrix"
-                id="meyelens-install"
-                data-config="assets/json/install-options.json"
-            ></div>
-        </div>
-
-        <div class="note note-tip container">
-            <strong>Tip:</strong>
-            <u>Tutorials</u> are available in the
-            <a class="textlink" href="resources.html#tutorials">
-                Resources page
-            </a>.
         </div>
     </section>
 
     <section class="section" id="installation">
     <div class="container">
         <div class="section-head">
-            <h2>Complete Installation Instructions</h2>
+            <h2>Installation</h2>
             <p class="muted">
-                The library is written in Python. We recently moved from TensorFlow to <u>PyTorch</u> for performance reasons, especially to improve inference speed and flexibility across different hardware configurations. We recommend installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> in a dedicated Python environment.            </p>
+                We recommend installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> in a dedicated Python environment to avoid dependency conflicts.
+            </p>
         </div>
 
         <div class="text-block">
             <h3>Recommended install</h3>
             <p>
-                Create and activate a dedicated Conda environment, then install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> with the standard <a href="https://pytorch.org/" class="textlink">PyTorch</a> dependency set.
+                Create and activate a dedicated Conda environment, then install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> with the standard TensorFlow dependency set.
             </p>
         </div>
 
@@ -127,31 +102,31 @@
             </div>
 <pre><code class="language-bash">conda create -n meyelens python=3.10 -y
 conda activate meyelens
-pip install meyelens[pt]</code></pre>
+pip install meyelens[tf]</code></pre>
         </div>
 
         <div class="note note-tip">
             <strong>Tip:</strong>
-            This installs <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> together with a standard PyTorch dependency set.
-            Depending on your system, PyTorch may run on <u>CPU</u> unless <u>GPU</u> support is configured separately. GPU setup results in much higher performances due to parallel computation.
+            This installs <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> together with a standard TensorFlow dependency set.
+            Depending on your system, TensorFlow may run on <u>CPU</u> unless <u>GPU</u> support is configured separately.
         </div>
 
         <div class="text-block">
-            <h3>PyTorch GPU support <span class="brand-soft">(optional)</span></h3>
+            <h3>TensorFlow GPU support <span class="brand-soft">(optional)</span></h3>
             <p>
-                If you want GPU acceleration, configure PyTorch first by following the official installation guide for your platform.
-                After verifying that PyTorch can access the GPU, install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>:
+                If you want GPU acceleration, configure TensorFlow first by following the official TensorFlow installation guide for your platform.
+                After verifying that TensorFlow can access the GPU, install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> without the TensorFlow extra.
             </p>
         </div>
 
         <div class="note note-warning">
             <strong>Warning:</strong>
-            GPU acceleration depends on your operating system, CUDA/cuDNN compatibility, and PyTorch version.
+            GPU enablement depends on your operating system, CUDA/cuDNN compatibility, and TensorFlow version.
             Follow the
-            <a class="textlink" href="https://pytorch.org/get-started/locally/" target="_blank" rel="noopener">
-                official Pytorch installation guide
+            <a class="textlink" href="https://www.tensorflow.org/install/pip" target="_blank" rel="noopener">
+                official TensorFlow installation guide
             </a>
-            for your platform before installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>.
+            exactly for your platform before installing <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>.
         </div>
 
         <div class="code-block">
@@ -164,13 +139,13 @@ pip install meyelens[pt]</code></pre>
 
         <div class="note note-tip">
             <strong>Tip:</strong>
-            This install <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> alongside your manually configured PyTorch library.
+            This keeps your manually configured TensorFlow installation intact and avoids replacing it with the default dependency set from <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span><code>[tf]</code>.
         </div>
 
         <div class="text-block">
             <h3>Headless package</h3>
             <p>
-                If you want only the core Python package without the PyQt GUI, install the separate headless distribution.
+                If you want only the core Python package without the PyQt offline GUI, install the separate headless distribution.
             </p>
         </div>
 
@@ -184,7 +159,7 @@ pip install meyelens[pt]</code></pre>
 
         <div class="text-block">
             <p>
-                To install the headless package with PyTorch dependencies (for CPU):
+                To install the headless package with TensorFlow dependencies:
             </p>
         </div>
 
@@ -193,12 +168,12 @@ pip install meyelens[pt]</code></pre>
                 <span class="code-label">Command</span>
                 <button class="copy-btn" type="button" aria-label="Copy code">Copy</button>
             </div>
-<pre><code class="language-bash">pip install "meyelens-headless[pt]"</code></pre>
+<pre><code class="language-bash">pip install "meyelens-headless[tf]"</code></pre>
         </div>
 
         <div class="note note-warning">
             <strong>Warning:</strong>
-            Do not install <code>meyelens</code> and <code>"meyelens-headless"</code> into the same environment.
+            Do not install <code>meyelens</code> and <code>meyelens-headless</code> into the same environment.
             Use separate environments if you need to test both distributions.
         </div>
 
@@ -209,50 +184,74 @@ pip install meyelens[pt]</code></pre>
                 here
             </a>.
         </div>
-
-        <div class="text-block">
-            <h3>Legacy TensorFlow version</h3>
-            <p>
-                The original MEYE TensorFlow model is no longer actively maintained, because
-                current <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> development is moving toward the newer PyTorch-based pipeline.
-                However, the TensorFlow model remains available for reproducibility and for
-                users who rely on the legacy MEYE workflow. You can try it through the
-                <a class="textlink" href="https://pupillometry.it" target="_blank" rel="noopener noreferrer">pupillometry.it</a> web app,
-                download the pretrained model
-                <a class="textlink" href="https://github.com/fabiocarrara/meye/releases" target="_blank" rel="noopener noreferrer">here</a>,
-                or consult the
-                <a class="textlink" href="https://github.com/fabiocarrara/meye/" target="_blank" rel="noopener noreferrer">GitHub project</a>
-                and the
-                <a class="textlink" href="https://www.eneuro.org/content/8/5/ENEURO.0122-21.2021" target="_blank" rel="noopener noreferrer">original paper</a>
-                for implementation details.
-                <p>
-                    The same legacy model is also listed in the
-                    <a class="textlink" href="software2.html#model-zoo">MEYELens Model Zoo</a>,
-                    together with its main specifications and usage notes.
-                </p>
-            </p>
-        </div>
     </div>
 </section>
 
-    <section class="section" id="model-zoo">
+    <!--<section class="section" id="tutorials">
         <div class="container">
             <div class="section-head">
-                <h2>Model Zoo</h2>
+                <h2>Tutorials</h2>
                 <p class="muted">
-                    Pretrained models and reusable model assets for MEYELens analysis workflows.
+                    Step-by-step examples for acquisition, pupillometry, gaze tracking, and analysis workflows.
                 </p>
             </div>
 
-            <div id="model-zoo-grid" class="model-zoo-grid" aria-live="polite">
-                <!--
-                    Model cards are generated here by model-zoo.js.
-                -->
+            <div class="tutorial-gallery">
+
+                <a class="tutorial-card" href="tutorial_preview.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/media/tutorial_preview_crop.gif" alt="First recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Basic</div>
+                        <h3>First camera preview</h3>
+                        <p>Initialize a camera and open a live preview using the Python API.</p>
+                    </div>
+                </a>
+
+                <a class="tutorial-card" href="tutorial_online_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/media/favicon.png" alt="Online pupil recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Online recording</div>
+                        <h3>Record online pupil predictions</h3>
+                        <p>Start and stop live pupil prediction, save CSV files, and send keyboard trigger pulses.</p>
+                    </div>
+                </a>
+
+                <a class="tutorial-card" href="tutorial_offline_recording.html">
+                    <div class="tutorial-thumb">
+                        <img src="assets/media/favicon.png" alt="Video and trigger recording tutorial preview">
+                    </div>
+                    <div class="tutorial-body">
+                        <div class="tutorial-type">Offline Recording</div>
+                        <h3>Record video with triggers</h3>
+                        <p>Save a camera stream to video while recording synchronized keyboard trigger pulses to CSV.</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Future Selector -->
+    <!--<section class="section" id="selection">
+        <div class="container">
+            <div class="section-head">
+                <h2>Installation</h2>
+                <p class="muted">
+                    Select your MEYELens configuration and copy the generated install command.
+                </p>
             </div>
 
-            <div id="model-zoo-status" class="muted model-zoo-status"></div>
+            <div
+                class="install-matrix"
+                id="meyelens-install"
+                data-config="install-options.json"
+            ></div>
         </div>
-    </section>
+    </section>-->
 
 </main>
 
@@ -280,6 +279,5 @@ pip install meyelens[pt]</code></pre>
 
 <script src="assets/js/index.js"></script>
 <script src="assets/js/analytics-consent.js"></script>
-<script src="assets/js/model-zoo.js"></script>
 </body>
 </html>

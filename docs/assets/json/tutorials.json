@@ -1,193 +1,710 @@
 [
   {
-    "id": "first-preview",
-    "title": "First camera preview",
-    "tag": "Basic",
-    "level": "Beginner",
-    "summary": "Initialize a camera and open a live preview using the Python API.",
-    "description": "This tutorial checks that MEYELens is installed correctly and that your camera can be opened from Python.",
-    "image": "assets/media/tutorial_preview_crop.gif",
-    "imageAlt": "First camera preview tutorial",
-    "python_file": "assets/python/tutorial_preview.py",
-    "button": "Open tutorial",
+  "id": "feature-preview",
+  "title": "Preview and feature extraction",
+  "tag": "Basic",
+  "level": "Beginner",
+  "summary": "Select an eye ROI, run the interactive MEYELens preview, and print pupil/eye feature samples from live camera frames.",
+  "description": "This tutorial shows how to open an eye-facing camera, select a region of interest, tune the MEYELens segmentation preview, and extract geometric pupil and eye features from live frames.",
+  "image": "assets/media/tutorial_preview_crop.gif",
+  "imageAlt": "MEYELens preview and feature extraction tutorial",
+  "python_file": "assets/python/example_simple.py",
+  "button": "Open tutorial",
 
-    "sections": [
-      {
-        "kind": "text",
-        "title": "Goal",
-        "body": "Open a live camera preview and verify that the camera and MEYELens model can run from Python."
-      },
-      {
-        "kind": "list",
-        "title": "Requirements",
-        "items": [
-          "MEYELens installed in a dedicated Python environment",
-          "Eye facing camera",
-          "A visible eye region in the camera frame"
-        ]
-      },
-      {
-        "kind": "tip",
-        "title": "Tip",
-        "body": "If the wrong camera opens, try changing `camera_index=0` to `camera_index=1` or `camera_index=2`."
-      },
-      {
-        "kind": "warning",
-        "title": "Camera already in use",
-        "body": "If the camera does not open, close other applications that may be using it."
-      },
-      {
-        "kind": "code",
-        "title": "Preview script",
-        "source": "python_file"
-      }
-    ]
-  },
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Use the live preview to check that the camera, model, thresholds, masks, and feature overlays are working correctly. After closing the preview, the script collects 30 prediction samples and prints the extracted pupil and eye features."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script creates a Meye segmentation object, opens the camera, lets you select the eye ROI, and starts the interactive preview. When you exit the preview, it acquires 30 frames, runs prediction on each frame, stores result.features, and prints the collected feature dictionaries."
+    },
+    {
+      "kind": "list",
+      "title": "Feature output",
+      "items": [
+        "valid: whether the mask contains positive pixels",
+        "area: number of pixels in the segmented mask",
+        "centroid: mean mask position in image coordinates",
+        "ellipse: fitted ellipse information for the largest mask contour",
+        "major_diameter and minor_diameter: fitted ellipse axes",
+        "orientation_deg: orientation of the major axis",
+        "ovality and eccentricity: shape elongation measures",
+        "major_axis and minor_axis: endpoints of the fitted ellipse axes"
+      ]
+    },
+    {
+      "kind": "tip",
+      "title": "Preview controls",
+      "body": "Use the interactive preview to tune the segmentation before collecting samples. You can adjust pupil and eye thresholds, toggle masks, toggle feature drawing, and print the current settings from the preview window."
+    },
+    {
+      "kind": "tip",
+      "title": "Camera index",
+      "body": "If the wrong camera opens, change `camera_index=0` to `camera_index=1` or `camera_index=2`."
+    },
+    {
+      "kind": "warning",
+      "title": "Invalid features",
+      "body": "If the pupil or eye is not clearly visible, some masks may be invalid and some ellipse values may be `NaN`. Improve focus, illumination, and ROI selection before collecting feature samples."
+    },
+    {
+      "kind": "code",
+      "title": "Preview and feature extraction script",
+      "source": "python_file"
+    }
+  ]
+},
   {
-    "id": "online-recording",
-    "title": "Record online pupil predictions",
-    "tag": "Online recording",
-    "level": "Intermediate",
-    "summary": "Run live pupil prediction, save frame-by-frame CSV data, and send keyboard trigger pulses during acquisition.",
-    "description": "This tutorial shows how to record online MEYELens pupil predictions while saving synchronized frame-level data and keyboard trigger pulses to a CSV file.",
-    "image": "assets/media/favicon.png",
-    "imageAlt": "Online pupil prediction recording tutorial",
-    "imageCaption": "Online recording workflow with live prediction, preview, CSV export, and keyboard triggers.",
-    "python_file": "assets/python/tutorial_online_recording.py",
-    "button": "Open tutorial",
+  "id": "online-meye-recording",
+  "title": "Online MEYELens recording",
+  "tag": "Recording",
+  "level": "Beginner",
+  "summary": "Record frame-level pupil and eye features from a live camera stream with synchronized trigger values.",
+  "description": "This tutorial shows how to use MeyeRecorder to acquire camera frames, run MEYELens prediction online, save pupil and eye measurements, and attach trigger values to specific frames.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens online recording tutorial",
+  "python_file": "assets/python/example_recording.py",
+  "button": "Open tutorial",
 
-    "sections": [
-      {
-        "kind": "text",
-        "title": "Goal",
-        "body": "Use `MeyeAsyncRecorder` to run online pupil prediction, preview the predicted pupil overlay, and save frame-by-frame results to CSV."
-      },
-      {
-        "kind": "list",
-        "title": "What this tutorial records",
-        "items": [
-          "Live camera frames processed by the MEYELens online recorder",
-          "Frame-level pupil prediction outputs",
-          "Keyboard trigger pulses from keys `1` to `9`",
-          "A timestamped recording folder containing the final `expinfo.csv` file"
-        ]
-      },
-      {
-        "kind": "list",
-        "title": "Keyboard controls",
-        "items": [
-          "`s`: start recording in a new timestamped folder",
-          "`e`: stop recording and save the CSV as `expinfo.csv`",
-          "`1` to `9`: send a one-frame trigger pulse to the corresponding trigger channel",
-          "`q`: quit the script"
-        ]
-      },
-      {
-        "kind": "tip",
-        "title": "Camera index",
-        "body": "The script uses `cam_ind=0` by default. If the wrong camera opens, change it to `cam_ind=1`, `cam_ind=2`, or another available camera index."
-      },
-      {
-        "kind": "warning",
-        "title": "Online prediction performance",
-        "body": "Online prediction speed depends on camera resolution, model size, CPU/GPU availability, and preview rendering. For time-sensitive experiments, test the real acquisition rate before collecting data."
-      },
-      {
-        "kind": "tip",
-        "title": "Automatic stop",
-        "body": "Set `MAX_DURATION_SEC` to a number, for example `60`, if you want the recording to stop automatically after a fixed duration."
-      },
-      {
-        "kind": "code",
-        "title": "Online recording script",
-        "source": "python_file"
-      },
-      {
-        "kind": "text",
-        "title": "Output",
-        "body": "Each recording creates a timestamped folder inside `recordings/`. When the recording is stopped, the temporary CSV file is renamed to `expinfo.csv` for consistency across sessions."
-      },
-      {
-        "kind": "warning",
-        "title": "Trigger timing",
-        "body": "Trigger pulses are saved as one-frame events. Pressed keys are written on the next saved frame and then reset to zero."
-      },
-      {
-        "kind": "text",
-        "title": "Expected result",
-        "body": "A live OpenCV preview window should open. During preview mode, frames are processed but not saved. After pressing `s`, online predictions and trigger values are written to CSV until you press `e` or `q`."
-      }
-    ]
-  },
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Record online pupil and eye measurements from the live camera stream. For each saved frame, MEYELens acquires the image, runs segmentation, extracts features, attaches trigger values, and writes one data row to disk."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye",
+        "A MEYELens model configured and working in preview mode"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script creates a Meye object, opens the camera, selects the eye ROI, and optionally runs the interactive preview to tune the segmentation. It then creates a MeyeRecorder, starts a recording session with metadata, saves 300 frames, and sends a one-frame trigger pulse on trg1 at frame 100."
+    },
+    {
+      "kind": "list",
+      "title": "Saved output",
+      "items": [
+        "Frame index",
+        "Frame timing information",
+        "Pupil centroid and area",
+        "Pupil ellipse features",
+        "Eye centroid and area",
+        "Eye ellipse features",
+        "Inference timing, when enabled",
+        "Trigger columns trg1 to trg9"
+      ]
+    },
+    {
+      "kind": "tip",
+      "title": "Metadata",
+      "body": "Use `recorder.start(metadata={...})` to save useful session information at the top of the output file, such as subject ID, condition, task name, session number, or acquisition notes."
+    },
+    {
+      "kind": "tip",
+      "title": "Triggers",
+      "body": "Trigger values passed to `save_frame()` are assigned to the same frame that is acquired and analyzed during that call. In this example, `trg1=1` only at frame 100 and is `0` for all other frames."
+    },
+    {
+      "kind": "tip",
+      "title": "Preview during recording",
+      "body": "Keep `show_preview=False` for better acquisition performance. Set `show_preview=True` only if you need to see the live MEYELens overlay while frames are being saved."
+    },
+    {
+      "kind": "warning",
+      "title": "Close the recorder",
+      "body": "Always call `recorder.close_all()` at the end of the acquisition. This stops the recording, flushes the buffered writer, closes the output file, and releases the camera resources."
+    },
+    {
+      "kind": "warning",
+      "title": "Invalid features",
+      "body": "If the pupil or eye is not detected clearly, some feature values may be invalid or contain `NaN`. Use the preview step to adjust thresholds, illumination, focus, and ROI selection before starting the recording."
+    },
+    {
+      "kind": "code",
+      "title": "Online recording script",
+      "source": "python_file"
+    }
+  ]
+},
   {
-    "id": "offline-recording",
-    "title": "Record video with triggers",
-    "tag": "Offline recording",
-    "level": "Intermediate",
-    "summary": "Save the raw camera stream to video while recording synchronized keyboard trigger pulses to CSV.",
-    "description": "This tutorial shows how to record a camera stream for later offline analysis. It saves the raw video and a synchronized trigger file without running online pupil prediction during acquisition.",
-    "image": "assets/media/favicon.png",
-    "imageAlt": "Offline video and trigger recording tutorial",
-    "imageCaption": "Offline recording workflow with raw video acquisition and frame-level trigger logging.",
-    "python_file": "assets/python/tutorial_offline_recording.py",
-    "button": "Open tutorial",
+  "id": "pupillary-light-reflex",
+  "title": "Pupillary light reflex",
+  "tag": "Experiment",
+  "level": "Intermediate",
+  "summary": "Run a simple pupillary light reflex experiment with PsychoPy, record online MEYELens features, and analyze the pupil response.",
+  "description": "This tutorial shows how to combine MEYELens with PsychoPy to present repeated light flashes, record synchronized pupil measurements and triggers, clean the pupil trace, extract stimulus-locked epochs, and plot the pupillary light reflex.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens pupillary light reflex tutorial",
+  "python_file": "assets/python/example_plr.py",
+  "button": "Open tutorial",
 
-    "sections": [
-      {
-        "kind": "list",
-        "title": "What this tutorial records",
-        "items": [
-          "Raw camera frames saved to a video file",
-          "Frame-level timestamps saved to `expinfo.csv`",
-          "Keyboard trigger pulses from keys `1` to `9`",
-          "A compact trigger `signal` column, where `0` means no trigger and `1`-`9` indicate the active trigger channel"
-        ]
-      },
-      {
-        "kind": "list",
-        "title": "Keyboard controls",
-        "items": [
-          "`s`: start recording in a new timestamped folder",
-          "`e`: stop recording and finalize the files",
-          "`1` to `9`: send a one-frame trigger pulse to the corresponding trigger channel",
-          "`q`: quit the script"
-        ]
-      },
-      {
-        "kind": "tip",
-        "title": "Camera index",
-        "body": "The script uses `camera_index=0` by default. If the wrong camera opens, change it to `camera_index=1`, `camera_index=2`, or another available camera index."
-      },
-      {
-        "kind": "warning",
-        "title": "Frame timing",
-        "body": "The script uses `FrameRateManager` to control sampling at `TARGET_FPS`, but the effective frame rate still depends on camera performance, USB bandwidth, disk writing speed, and system load."
-      },
-      {
-        "kind": "tip",
-        "title": "Automatic stop",
-        "body": "Set `MAX_DURATION_SEC` to a number, for example `60`, if you want recording to stop automatically after a fixed duration."
-      },
-      {
-        "kind": "code",
-        "title": "Offline recording script",
-        "source": "python_file"
-      },
-      {
-        "kind": "text",
-        "title": "Output",
-        "body": "Each recording creates a timestamped folder inside `recordings/`. The trigger file is finalized as `expinfo.csv`, and the video file contains the raw camera frames."
-      },
-      {
-        "kind": "warning",
-        "title": "Trigger timing",
-        "body": "Trigger pulses are saved as one-frame events. Pressed keys are written on the next recorded frame and then reset to zero."
-      },
-      {
-        "kind": "text",
-        "title": "Expected result",
-        "body": "A live OpenCV preview window should open. Before recording, frames are shown but not saved. After pressing `s`, raw video frames and trigger rows are saved until you press `e` or `q`."
-      }
-    ]
-  }
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Record a pupillary light reflex response using an eye-facing camera and a simple visual flash stimulus. The script saves online MEYELens pupil and eye features together with frame-level trigger values, then analyzes the pupil-area response around flash onset."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "PsychoPy installed and working",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye",
+        "A MEYELens model configured and working in preview mode"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script creates a Meye object, opens the camera, selects the eye ROI, and uses the interactive preview to tune segmentation. It then creates a PsychoPy window with a fixation dot and a white flash stimulus, records multiple baseline-flash-recovery trials with MeyeRecorder, and saves trigger values marking flash onset, trial number, and stimulus state."
+    },
+    {
+      "kind": "list",
+      "title": "Trigger structure",
+      "items": [
+        "trg1: flash onset pulse, set to 1 only on the first frame of each flash",
+        "trg2: trial number",
+        "trg3: stimulus state, set to 1 while the flash is visible and 0 otherwise"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Saved output",
+      "items": [
+        "Frame timing information",
+        "Pupil area and centroid",
+        "Pupil ellipse features",
+        "Eye area and centroid",
+        "Eye ellipse features",
+        "Inference timing",
+        "Trigger columns for flash onset, trial number, and stimulus state",
+        "Metadata describing the experiment timing and number of trials"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "Analysis pipeline",
+      "body": "After recording, the script loads the saved file with MeyeReader, extracts the raw pupil-area trace, removes blinks and missing-pupil samples with DeBlink, estimates the sampling rate from frame timestamps, filters the cleaned pupil trace, and extracts epochs around the flash-onset trigger."
+    },
+    {
+      "kind": "list",
+      "title": "Plots",
+      "items": [
+        "Complete pupil-area trace with raw and cleaned/filtered signal",
+        "Vertical markers showing flash onset times",
+        "Single-trial pupillary light reflex epochs",
+        "Average baseline-corrected pupil response"
+      ]
+    },
+    {
+      "kind": "tip",
+      "title": "Preview before recording",
+      "body": "Use the MEYELens preview before starting the experiment to adjust pupil and eye thresholds. Reliable segmentation during preview will make the recorded pupil-area trace easier to clean and analyze."
+    },
+    {
+      "kind": "tip",
+      "title": "Flash onset trigger",
+      "body": "The analysis uses `trg1` to find flash onset. Keep `trg1=1` only on the first frame of the flash, not during the full flash duration."
+    },
+    {
+      "kind": "tip",
+      "title": "Stimulus state",
+      "body": "Use `trg3` to store whether the flash is currently visible. This is useful for checking stimulus timing and verifying that the flash duration was correctly recorded."
+    },
+    {
+      "kind": "warning",
+      "title": "Display brightness",
+      "body": "The strength of the pupillary light reflex depends on screen brightness, ambient illumination, viewing distance, and stimulus size. Keep these conditions stable across participants and sessions."
+    },
+    {
+      "kind": "warning",
+      "title": "Safe shutdown",
+      "body": "The script uses a `try/finally` block to stop the recorder and close the PsychoPy window even if the experiment is interrupted. Keep this structure when adapting the script."
+    },
+    {
+      "kind": "warning",
+      "title": "Invalid pupil samples",
+      "body": "Blinks, poor focus, bad illumination, or inaccurate ROI selection can produce missing or invalid pupil-area values. The analysis removes zero-valued samples and blink-like artifacts before filtering and epoch extraction."
+    },
+    {
+      "kind": "code",
+      "title": "Pupillary light reflex script",
+      "source": "python_file"
+    }
+  ]
+},
+  {
+  "id": "visual-oddball",
+  "title": "Visual oddball task",
+  "tag": "Experiment",
+  "level": "Intermediate",
+  "summary": "Run a visual oddball experiment with PsychoPy, record online MEYELens features, behavioral responses, and stimulus triggers.",
+  "description": "This tutorial shows how to combine MEYELens with PsychoPy to present standard, target, and distractor gratings while recording synchronized pupil measurements, stimulus events, and spacebar responses.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens visual oddball tutorial",
+  "python_file": "assets/python/example_oddball.py",
+  "button": "Open tutorial",
+
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Record pupil dynamics during a visual oddball task. The participant fixates a central red dot while brief gratings are presented. Standard gratings require no response, oddball target gratings require a SPACE response, and distractor gratings require no response."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "PsychoPy installed and working",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye",
+        "A MEYELens model configured and working in preview mode"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script generates a visual oddball sequence with standards, oddball targets, and distractors. It opens the camera, selects the eye ROI, runs the MEYELens preview, shows task instructions with example stimuli, records the experiment with MeyeRecorder, stores behavioral responses, and analyzes the pupil trace after the task."
+    },
+    {
+      "kind": "list",
+      "title": "Stimulus conditions",
+      "items": [
+        "Standard: 0 degree grating, no response required",
+        "Oddball target: +45 degree grating, press SPACE",
+        "Distractor: -45 degree grating, no response required"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Trigger structure",
+      "items": [
+        "trg1: stimulus onset code, with 1=standard, 2=oddball, and 3=distractor",
+        "trg2: trial number",
+        "trg3: stimulus visibility state, set to 1 while the grating is visible",
+        "trg4: behavioral response, set to 1 on frames where SPACE is detected"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Task timing",
+      "items": [
+        "Initial fixation-only period before stimulation",
+        "A few initial standard trials",
+        "Random standard, oddball, and distractor trials",
+        "Minimum number of standards enforced between rare events",
+        "Final fixation-only period after stimulation"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Saved output",
+      "items": [
+        "Frame timing information",
+        "Pupil area and centroid",
+        "Pupil ellipse features",
+        "Eye area and centroid",
+        "Eye ellipse features",
+        "Inference timing",
+        "Stimulus and response trigger columns",
+        "Experiment metadata describing task timing, orientations, and trigger meanings"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "Behavior output",
+      "body": "During the task, the script stores one behavioral row per trial with trial number, trial type, whether the participant responded, response time, and correctness. At the end, it prints response rate and accuracy separately for standards, oddballs, and distractors."
+    },
+    {
+      "kind": "text",
+      "title": "Analysis pipeline",
+      "body": "After recording, the script loads the saved file with MeyeReader, extracts the pupil-area trace, removes blinks and missing-pupil samples with DeBlink, estimates the sampling rate from frame timestamps, filters the cleaned trace, builds one trigger vector per condition, and extracts stimulus-locked epochs."
+    },
+    {
+      "kind": "list",
+      "title": "Plots",
+      "items": [
+        "Complete pupil-area trace with raw and cleaned/filtered signal",
+        "Vertical markers showing detected stimulus onsets",
+        "Average pupil response for standards, oddballs, and distractors",
+        "SEM band around the mean response for each condition"
+      ]
+    },
+    {
+      "kind": "tip",
+      "title": "Preview before recording",
+      "body": "Use the MEYELens preview before starting the task to tune pupil and eye thresholds. Reliable segmentation during preview will improve the quality of the recorded pupil-area trace."
+    },
+    {
+      "kind": "tip",
+      "title": "Event coding",
+      "body": "Keep `trg1` as a one-frame stimulus onset code. The analysis uses this column to separate standards, oddballs, and distractors into different epoch groups."
+    },
+    {
+      "kind": "tip",
+      "title": "Response coding",
+      "body": "Use `trg4` to mark SPACE responses in the frame-level recording. The script also keeps a separate trial-level behavior list for response rate, response time, and accuracy."
+    },
+    {
+      "kind": "warning",
+      "title": "Task instructions",
+      "body": "Make sure the participant understands that only the +45 degree grating requires a SPACE response. Responses to standards or distractors are counted as incorrect."
+    },
+    {
+      "kind": "warning",
+      "title": "Timing and display",
+      "body": "Stimulus timing depends on the display refresh rate, PsychoPy timing, and system performance. Keep the setup stable across sessions and avoid running heavy background processes during the experiment."
+    },
+    {
+      "kind": "warning",
+      "title": "Invalid pupil samples",
+      "body": "Blinks, eye movements, poor focus, bad illumination, or inaccurate ROI selection can produce missing or invalid pupil-area values. The analysis removes zero-valued samples and blink-like artifacts before filtering and epoch extraction."
+    },
+    {
+      "kind": "code",
+      "title": "Visual oddball script",
+      "source": "python_file"
+    }
+  ]
+},
+  {
+  "id": "raw-eye-video-recording",
+  "title": "Raw eye-video recording",
+  "tag": "Recording",
+  "level": "Beginner",
+  "summary": "Record the raw eye-camera stream and save synchronized frame-level trigger values without running MEYELens segmentation.",
+  "description": "This tutorial shows how to use EyeVideoRecorder to save a raw eye video together with a trigger/timing CSV file. It is useful when you want lightweight acquisition and plan to run pupil or eye analysis offline later.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens raw eye-video recording tutorial",
+  "python_file": "assets/python/example_offline_eye_recording.py",
+  "button": "Open tutorial",
+
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Record the eye-facing camera stream as a raw video while saving one synchronized trigger and timing row for each saved frame. This script does not create a Meye object and does not run online pupil or eye segmentation."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye",
+        "Enough disk space for the raw video file"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script opens the camera with the requested frame rate and resolution, lets you select the eye ROI, creates an EyeVideoRecorder, starts a timestamped recording session, saves 300 video frames, writes trigger values for each successfully saved frame, and then closes the recorder safely."
+    },
+    {
+      "kind": "list",
+      "title": "Saved output",
+      "items": [
+        "A timestamped session folder in the standard MEYELens data directory",
+        "video.mp4 containing the raw eye-camera movie",
+        "triggers.csv containing one timing and trigger row per saved frame",
+        "Metadata written at the top of triggers.csv as comment lines"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Example trigger structure",
+      "items": [
+        "trg1: example event pulse, set to 1 only at frame 100",
+        "trg2: current frame number",
+        "trg3: example block or condition code"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "When to use this recorder",
+      "body": "Use EyeVideoRecorder when you want to save raw eye videos for later offline analysis, avoid online model inference during acquisition, keep recording as fast and lightweight as possible, or synchronize frame-wise triggers with the saved video."
+    },
+    {
+      "kind": "tip",
+      "title": "ROI selection",
+      "body": "The selected ROI is applied automatically to every frame returned by `cam.get_frame()`. This means that the saved video contains the cropped eye region rather than the full camera frame."
+    },
+    {
+      "kind": "tip",
+      "title": "Performance",
+      "body": "Because this recorder does not call `Meye.predict()`, it is lighter than online segmentation recording. It is a good option when timing and acquisition stability are more important than immediate pupil measurements."
+    },
+    {
+      "kind": "tip",
+      "title": "Preview during recording",
+      "body": "Set `show_preview=True` to display the raw camera image while recording. For maximum performance, set `show_preview=False` once the camera position and ROI are stable."
+    },
+    {
+      "kind": "warning",
+      "title": "No online pupil features",
+      "body": "This recorder saves only the raw video and trigger/timing table. It does not save pupil area, centroid, ellipse features, masks, or inference timing because no MEYELens prediction is performed during recording."
+    },
+    {
+      "kind": "warning",
+      "title": "Dropped or missing frames",
+      "body": "A trigger row is written only when a frame is successfully acquired and written to the video. Check the return value of `recorder.save_frame()` to detect failed frame acquisition."
+    },
+    {
+      "kind": "warning",
+      "title": "Close the recorder",
+      "body": "Always close the recorder with `recorder.close_all()`. This flushes and closes the trigger CSV file and releases the video writer. The camera is released automatically by the `with Camera(...)` block."
+    },
+    {
+      "kind": "code",
+      "title": "Raw eye-video recording script",
+      "source": "python_file"
+    }
+  ]
+},
+  {
+  "id": "eye-dataset-collector",
+  "title": "Eye-image dataset collector",
+  "tag": "Dataset",
+  "level": "Intermediate",
+  "summary": "Collect raw eye snapshots, prediction-overlay snapshots, raw movies, and overlay movies for dataset creation.",
+  "description": "This tutorial shows how to use the camera and MEYELens prediction loop to build eye-image datasets. It supports saving raw frames, mask-overlay frames, raw movies, prediction-overlay movies, and metadata describing the acquisition settings.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens eye-image dataset collector tutorial",
+  "python_file": "assets/python/example_eyes_collector.py",
+  "button": "Open tutorial",
+
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Collect eye-image material that can be used for dataset building, visual inspection, model testing, or later annotation. The script runs MEYELens prediction live, but the saved data can include either clean raw camera images or prediction-overlay images."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "Optional ROI selection around the eye",
+        "Enough disk space for image snapshots and video files"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script creates a timestamped dataset session folder, opens the camera, runs MEYELens prediction on each frame, displays a live preview with pupil and eye masks, and lets you save snapshots or movies using keyboard commands."
+    },
+    {
+      "kind": "list",
+      "title": "Saved output",
+      "items": [
+        "raw_snapshots: PNG images from the clean camera stream",
+        "overlay_snapshots: PNG images with pupil and eye mask overlays",
+        "raw_movies: video files containing the clean camera stream",
+        "overlay_movies: video files containing the prediction mask overlay",
+        "metadata.csv: acquisition settings and information for each saved file"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Keyboard controls",
+      "items": [
+        "s: save raw PNG snapshot",
+        "S: save prediction-overlay PNG snapshot",
+        "r: start or stop raw movie recording",
+        "R: start or stop prediction-overlay movie recording",
+        "+ or =: increase pupil threshold",
+        "- or _: decrease pupil threshold",
+        "]: increase eye threshold",
+        "[: decrease eye threshold",
+        "p: toggle pupil mask",
+        "o: toggle eye mask",
+        "h: print commands",
+        "q or ESC: quit"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "Metadata",
+      "body": "For every saved snapshot or completed movie, the script appends one row to metadata.csv. The row includes file type, filename, image size, camera index, target FPS, crop information, pupil and eye thresholds, mask visibility settings, and recording duration for movies."
+    },
+    {
+      "kind": "text",
+      "title": "Prediction overlay",
+      "body": "The overlay view draws only the pupil and eye masks. It does not draw centroids, ellipses, axis points, or feature text, making the saved overlay images cleaner for dataset inspection and documentation."
+    },
+    {
+      "kind": "tip",
+      "title": "Raw versus overlay files",
+      "body": "Use raw snapshots and raw movies when you want clean images for annotation or training. Use prediction-overlay snapshots and movies when you want to visually inspect current model performance."
+    },
+    {
+      "kind": "tip",
+      "title": "Threshold tuning",
+      "body": "Adjust the pupil and eye thresholds while previewing the live stream. The current threshold values are stored in metadata.csv when you save snapshots or stop movie recordings."
+    },
+    {
+      "kind": "tip",
+      "title": "ROI option",
+      "body": "Set `USE_ROI=True` if you want to manually crop the eye region before collecting data. The selected crop is then applied to every frame returned by the camera."
+    },
+    {
+      "kind": "warning",
+      "title": "Prediction is used during collection",
+      "body": "Unlike raw video recording, this collector calls `Meye.predict()` on every frame to generate the live mask overlay. This is useful for model inspection, but it is heavier than recording raw video only."
+    },
+    {
+      "kind": "warning",
+      "title": "Movie finalization",
+      "body": "A movie is written to metadata.csv only when recording is stopped normally with `r` or `R`. If the script is interrupted while a movie is still recording, the video writer is released, but no final duration row may be appended."
+    },
+    {
+      "kind": "warning",
+      "title": "Dataset consistency",
+      "body": "For training datasets, keep camera settings, illumination, focus, ROI strategy, and file naming consistent across sessions. Use metadata.csv to track acquisition conditions."
+    },
+    {
+      "kind": "code",
+      "title": "Eye-image dataset collector script",
+      "source": "python_file"
+    }
+  ]
+},
+  {
+  "id": "one-camera-gaze-calibration",
+  "title": "One-camera gaze calibration",
+  "tag": "Gaze",
+  "level": "Intermediate",
+  "summary": "Calibrate a simple one-camera gaze estimator from MEYELens pupil and eye features, then test live gaze prediction on screen.",
+  "description": "This tutorial shows how to collect fixation samples with PsychoPy targets, train a gaze calibration model from MEYELens features, and display a live filtered gaze pointer using a single eye-facing camera.",
+  "image": "assets/media/favicon.png",
+  "imageAlt": "MEYELens one-camera gaze calibration tutorial",
+  "python_file": "assets/python/example_gaze.py",
+  "button": "Open tutorial",
+
+  "sections": [
+    {
+      "kind": "text",
+      "title": "Goal",
+      "body": "Estimate gaze position from one eye-facing camera by calibrating MEYELens pupil and eye features against known screen target positions. After calibration, the script predicts gaze coordinates online and displays a live gaze pointer."
+    },
+    {
+      "kind": "list",
+      "title": "Requirements",
+      "items": [
+        "MEYELens installed in a dedicated Python environment",
+        "PsychoPy installed and working",
+        "Eye-facing camera connected to the computer",
+        "A visible and well-focused eye image",
+        "A selected region of interest around the eye",
+        "Stable head position during calibration and testing",
+        "A MEYELens model configured and working in preview mode"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "What this script does",
+      "body": "The script creates a Meye model, an AdaptiveGazeFilter, and a MeyeGazeCalibrator. It opens a PsychoPy window, shows calibration targets one at a time, collects multiple valid MEYELens samples for each target, fits a gaze model, and then starts a live prediction loop with a filtered green gaze dot."
+    },
+    {
+      "kind": "list",
+      "title": "Calibration settings",
+      "items": [
+        "MODEL_TYPE: calibration model used for mapping eye features to screen coordinates",
+        "NUM_POINTS: number of calibration target positions",
+        "FIXATION_DELAY_SEC: delay after target onset before collecting samples",
+        "SAMPLES_PER_TARGET: number of valid MEYELens samples collected for each target",
+        "SCREEN_WIDTH and SCREEN_HEIGHT: PsychoPy coordinate range used by the calibrator"
+      ]
+    },
+    {
+      "kind": "list",
+      "title": "Supported calibration models",
+      "items": [
+        "ridge_poly: polynomial ridge regression",
+        "ridge: linear ridge regression",
+        "mlp: multilayer perceptron regressor"
+      ]
+    },
+    {
+      "kind": "text",
+      "title": "Calibration procedure",
+      "body": "For each target, the dot first appears in red during the fixation delay. When sample collection starts, the dot turns green. The script then acquires camera frames, runs MEYELens prediction, and adds only valid pupil/eye feature samples to the calibrator."
+    },
+    {
+      "kind": "text",
+      "title": "Model fitting",
+      "body": "After all calibration targets are completed, the script fits the selected model with `calibrator.fit()`. In this example, samples are aggregated with the median for each target before fitting, which helps reduce the influence of noisy frames."
+    },
+    {
+      "kind": "text",
+      "title": "Live prediction",
+      "body": "During the live test, each new camera frame is processed with MEYELens and passed to `calibrator.predict_xy()`. If the current frame has invalid features, the script keeps the last valid gaze prediction instead of moving the pointer to an invalid position."
+    },
+    {
+      "kind": "tip",
+      "title": "Use preview first",
+      "body": "Run the MEYELens preview before calibration to tune pupil and eye thresholds. Good segmentation during preview is essential for stable gaze calibration."
+    },
+    {
+      "kind": "tip",
+      "title": "Collect enough samples",
+      "body": "Increase `SAMPLES_PER_TARGET` if predictions are noisy. More samples per target make the median feature estimate more stable, but calibration takes longer."
+    },
+    {
+      "kind": "tip",
+      "title": "Smooth the pointer",
+      "body": "The AdaptiveGazeFilter reduces jitter in the live gaze dot. Lower `min_cutoff` gives stronger smoothing, while higher `beta` makes the pointer respond faster during larger gaze shifts."
+    },
+    {
+      "kind": "warning",
+      "title": "Head stability",
+      "body": "This example uses one eye-facing camera and does not explicitly compensate for head movement. Keep the head and camera position stable during calibration and testing. A **chin rest** is highly recommended."
+    },
+    {
+      "kind": "warning",
+      "title": "Calibration quality",
+      "body": "Poor ROI selection, bad focus, reflections, blinks, or unstable fixation can produce invalid features and inaccurate gaze predictions. Repeat calibration if the live pointer is systematically shifted or unstable."
+    },
+    {
+      "kind": "warning",
+      "title": "Coordinate system",
+      "body": "The script uses PsychoPy `norm` coordinates. Target and gaze positions are expressed in the same screen coordinate system, not in pixels."
+    },
+    {
+      "kind": "code",
+      "title": "One-camera gaze calibration script",
+      "source": "python_file"
+    }
+  ]
+}
 ]

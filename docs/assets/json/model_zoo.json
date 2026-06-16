@@ -1,5 +1,167 @@
 [
   {
+  "id": "segformer-light",
+  "name": "SegFormer Light",
+  "tag": "PyTorch",
+  "release": "v2.0.2-models",
+  "short_description": "Default PyTorch model for online MEYELens recordings.",
+  "description": "A lightweight SegFormer model for eye and pupil segmentation from eye-facing camera frames. This is the default MEYELens PyTorch model and is recommended for online recordings, where a good balance between segmentation quality and inference speed is needed.",
+  "image": "assets/media/segformer.png",
+  "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/segformer_light.pt",
+
+  "specs": {
+    "Status": "Default",
+    "Backend": "PyTorch",
+    "Architecture": "SegFormer MiT-B0",
+    "Task": "Eye and pupil segmentation",
+    "Input": "Eye-facing camera frames",
+    "Output": "Eye mask and pupil mask",
+    "Recommended use": "Online recordings and general MEYELens pupillometry workflows",
+    "Package use": "MEYELens PyTorch Python API",
+    "Performance": "Optimized for practical online inference; exact frame rate depends on hardware"
+  },
+
+  "other_details": {
+    "Model file": "`segformer_light.pt`",
+    "Notes": "Recommended default model for online recordings. Use a GPU for higher frame rates; CPU execution is supported but may run at a lower frame rate."
+    }
+  },
+  {
+    "id": "segformer-medium",
+    "name": "SegFormer Medium",
+    "tag": "PyTorch",
+    "release": "v2.0.2-models",
+    "short_description": "Higher-capacity PyTorch model for MEYELens eye and pupil segmentation.",
+    "description": "A medium-size SegFormer model for eye and pupil segmentation from eye-facing camera frames. This model provides a higher-capacity alternative to the default SegFormer Light model and is useful when segmentation quality is prioritized over inference speed.",
+    "image": "assets/media/segformer.png",
+    "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/segformer_medium.pt",
+
+    "specs": {
+      "Status": "Alternative",
+      "Backend": "PyTorch",
+      "Architecture": "SegFormer MiT-B2",
+      "Task": "Eye and pupil segmentation",
+      "Input": "Eye-facing camera frames",
+      "Output": "Eye mask and pupil mask",
+      "Recommended use": "Online experiments (with GPU acceleration). Offline analysis and recordings where higher segmentation capacity is preferred",
+      "Package use": "MEYELens PyTorch Python API",
+      "Performance": "Higher-capacity model; inference speed depends on hardware and may be slower than SegFormer Light"
+    },
+
+    "other_details": {
+      "Model file": "`segformer_medium.pt`",
+      "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended."
+    }
+  },
+  {
+  "id": "efficientformerv2-light",
+  "name": "EfficientFormerV2 Light",
+  "tag": "PyTorch",
+  "release": "v2.0.2-models",
+  "short_description": "Fast and lightweight PyTorch model for MEYELens eye and pupil segmentation.",
+  "description": "A lightweight EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model is designed for fast inference and is suitable for online recordings, CPU-based workflows, and lower-resource systems where inference speed is important.",
+  "image": "assets/media/efficientformer.png",
+  "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_light.pt",
+
+  "specs": {
+    "Status": "Alternative",
+    "Backend": "PyTorch",
+    "Architecture": "EfficientFormerV2",
+    "Task": "Eye and pupil segmentation",
+    "Input": "Eye-facing camera frames",
+    "Output": "Eye mask and pupil mask",
+    "Recommended use": "Online recordings, CPU workflows, embedded systems, and lower-resource devices",
+    "Package use": "MEYELens PyTorch Python API",
+    "Performance": "Lightweight model optimized for fast inference; exact frame rate depends on hardware"
+  },
+
+  "other_details": {
+    "Model file": "`efficientformerv2_light.pt`",
+    "Notes": "Use this model when inference speed and low computational cost are priorities. It may be useful on smaller or dedicated devices where heavier models are less practical."
+  }
+},
+  {
+  "id": "efficientformerv2-small",
+  "name": "EfficientFormerV2 Small",
+  "tag": "PyTorch",
+  "release": "v2.0.2-models",
+  "short_description": "Compact PyTorch model for MEYELens eye and pupil segmentation.",
+  "description": "A compact EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides a practical balance between inference speed and segmentation capacity, making it suitable for general MEYELens workflows.",
+  "image": "assets/media/efficientformer.png",
+  "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_small.pt",
+
+  "specs": {
+    "Status": "Alternative",
+    "Backend": "PyTorch",
+    "Architecture": "EfficientFormerV2",
+    "Task": "Eye and pupil segmentation",
+    "Input": "Eye-facing camera frames",
+    "Output": "Eye mask and pupil mask",
+    "Recommended use": "General online and offline MEYELens pupillometry workflows",
+    "Package use": "MEYELens PyTorch Python API",
+    "Performance": "Compact model with balanced inference speed and segmentation capacity; exact frame rate depends on hardware"
+  },
+
+  "other_details": {
+    "Model file": "`efficientformerv2_small.pt`",
+    "Notes": "Use this model when you need a compact EfficientFormerV2 alternative with more capacity than the light version while keeping inference practical."
+  }
+},
+  {
+  "id": "efficientformerv2-medium",
+  "name": "EfficientFormerV2 Medium",
+  "tag": "PyTorch",
+  "release": "v2.0.2-models",
+  "short_description": "Balanced PyTorch model for MEYELens eye and pupil segmentation.",
+  "description": "A medium-size EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides a stronger segmentation capacity than the light and small EfficientFormerV2 versions, while remaining practical for MEYELens online and offline workflows.",
+  "image": "assets/media/efficientformer.png",
+  "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_medium.pt",
+
+  "specs": {
+    "Status": "Alternative",
+    "Backend": "PyTorch",
+    "Architecture": "EfficientFormerV2",
+    "Task": "Eye and pupil segmentation",
+    "Input": "Eye-facing camera frames",
+    "Output": "Eye mask and pupil mask",
+    "Recommended use": "Online and offline MEYELens workflows where a balance between segmentation capacity and inference speed is needed",
+    "Package use": "MEYELens PyTorch Python API",
+    "Performance": "Medium-capacity model with balanced segmentation performance and inference speed; exact frame rate depends on hardware"
+  },
+
+  "other_details": {
+    "Model file": "`efficientformerv2_medium.pt`",
+    "Notes": "Use this model when you want more segmentation capacity than the light or small EfficientFormerV2 versions, while keeping inference more practical than a large model."
+  }
+},
+  {
+  "id": "efficientformerv2-large",
+  "name": "EfficientFormerV2 Large",
+  "tag": "PyTorch",
+  "release": "v2.0.2-models",
+  "short_description": "High-capacity PyTorch model for MEYELens eye and pupil segmentation.",
+  "description": "A large EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides the highest-capacity EfficientFormerV2 option in the MEYELens model zoo and is useful when segmentation quality is prioritized over inference speed.",
+  "image": "assets/media/efficientformer.png",
+  "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_large.pt",
+
+  "specs": {
+    "Status": "Alternative",
+    "Backend": "PyTorch",
+    "Architecture": "EfficientFormerV2",
+    "Task": "Eye and pupil segmentation",
+    "Input": "Eye-facing camera frames",
+    "Output": "Eye mask and pupil mask",
+    "Recommended use": "Offline analysis, validation workflows, and recordings where maximum EfficientFormerV2 segmentation capacity is preferred",
+    "Package use": "MEYELens PyTorch Python API",
+    "Performance": "High-capacity model; inference speed depends on hardware and may be slower than the light, small, and medium EfficientFormerV2 versions"
+  },
+
+  "other_details": {
+    "Model file": "`efficientformerv2_large.pt`",
+    "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended."
+  }
+},
+  {
     "id": "meye-pupil",
     "name": "MEYE pupil segmentation",
     "tag": "TensorFlow",

@@ -488,6 +488,28 @@ figcaption {
     margin-top: 18px;
 }
 
+.tip-code {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow-x: auto;
+}
+
+.tip-code code {
+  color: var(--accent);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tip-result {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
 .section .code-block,
 .section .note {
   margin-top: 14px;
