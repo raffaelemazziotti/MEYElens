@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2
+
+- Restore the `meyelens-headless` distribution for non-GUI installs, including
+  the `meyelens-headless[pt]` extra for the pinned PyTorch dependency.
+
 ## 2.0.1
 
 - Standardize the release on Python 3.11 and pin the tested direct dependency
@@ -22,7 +27,6 @@
 - Made PyTorch a separately installed prerequisite so users can select their
   CPU, CUDA, or Apple MPS build without pip replacing it.
 - Added the `pt` extra for users who prefer `pip install "meyelens[pt]"`.
-- Retired the separate `meyelens-headless` distribution for 2.0.
 - Rebuilt the Sphinx API reference for the 2.0 public modules.
 - Removed automated GitHub publishing workflows in favor of manual releases.
 
