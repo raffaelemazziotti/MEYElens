@@ -165,12 +165,28 @@
 
     <section class="section" id="updates">
         <div class="container">
-            <div class="section-head">
-                <h2>Latest updates</h2>
-                <p>News, updates, publications, and announcements from the <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span> project.</p>
+            <div class="section-head updates-head">
+                <div>
+                    <h2>Latest updates</h2>
+                    <p>
+                        News, updates, publications, and announcements from the
+                        <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>
+                        project.
+                    </p>
+                </div>
+
+                <button
+                    id="updates-toggle"
+                    class="btn updates-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    hidden
+                >
+                    Show all updates
+                </button>
             </div>
 
-            <div id="updates-list" class="updates-grid"></div>
+            <div id="updates-list" class="updates-grid" aria-live="polite"></div>
         </div>
     </section>
 

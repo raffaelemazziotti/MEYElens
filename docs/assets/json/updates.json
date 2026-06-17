@@ -1,5 +1,35 @@
 [
   {
+    "date": "2026-06-17",
+    "title": "New tutorial library available",
+    "summary": "Start from a first camera preview, then move through recording, dataset collection, experiments, and gaze calibration.",
+    "tag": "Tutorials",
+    "url": "resources.html#tutorials",
+    "button": "Explore",
+    "image": "assets/media/tutorials.png",
+    "imageAlt": "MEYELens tutorial icon showing a guided software workflow"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "Model Zoo is now available",
+    "summary": "Explore the new MEYELens Model Zoo, with PyTorch models available in different architectures.",
+    "tag": "Update",
+    "url": "software.html#model-zoo",
+    "button": "Explore",
+    "image": "assets/media/model_zoo.png",
+    "imageAlt": "MEYELens Model Zoo icon with animal models representing different architectures and sizes"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "New MEYELens version available",
+    "summary": "MEYELens now uses a PyTorch-based backend, with new models that are more flexible, efficient, and suitable for modern pupillometry workflows.",
+    "tag": "Major Update",
+    "url": "software.html",
+    "button": "Discover",
+    "image": "assets/media/new_software.png",
+    "imageAlt": "Update banner announcing the new PyTorch version"
+  },
+  {
     "date": "2026-06-02",
     "title": "3D Models page updated",
     "summary": "Updated the 3D Models page with printable files, individual model parts, print settings, and links to external model repositories.",

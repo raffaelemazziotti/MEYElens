@@ -332,6 +332,7 @@
                     You can watch an example video here:
                     <a class="textlink" href="https://www.youtube.com/watch?v=CzUBjV2adHo&t=97s" target="_blank" rel="noopener">IR-cut filter removal tutorial</a>.
                 </div>
+
             </div>
 
             <figure class="media-figure panel-figure">
@@ -342,6 +343,31 @@
                 <figcaption>Example camera modules used for pupillometry and gaze tracking.</figcaption>
             </figure>
         </div>
+
+
+        <div class="note note-tip">
+            <strong>Tip:</strong>
+            For the eye-facing camera, both <strong>50°</strong> and <strong>80°</strong> lenses are suitable,
+            as long as you select an appropriate ROI around the eye. A <strong>50° lens</strong> provides a
+            closer view of the eye, while an <strong>80° lens</strong> gives a wider view and can make camera
+            positioning easier. For the world-facing camera, use a lens with a field of view of at least
+            <strong>80°</strong>, so that the camera captures a sufficiently wide portion of the visual scene.
+        </div>
+
+        <div class="note note-warning">
+            <strong>Warning:</strong>
+            Most camera modules are sold with the lens focused for distant objects.
+            For <span class="brand-accent">MEYE</span><span class="brand-normal">Lens</span>,
+            the eye is much closer to the camera, so the focus usually needs to be adjusted manually.
+            To do this, carefully rotate the small lens mounted on the camera module until the eye image
+            is sharp at approximately <strong>2.5 cm</strong> from the eye.
+            The lens is often glued in place, so the first rotation may require some force.
+            <u>Be careful:</u> forcing the rotation can damage the lens or the camera module.
+            The <strong>50° camera</strong> lens is usually harder to rotate than the <strong>80° camera</strong> lens.
+            A pair of tweezers can help you gently force the initial rotation and then adjust the focus.
+            The depth of field is generally large enough that very fine tuning is not required.
+        </div>
+
     </div>
 </section>
 
@@ -416,8 +442,10 @@
             <div class="two-up">
                 <div class="content-block">
                     <p>
-                        The illumination configuration can vary depending on the camera module, the required image quality,
-                        and whether the setup is intended mainly for laboratory use or portable recordings.
+                        The illumination configuration depends on the camera module and the recording setup.
+                        If you use a camera with built-in LEDs, the <u>integrated illumination is sufficient</u>
+                        to obtain a good image of the eye. If you use the camera without the built-in LEDs external illumination is required to obtain bright and
+                        stable predictions. In this case there are several options:
                     </p>
 
                     <ul class="list">
@@ -430,9 +458,8 @@
                         <li>
                             <strong>SMD LED configuration:</strong>
                             a more difficult but portable option is to use small
-                            <a class="textlink" href="YOUR_SMD_LED_LINK" target="_blank" rel="noopener">SMD LEDs</a>
-                            soldered onto wires and positioned close to the camera lens.
-                            In our configuration, five LEDs were placed around the lens to illuminate the eye.
+                            <a class="textlink" href="https://a.aliexpress.com/_EvLKd38" target="_blank" rel="noopener">SMD LEDs</a>
+                            soldered onto wires and positioned close to the camera lens (4 or 5 should be sufficient).
                         </li>
                     </ul>
 
@@ -443,7 +470,7 @@
 
                     <div class="note note-warning">
                         <strong>Warning:</strong>
-                        When building custom infrared illumination, verify the electrical connections and avoid excessive light intensity close to the eye.
+                        When building custom infrared illumination, verify the electrical connections and avoid <u>excessive light intensity</u> close to the eye (generally 0.5 meters from face).
                     </div>
                 </div>
 
@@ -473,7 +500,8 @@
             <div class="text-block">
                 <p>
                     These camera modules have short cables, so a USB extension cable is needed for practical use.
-                    We used double-headed USB extension cables such as this
+                    If you intend to use only one camera, a common USB extension cable is sufficient.
+                    For more flexible setups, we used double-headed USB extension cables such as this
                     <a class="textlink" href="https://www.amazon.it/-/en/KiWiBiRD-Splitter-Extension-Transfer-Compatible/dp/B0G7TCQJPK?crid=1LRNA09R87HAM&dib=eyJ2IjoiMSJ9.QiDks4A7SQdaffX4GPdtqODSkl5Ycg1f6qTGlFA-CPOgmiRyTG_VSYaGywa3kWpufXf1VxDYDMGkbf6yVpd3ckC8Pxz1iXUEcTGRaapqEgEfm2TEAap0XUxPUm56jjqNIhaDJQ8kQvkTearhoRvYYjIcgnldrnl1dJzUtSZpxVsDoRpT1fyMjN9SxxZ4Ioq1zukQKWlSzYyczpagWRRILtwXcB71Ked0DX30CPCMDTGKsYem883r6LLs_EOJrYPwFHOruQoWYxlFVCbkGgi99Pz3soy9U_sSVxIsvNrq_ok.BaKkulKviCNzX3w8KwP-cOgxYDuhH4vRpWXP28ayDiM&dib_tag=se&keywords=prolunga+usb+2+uscite&qid=1778886299&sprefix=prolunga+usb+2+us%2Caps%2C251&sr=8-6" target="_blank" rel="noopener">USB extension cable</a>.
                     This provides two USB inputs, which can be used either for a dual-camera setup or for one camera together with a custom IR LED array.
                 </p>

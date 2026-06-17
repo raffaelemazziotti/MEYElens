@@ -23,8 +23,13 @@
     }
 
     const updatesList = document.getElementById("updates-list");
+    const updatesToggle = document.getElementById("updates-toggle");
 
     if (updatesList) {
+        let allUpdates = [];
+        let updatesExpanded = false;
+        const defaultVisibleUpdates = 3;
+
         fetch("assets/json/updates.json")
             .then((response) => {
                 if (!response.ok) {
@@ -38,64 +43,88 @@
                     return;
                 }
 
-                updates
+                allUpdates = updates
                     .slice()
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .slice(0, 3)
-                    .forEach((item) => {
-                        const article = document.createElement("article");
-                        article.className = "update-card";
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                        const imageHtml = item.image
-                            ? `
-                                <div class="update-media">
-                                    <img src="${item.image}" alt="${item.imageAlt || item.title || "Update image"}">
-                                </div>
-                            `
-                            : "";
+                renderUpdates();
 
-                        const tagHtml = item.tag
-                            ? `<div class="update-tag">${item.tag}</div>`
-                            : "";
+                if (updatesToggle && allUpdates.length > defaultVisibleUpdates) {
+                    updatesToggle.hidden = false;
 
-                        const dateHtml = item.date
-                            ? `<p class="update-date">${formatDate(item.date)}</p>`
-                            : "";
+                    updatesToggle.addEventListener("click", () => {
+                        updatesExpanded = !updatesExpanded;
+                        updatesToggle.textContent = updatesExpanded
+                            ? "Show fewer"
+                            : "Show all updates";
 
-                        const titleHtml = item.title
-                            ? `<h3>${item.title}</h3>`
-                            : "";
-
-                        const summaryHtml = item.summary
-                            ? `<p>${item.summary}</p>`
-                            : "";
-
-                        const linkHtml = item.url
-                            ? `
-                                <a class="btn btn-primary" href="${item.url}">
-                                    ${item.button || "Open"}
-                                </a>
-                            `
-                            : "";
-
-                        article.innerHTML = `
-                            ${imageHtml}
-                            <div class="update-body">
-                                ${tagHtml}
-                                ${dateHtml}
-                                ${titleHtml}
-                                ${summaryHtml}
-                                ${linkHtml}
-                            </div>
-                        `;
-
-                        updatesList.appendChild(article);
+                        updatesToggle.setAttribute("aria-expanded", String(updatesExpanded));
+                        renderUpdates();
                     });
+                }
             })
             .catch((error) => {
                 console.error("Error loading updates:", error);
                 updatesList.innerHTML = "<p>Unable to load updates at the moment.</p>";
             });
+
+        function renderUpdates() {
+            updatesList.innerHTML = "";
+
+            const visibleUpdates = updatesExpanded
+                ? allUpdates
+                : allUpdates.slice(0, defaultVisibleUpdates);
+
+            visibleUpdates.forEach((item) => {
+                const article = document.createElement("article");
+                article.className = "update-card";
+
+                const imageHtml = item.image
+                    ? `
+                        <div class="update-media">
+                            <img src="${item.image}" alt="${item.imageAlt || item.title || "Update image"}">
+                        </div>
+                    `
+                    : "";
+
+                const tagHtml = item.tag
+                    ? `<div class="update-tag">${item.tag}</div>`
+                    : "";
+
+                const dateHtml = item.date
+                    ? `<p class="update-date">${formatDate(item.date)}</p>`
+                    : "";
+
+                const titleHtml = item.title
+                    ? `<h3>${item.title}</h3>`
+                    : "";
+
+                const summaryHtml = item.summary
+                    ? `<p>${item.summary}</p>`
+                    : "";
+
+                const linkHtml = item.url
+                    ? `
+                        <a class="btn btn-primary" href="${item.url}">
+                            ${item.button || "Open"}
+                        </a>
+                    `
+                    : "";
+
+                article.innerHTML = `
+                    ${imageHtml}
+                    <div class="update-body">
+                        ${tagHtml}
+                        ${dateHtml}
+                        ${titleHtml}
+                        ${summaryHtml}
+                        ${linkHtml}
+                    </div>
+                `;
+
+                updatesList.appendChild(article);
+            });
+        }
     }
 
     function formatDate(dateString) {
