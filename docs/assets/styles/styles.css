@@ -780,6 +780,15 @@ figcaption {
 }
 
 .update-card {
+    color: inherit;
+    text-decoration: none;
+}
+
+.update-card-button {
+    pointer-events: none;
+}
+
+.update-card {
     position: relative;
     display: flex;
     flex-direction: column;

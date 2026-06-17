@@ -1,5 +1,6 @@
 (() => {
     const yearEl = document.getElementById("year");
+
     if (yearEl) {
         yearEl.textContent = new Date().getFullYear();
     }
@@ -15,6 +16,7 @@
 
         document.addEventListener("click", (event) => {
             const target = event.target;
+
             if (!menu.contains(target) && !toggle.contains(target)) {
                 menu.classList.remove("open");
                 toggle.setAttribute("aria-expanded", "false");
@@ -28,6 +30,7 @@
     if (updatesList) {
         let allUpdates = [];
         let updatesExpanded = false;
+
         const defaultVisibleUpdates = 3;
 
         fetch("assets/json/updates.json")
@@ -35,6 +38,7 @@
                 if (!response.ok) {
                     throw new Error("Failed to load updates.json");
                 }
+
                 return response.json();
             })
             .then((updates) => {
@@ -51,14 +55,18 @@
 
                 if (updatesToggle && allUpdates.length > defaultVisibleUpdates) {
                     updatesToggle.hidden = false;
+                    updatesToggle.textContent = "Show all updates";
+                    updatesToggle.setAttribute("aria-expanded", "false");
 
                     updatesToggle.addEventListener("click", () => {
                         updatesExpanded = !updatesExpanded;
+
                         updatesToggle.textContent = updatesExpanded
                             ? "Show fewer"
                             : "Show all updates";
 
                         updatesToggle.setAttribute("aria-expanded", String(updatesExpanded));
+
                         renderUpdates();
                     });
                 }
@@ -76,8 +84,13 @@
                 : allUpdates.slice(0, defaultVisibleUpdates);
 
             visibleUpdates.forEach((item) => {
-                const article = document.createElement("article");
-                article.className = "update-card";
+                const card = document.createElement(item.url ? "a" : "article");
+                card.className = "update-card";
+
+                if (item.url) {
+                    card.href = item.url;
+                    card.setAttribute("aria-label", item.title || "Open update");
+                }
 
                 const imageHtml = item.image
                     ? `
@@ -103,26 +116,26 @@
                     ? `<p>${item.summary}</p>`
                     : "";
 
-                const linkHtml = item.url
+                const buttonHtml = item.url
                     ? `
-                        <a class="btn btn-primary" href="${item.url}">
+                        <span class="btn btn-primary update-card-button">
                             ${item.button || "Open"}
-                        </a>
+                        </span>
                     `
                     : "";
 
-                article.innerHTML = `
+                card.innerHTML = `
                     ${imageHtml}
                     <div class="update-body">
                         ${tagHtml}
                         ${dateHtml}
                         ${titleHtml}
                         ${summaryHtml}
-                        ${linkHtml}
+                        ${buttonHtml}
                     </div>
                 `;
 
-                updatesList.appendChild(article);
+                updatesList.appendChild(card);
             });
         }
     }
