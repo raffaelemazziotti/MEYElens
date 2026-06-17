@@ -87,29 +87,29 @@
     }
 
     function createModelCard(model) {
-        const card = document.createElement("a");
-        card.className = "model-zoo-card";
-        card.href = `model-detail.html?id=${encodeURIComponent(model.id)}`;
-        card.setAttribute("aria-label", `Open details for ${model.name}`);
+    const card = document.createElement("a");
+    card.className = "model-zoo-card";
+    card.href = `model-detail.html?id=${encodeURIComponent(model.id)}`;
+    card.setAttribute("aria-label", `Open details for ${model.name || "model"}`);
 
-        card.innerHTML = `
-            <div class="model-zoo-thumb">
-                <img
-                    class="model-zoo-image"
-                    src="${escapeHtml(model.image || "assets/media/model-placeholder.jpg")}"
-                    alt="Preview of ${escapeHtml(model.name || "model")}"
-                >
-            </div>
+    card.innerHTML = `
+        <div class="model-zoo-thumb">
+            <img
+                class="model-zoo-image"
+                src="${escapeHtml(model.image || "assets/media/model-placeholder.jpg")}"
+                alt="Preview of ${escapeHtml(model.name || "model")}"
+            >
+        </div>
 
-            <div class="model-zoo-body">
-                ${hasValue(model.tag) ? `<div class="model-zoo-type">${escapeHtml(model.tag)}</div>` : ""}
-                <h3>${escapeHtml(model.name || "Untitled model")}</h3>
-                ${hasValue(model.short_description) ? `<p>${escapeHtml(model.short_description)}</p>` : ""}
-            </div>
-        `;
+        <div class="model-zoo-body">
+            ${hasValue(model.tag) ? `<div class="model-zoo-type">${escapeHtml(model.tag)}</div>` : ""}
+            <h3>${escapeHtml(model.name || "Untitled model")}</h3>
+            ${hasValue(model.short_description) ? `<p>${escapeHtml(model.short_description)}</p>` : ""}
+        </div>
+    `;
 
-        return card;
-    }
+    return card;
+}
 
     function renderModelZoo(models) {
         const grid = document.getElementById("model-zoo-grid");
