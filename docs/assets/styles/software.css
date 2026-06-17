@@ -85,7 +85,6 @@
   text-align: center;
 }
 
-
 @media (max-width: 960px) {
   .page-software .software-hero-grid,
   .page-software .software-grid,
@@ -102,7 +101,6 @@
     transform: rotate(90deg);
   }
 }
-
 
 /* install matrix */
 
@@ -133,14 +131,14 @@
 }
 
 .install-row-label {
+  display: flex;
+  align-items: center;
   color: var(--text-soft);
   font-size: 17px;
   line-height: 1.2;
   padding: 14px 14px 14px 12px;
   border-left: 2px solid var(--line);
   background: var(--bg-soft);
-  display: flex;
-  align-items: center;
 }
 
 .install-output-label {
@@ -192,10 +190,6 @@
   outline-offset: -2px;
 }
 
-.install-output {
-  min-width: 0;
-}
-
 .install-command-box,
 .install-gpu-warning {
   background: var(--panel);
@@ -217,6 +211,7 @@
 .install-command-box pre {
   margin: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .install-command-box code {
@@ -250,33 +245,111 @@
   color: var(--text-soft);
 }
 
+/* install matrix mobile */
+
 @media (max-width: 760px) {
+  .install-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
   .install-row,
   .install-output-row {
-    grid-template-columns: 1fr;
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+
+  .install-row + .install-row,
+  .install-output-row {
+    border-top: 1px solid var(--line);
   }
 
   .install-row-label {
     border-left: 0;
-    border-top: 2px solid var(--line);
-    padding: 14px 12px 8px;
-    font-size: 15px;
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 11px 12px;
+    background: var(--bg-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .install-output-label {
-    border-top-color: var(--text);
+    color: var(--text);
   }
 
+  .install-row-options {
+    display: grid;
+    grid-template-columns: repeat(var(--install-columns, 2), minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+  }
+
+  .install-cell {
+    min-height: 46px;
+    padding: 11px 12px;
+    background: var(--panel);
+    border-radius: 0;
+    color: var(--text-soft);
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .install-cell.active {
+    background: var(--accent);
+    color: #1f2328;
+  }
+
+  .install-command-box,
+  .install-gpu-warning {
+    min-height: 0;
+    padding: 14px;
+    background: var(--panel);
+  }
+
+  .install-command-header {
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .install-command-box code {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .install-gpu-warning strong {
+    font-size: 14px;
+  }
+
+  .install-gpu-warning p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .install-warning-small {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
   .install-row-options {
     grid-template-columns: 1fr;
   }
 
   .install-cell {
-    font-size: 15px;
-  }
-
-  .install-command-box code {
-    font-size: 14px;
+    text-align: left;
   }
 }
 
