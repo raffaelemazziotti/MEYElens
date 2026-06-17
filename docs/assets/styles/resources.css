@@ -119,6 +119,8 @@
   grid-template-columns: 58px 1fr;
   gap: 12px;
   align-items: start;
+  color: inherit;
+  text-decoration: none;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -189,6 +191,11 @@
   flex-direction: column;
   overflow: hidden;
 
+  min-height: 265px;
+
+  color: inherit;
+  text-decoration: none;
+
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
@@ -229,7 +236,10 @@
 
 .page-resources .tutorial-thumb {
   position: relative;
+  z-index: 1;
+  display: block;
   overflow: hidden;
+  height: 120px;
   border-bottom: 1px solid var(--line);
   background: var(--panel);
 }
@@ -265,9 +275,10 @@
 
 .page-resources .tutorial-thumb img {
   width: 100%;
-  aspect-ratio: 16 / 7;
+  height: 100%;
   display: block;
   object-fit: cover;
+  background: var(--panel);
   transform: scale(1.01);
   filter: saturate(0.92) contrast(0.96);
   transition:
@@ -284,18 +295,24 @@
 .page-resources .tutorial-body {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
   padding: 13px;
+  gap: 6px;
 }
 
 .page-resources .tutorial-type {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 8px;
+  width: fit-content;
 
   color: var(--accent);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.09em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -310,9 +327,14 @@
 }
 
 .page-resources .tutorial-body h3 {
-  margin: 0 0 6px;
+  margin: 0;
   font-size: 14px;
   line-height: 1.25;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .page-resources .tutorial-body p {
@@ -320,6 +342,103 @@
   color: var(--text-soft);
   font-size: 12px;
   line-height: 1.45;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tutorial tablet layout */
+
+@media (max-width: 1100px) {
+  .page-resources .tutorial-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Tutorial mobile list layout */
+
+@media (max-width: 760px) {
+  .page-resources .tutorial-gallery {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .page-resources .tutorial-card {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    min-height: 108px;
+    height: 108px;
+  }
+
+  .page-resources .tutorial-card:hover,
+  .page-resources .tutorial-card:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .page-resources .tutorial-thumb {
+    height: 108px;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .page-resources .tutorial-thumb::after {
+    display: none;
+  }
+
+  .page-resources .tutorial-thumb img {
+    height: 108px;
+    object-fit: cover;
+  }
+
+  .page-resources .tutorial-body {
+    height: 108px;
+    padding: 11px 12px;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  .page-resources .tutorial-type {
+    font-size: 9px;
+  }
+
+  .page-resources .tutorial-body h3 {
+    font-size: 14px;
+    line-height: 1.25;
+    -webkit-line-clamp: 2;
+  }
+
+  .page-resources .tutorial-body p {
+    display: -webkit-box;
+    font-size: 12px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Tutorial very small phones */
+
+@media (max-width: 460px) {
+  .page-resources .tutorial-card {
+    grid-template-columns: 78px 1fr;
+    height: 96px;
+    min-height: 96px;
+  }
+
+  .page-resources .tutorial-thumb,
+  .page-resources .tutorial-thumb img {
+    height: 96px;
+  }
+
+  .page-resources .tutorial-body {
+    height: 96px;
+  }
+
+  .page-resources .tutorial-body p {
+    -webkit-line-clamp: 1;
+  }
 }
 
 /* ============================================================
@@ -331,12 +450,6 @@
   flex-direction: column;
   gap: 26px;
   min-width: 0;
-}
-
-@media (max-width: 760px) {
-  .page-tutorial-detail .tutorial-main {
-    gap: 20px;
-  }
 }
 
 .page-tutorial-detail .tutorial-section {
@@ -497,6 +610,10 @@
 }
 
 @media (max-width: 760px) {
+  .page-tutorial-detail .tutorial-main {
+    gap: 20px;
+  }
+
   .page-tutorial-detail .tutorial-preview-card img {
     aspect-ratio: 16 / 7;
   }
@@ -587,8 +704,7 @@
    ============================================================ */
 
 @media (max-width: 1100px) {
-  .page-resources .model-zoo-grid,
-  .page-resources .tutorial-gallery {
+  .page-resources .model-zoo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -611,23 +727,6 @@
     align-items: flex-start;
   }
 
-  .page-resources .tutorial-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .page-resources .tutorial-card:hover,
-  .page-resources .tutorial-card:focus-visible {
-    transform: none;
-  }
-
-  .page-resources .tutorial-thumb::after {
-    display: none;
-  }
-
-  .page-resources .tutorial-body p {
-    display: none;
-  }
-
   .page-resources .citation-card {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -648,15 +747,5 @@
     width: 52px;
     height: 52px;
     min-width: 52px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-resources .tutorial-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .page-resources .tutorial-body p {
-    display: block;
   }
 }
