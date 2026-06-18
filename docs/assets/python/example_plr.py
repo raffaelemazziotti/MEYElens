@@ -20,14 +20,55 @@ from meyelens import (
 # ============================================================
 
 CAMERA_INDEX = 0
+OUTPUT_FILENAME = "plr_meyept_test"  # default path: Documents/meyeDATA/
+
+
+# ============================================================
+# Experiment timing parameters
+# ============================================================
 
 N_TRIALS = 5
+
+# Initial recording before the trial sequence starts.
+# This is useful to stabilize the pupil trace before the first event.
 BASELINE_SEC = 5.0
-FLASH_SEC = 0.5
-RECOVERY_SEC = 4.0
 
-OUTPUT_FILENAME = "plr_meyept_test" # the default path is Documents/meyeDATA/
+# Per-trial timing.
+# Each trial follows:
+# prestim -> stim -> poststim
+PRESTIM_SEC = 2.0
+STIM_SEC = 0.5
+POSTSTIM_SEC = 3.0
 
+
+# ============================================================
+# Processing parameters
+# ============================================================
+
+DEBLINK_THRESHOLD = 0.25
+DEBLINK_FLANKERS = 5
+DEBLINK_REMOVE_ZEROS = True
+
+FILTER_LOWCUT_HZ = 0.01
+FILTER_HIGHCUT_HZ = 4.0
+
+
+# ============================================================
+# Epoch extraction and display parameters
+# ============================================================
+
+# Epochs are extracted around stimulus onset.
+# Because each trial includes PRESTIM_SEC before the stimulus and POSTSTIM_SEC
+# after the stimulus, these values should not exceed those limits.
+EPOCH_TMIN = -PRESTIM_SEC
+EPOCH_TMAX = POSTSTIM_SEC
+
+EPOCH_BASELINE = (-PRESTIM_SEC, 0.0)
+EPOCH_TRANSFORM = "zscore"
+EPOCH_N_POINTS = 400
+
+PLOT_COMPLETE_TRACE = True
+PLOT_EPOCHS = True
 
 
 def analyze_plr(path):
@@ -48,9 +89,9 @@ def analyze_plr(path):
     # remove_zeros=True is useful because pupil_area=0 usually means
     # that the pupil was not detected.
     deblink = DeBlink(
-        threshold=0.25,
-        flankers=5,
-        remove_zeros=True,
+        threshold=DEBLINK_THRESHOLD,
+        flankers=DEBLINK_FLANKERS,
+        remove_zeros=DEBLINK_REMOVE_ZEROS,
     )
     pupil_clean = deblink.clean(pupil_raw)
 
@@ -63,12 +104,12 @@ def analyze_plr(path):
     filt = Filters(fs)
     pupil_filtered = filt.bandpass(
         pupil_clean,
-        lowcut=0.01,
-        highcut=4.0,
+        lowcut=FILTER_LOWCUT_HZ,
+        highcut=FILTER_HIGHCUT_HZ,
     )
 
-    # Extract epochs around flash onset.
-    # trg1 marks the first frame of the flash.
+    # Extract epochs around stimulus onset.
+    # trg1 marks the first frame of the stimulus.
     trialer = TrialEpochs(
         signal=pupil_filtered,
         time=time,
@@ -76,69 +117,71 @@ def analyze_plr(path):
     )
 
     epochs = trialer.extract(
-        tmin=-5,
-        tmax=5,
-        baseline=(-5, 0),
-        transform="zscore",
-        n_points=400,
+        tmin=EPOCH_TMIN,
+        tmax=EPOCH_TMAX,
+        baseline=EPOCH_BASELINE,
+        transform=EPOCH_TRANSFORM,
+        n_points=EPOCH_N_POINTS,
     )
 
     # ------------------------------------------------------------
     # Plot the complete recording
     # ------------------------------------------------------------
 
-    plt.figure(figsize=(10, 4))
-    plt.plot(time, pupil_raw, alpha=0.3, label="raw")
-    plt.plot(time, pupil_filtered, label="clean + filtered")
+    if PLOT_COMPLETE_TRACE:
+        plt.figure(figsize=(10, 4))
+        plt.plot(time, pupil_raw, alpha=0.3, label="raw")
+        plt.plot(time, pupil_filtered, label="clean + filtered")
 
-    # Add one vertical line for each flash onset.
-    for flash_time in epochs["event_times"]:
-        plt.axvline(flash_time, color="black", linestyle="--", alpha=0.4)
+        # Add one vertical line for each stimulus onset.
+        for stim_time in epochs["event_times"]:
+            plt.axvline(stim_time, color="black", linestyle="--", alpha=0.4)
 
-    plt.xlabel("Time (s)")
-    plt.ylabel("Pupil area")
-    plt.title("Complete pupil trace")
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+        plt.xlabel("Time (s)")
+        plt.ylabel("Pupil area")
+        plt.title("Complete pupil trace")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
 
     # ------------------------------------------------------------
     # Plot individual trials and mean response
     # ------------------------------------------------------------
 
-    plt.figure(figsize=(8, 5))
+    if PLOT_EPOCHS:
+        plt.figure(figsize=(8, 5))
 
-    # Time zero is flash onset.
-    plt.axvline(0, color="black", linestyle="--")
+        # Time zero is stimulus onset.
+        plt.axvline(0, color="black", linestyle="--")
 
-    # Horizontal zero is the baseline after z-score transform.
-    plt.axhline(0, color="black", linestyle="--")
+        # Horizontal zero is the baseline after z-score transform.
+        plt.axhline(0, color="black", linestyle="--")
 
-    # Mark flash duration.
-    plt.axvspan(0, FLASH_SEC, alpha=0.15, label="flash")
+        # Mark stimulus duration.
+        plt.axvspan(0, STIM_SEC, alpha=0.15, label="stimulus")
 
-    # Individual trial traces.
-    plt.plot(
-        epochs["time"],
-        epochs["epochs"].T,
-        alpha=0.35,
-    )
+        # Individual trial traces.
+        plt.plot(
+            epochs["time"],
+            epochs["epochs"].T,
+            alpha=0.35,
+        )
 
-    # Average response.
-    plt.plot(
-        epochs["time"],
-        epochs["mean"],
-        color="black",
-        linewidth=2,
-        label="mean",
-    )
+        # Average response.
+        plt.plot(
+            epochs["time"],
+            epochs["mean"],
+            color="black",
+            linewidth=2,
+            label="mean",
+        )
 
-    plt.xlabel("Time from flash onset (s)")
-    plt.ylabel("Pupil response, z-score")
-    plt.title("Pupillary light reflex")
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+        plt.xlabel("Time from stimulus onset (s)")
+        plt.ylabel("Pupil response, z-score")
+        plt.title("Pupillary light reflex")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
 
     return epochs
 
@@ -150,7 +193,7 @@ def analyze_plr(path):
 meye = Meye()
 
 with Camera(camera_index=CAMERA_INDEX) as cam:
-    # Select the eye region. Select the ROI with the mouse the confirm with 's'
+    # Select the eye region. Select the ROI with the mouse then confirm with 's'.
     cam.select_roi(window_name="Select eye ROI")
 
     # Preview segmentation before recording.
@@ -177,8 +220,8 @@ with Camera(camera_index=CAMERA_INDEX) as cam:
         pos=(0, 0),
     )
 
-    # White flash stimulus.
-    flash_square = visual.Rect(
+    # White stimulus.
+    stim_square = visual.Rect(
         win,
         width=0.25,
         height=0.25,
@@ -196,7 +239,7 @@ with Camera(camera_index=CAMERA_INDEX) as cam:
         meye=meye,
         filename=OUTPUT_FILENAME,
         path_to_file=None,      # default output folder
-        show_preview=False,     # set to False for performances
+        show_preview=False,     # set to False for performance
     )
 
     saved_path = None
@@ -208,28 +251,64 @@ with Camera(camera_index=CAMERA_INDEX) as cam:
                 "experiment": "pupillary_light_reflex",
                 "n_trials": N_TRIALS,
                 "baseline_sec": BASELINE_SEC,
-                "flash_sec": FLASH_SEC,
-                "recovery_sec": RECOVERY_SEC,
+                "prestim_sec": PRESTIM_SEC,
+                "stim_sec": STIM_SEC,
+                "poststim_sec": POSTSTIM_SEC,
+                "deblink_threshold": DEBLINK_THRESHOLD,
+                "deblink_flankers": DEBLINK_FLANKERS,
+                "deblink_remove_zeros": DEBLINK_REMOVE_ZEROS,
+                "filter_lowcut_hz": FILTER_LOWCUT_HZ,
+                "filter_highcut_hz": FILTER_HIGHCUT_HZ,
+                "epoch_tmin": EPOCH_TMIN,
+                "epoch_tmax": EPOCH_TMAX,
+                "epoch_baseline": EPOCH_BASELINE,
+                "epoch_transform": EPOCH_TRANSFORM,
+                "epoch_n_points": EPOCH_N_POINTS,
+                "trg1": "stimulus onset pulse",
+                "trg2": "trial number",
+                "trg3": "stimulus state",
             }
         )
 
         saved_path = Path(recorder.writer.path)
 
-        # Each trial has three phases:
-        # baseline -> flash -> recovery
-        trial_duration = BASELINE_SEC + FLASH_SEC + RECOVERY_SEC
+        # --------------------------------------------------------
+        # Initial baseline recording
+        # --------------------------------------------------------
+
+        print(f"Baseline recording: {BASELINE_SEC} s")
+
+        baseline_clock = core.Clock()
+
+        while baseline_clock.getTime() < BASELINE_SEC:
+            if "escape" in event.getKeys():
+                raise KeyboardInterrupt
+
+            win.color = "black"
+            fixation.draw()
+            win.flip()
+
+            recorder.save_frame(
+                trg1=0,      # no stimulus onset
+                trg2=0,      # no trial
+                trg3=0,      # stimulus off
+            )
+
+        # --------------------------------------------------------
+        # Trial sequence
+        # --------------------------------------------------------
+
+        trial_duration = PRESTIM_SEC + STIM_SEC + POSTSTIM_SEC
 
         for trial in range(1, N_TRIALS + 1):
             print(f"Trial {trial}/{N_TRIALS}")
 
-            # Trial clock starts from zero for each trial.
             clock = core.Clock()
 
-            # Used to send trg1=1 only once, at flash onset.
-            flash_started = False
+            # Used to send trg1=1 only once, at stimulus onset.
+            stim_started = False
 
             while clock.getTime() < trial_duration:
-                # Allow the user to stop the experiment.
                 if "escape" in event.getKeys():
                     raise KeyboardInterrupt
 
@@ -239,27 +318,27 @@ with Camera(camera_index=CAMERA_INDEX) as cam:
                 # Decide what phase we are in
                 # ------------------------------------------------
 
-                if t < BASELINE_SEC:
-                    # Baseline: black screen.
-                    flash_on = False
-                    trg1 = 0          # no flash onset
-                    trg3 = 0          # stimulus state: no flash
+                if t < PRESTIM_SEC:
+                    # Pre-stimulus period: black screen with fixation.
+                    stim_on = False
+                    trg1 = 0
+                    trg3 = 0
 
-                elif t < BASELINE_SEC + FLASH_SEC:
-                    # Flash period: white square is visible.
-                    flash_on = True
-                    trg3 = 1          # stimulus state: flash on
+                elif t < PRESTIM_SEC + STIM_SEC:
+                    # Stimulus period: white square is visible.
+                    stim_on = True
+                    trg3 = 1
 
-                    # Send a trigger pulse only on the first flash frame.
-                    if not flash_started:
-                        trg1 = 1      # flash onset trigger
-                        flash_started = True
+                    # Send a trigger pulse only on the first stimulus frame.
+                    if not stim_started:
+                        trg1 = 1
+                        stim_started = True
                     else:
                         trg1 = 0
 
                 else:
-                    # Recovery: black screen again.
-                    flash_on = False
+                    # Post-stimulus period: black screen with fixation.
+                    stim_on = False
                     trg1 = 0
                     trg3 = 0
 
@@ -269,22 +348,18 @@ with Camera(camera_index=CAMERA_INDEX) as cam:
 
                 win.color = "black"
 
-                if flash_on:
-                    flash_square.draw()
+                if stim_on:
+                    stim_square.draw()
 
                 fixation.draw()
-
-                # Flip shows the selected stimulus state on screen.
                 win.flip()
 
                 # ------------------------------------------------
                 # Record one synchronized frame/result
                 # ------------------------------------------------
 
-                # save_frame captures the camera frame, runs Meye,
-                # extracts pupil features, attaches triggers, and writes a row.
                 recorder.save_frame(
-                    trg1=trg1,        # flash onset pulse
+                    trg1=trg1,        # stimulus onset pulse
                     trg2=trial,       # trial number
                     trg3=trg3,        # stimulus state
                 )
