@@ -84,7 +84,7 @@
     {
       "kind": "text",
       "title": "Goal",
-      "body": "Use a custom MEYELens model for segmentation instead of the default model. This is useful when testing models from the Model Zoo, evaluating a newly trained model, or comparing different model architectures on the same camera setup."
+      "body": "Use a custom MEYELens model for segmentation instead of the default model. This is useful when testing models from the [Model Zoo](software.html#model-zoo), evaluating a newly trained model, or comparing different model architectures on the same camera setup."
     },
     {
       "kind": "list",
