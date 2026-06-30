@@ -237,7 +237,7 @@
       "title": "Requirements",
       "items": [
         "MEYELens installed in a dedicated Python environment",
-        "PsychoPy installed and working",
+        "[PsychoPy](https://psychopy.org/download.html) installed and working",
         "Eye-facing camera connected to the computer",
         "A visible and well-focused eye image",
         "A selected region of interest around the eye",
@@ -380,7 +380,7 @@
   "tag": "Experiment",
   "level": "Intermediate",
   "summary": "Run a visual oddball experiment with PsychoPy, record online MEYELens features, behavioral responses, and stimulus triggers.",
-  "description": "This tutorial shows how to combine MEYELens with PsychoPy to present standard, target, and distractor gratings while recording synchronized pupil measurements, stimulus events, and spacebar responses.",
+  "description": "This tutorial shows how to combine MEYELens with PsychoPymeyelens.com to present standard, target, and distractor gratings while recording synchronized pupil measurements, stimulus events, and spacebar responses.",
   "image": "assets/media/oddball.png",
   "imageAlt": "MEYELens visual oddball tutorial",
   "python_file": "assets/python/example_oddball.py",
@@ -397,7 +397,7 @@
       "title": "Requirements",
       "items": [
         "MEYELens installed in a dedicated Python environment",
-        "PsychoPy installed and working",
+        "[PsychoPy](https://psychopy.org/download.html) installed and working",
         "Eye-facing camera connected to the computer",
         "A visible and well-focused eye image",
         "A selected region of interest around the eye",
@@ -738,7 +738,7 @@
       "title": "Requirements",
       "items": [
         "MEYELens installed in a dedicated Python environment",
-        "PsychoPy installed and working",
+        "[PsychoPy](https://psychopy.org/download.html) installed and working",
         "Eye-facing camera connected to the computer",
         "A visible and well-focused eye image",
         "A selected region of interest around the eye",
