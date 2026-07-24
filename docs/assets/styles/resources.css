@@ -663,6 +663,10 @@
   color: var(--danger);
 }
 
+.page-resources .citation-status-in-press {
+  color: var(--success);
+}
+
 .page-resources .citation-status-published {
   color: var(--accent);
 }

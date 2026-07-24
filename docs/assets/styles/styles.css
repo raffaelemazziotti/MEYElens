@@ -8,6 +8,11 @@
     --text-soft: #a3a099;
     --accent: #e2b714;
     --danger: #d97b66;
+    --danger-critical: #ca4754;
+    --success: #8fbd72;
+    --warning: #d6a85f;
+    --info: #6fa3b8;
+    --focus: #e2b714;
 
     --container: 1100px;
     --radius: 10px;
