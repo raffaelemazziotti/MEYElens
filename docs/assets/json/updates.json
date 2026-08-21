@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-08-21",
+    "title": "MEYELens paper published",
+    "summary": "Our article describing the MEYELens open-source, 3D-printable platform for affordable pupillometry and gaze tracking is now published in Behavior Research Methods.",
+    "tag": "Publication",
+    "url": "https://link.springer.com/article/10.3758/s13428-026-03157-z",
+    "button": "Read article",
+    "image": "assets/media/paper.png",
+    "imageAlt": "MEYELens research article published in Behavior Research Methods"
+  },
+  {
     "date": "2026-06-17",
     "title": "New tutorial library available",
     "summary": "Start from a first camera preview, then move through recording, dataset collection, experiments, and gaze calibration.",
