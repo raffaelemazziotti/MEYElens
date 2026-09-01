@@ -1,5 +1,107 @@
 [
   {
+    "id": "segformer-light-v2",
+    "name": "SegFormer Light V2",
+    "tag": "PyTorch",
+    "badge": "New",
+    "release": "V2.0.2-LPW",
+    "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
+    "description": "A lightweight SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training. SegFormer Light is optimized for fast inference and is well suited to online recordings.",
+    "image": "assets/media/segformer_v2.png",
+    "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_light_v2.pt",
+
+    "specs": {
+      "Status": "Alternative",
+      "Backend": "PyTorch",
+      "Architecture": "SegFormer MiT-B0",
+      "Species": "Human",
+      "Task": "Human eye and pupil segmentation",
+      "Training dataset": "MEYELens V1 + 4,937 manually annotated frames from the [Labeled Pupils in the Wild (LPW) dataset](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-3237)",
+      "Input": "Human eye-facing camera frames",
+      "Output": "Pupil mask and full eye-region mask",
+      "Recommended use": "Online recordings and human pupillometry workflows where fast inference is preferred",
+      "Package use": "MEYELens PyTorch Python API",
+      "Performance": "Lowest-capacity model in the V2 SegFormer family, optimized for faster inference"
+    },
+
+    "other_details": {
+      "Model file": "`segformer_light_v2.pt`",
+      "Training data": "The additional LPW subset contains 4,937 frames selected and manually annotated by us. LPW includes 22 participants (9 female) spanning five reported ethnic backgrounds: 11 Indian, 6 German, 2 Pakistani, 2 Iranian, and 1 Egyptian. Eye colors include 12 brown, 5 black, 3 blue-gray, 1 blue-green, and 1 green. The dataset also includes variation relevant to eye-image analysis: 5 participants had impaired vision, 2 wore glasses, 1 wore contact lenses, and 1 wore strong eye makeup.",
+      "Dataset rationale": "LPW was designed to study pupil detection under unconstrained, real-world conditions. Its variation in participant appearance and recording conditions complements the existing MEYELens V1 training data and increases the range of real-world eye appearances represented during model training.",
+      "Citation": "When using this model, please cite both the MEYELens paper and Tonsen, Zhang, Sugano, and Bulling, **Labeled Pupils in the Wild: A Dataset for Studying Pupil Detection in Unconstrained Environments**, ETRA 2016, pp. 139–142. [DOI: 10.1145/2857491.2857520](https://doi.org/10.1145/2857491.2857520).",
+      "Notes": "Lightweight model recommended when inference speed is prioritized. It is particularly suitable for online recordings and lower-compute systems. GPU execution provides higher frame rates, while CPU execution is also supported.",
+      "License": "Released under: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+    }
+  },
+  {
+    "id": "segformer-medium-v2",
+    "name": "SegFormer Medium V2",
+    "tag": "PyTorch",
+    "badge": "New",
+    "release": "V2.0.2-LPW",
+    "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
+    "description": "A medium-capacity SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training.",
+    "image": "assets/media/segformer_v2.png",
+    "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_medium_v2.pt",
+
+    "specs": {
+      "Status": "Alternative",
+      "Backend": "PyTorch",
+      "Architecture": "SegFormer MiT-B1",
+      "Species": "Human",
+      "Task": "Human eye and pupil segmentation",
+      "Training dataset": "MEYELens V1 + 4,937 manually annotated frames from the [Labeled Pupils in the Wild (LPW) dataset](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-3237)",
+      "Input": "Human eye-facing camera frames",
+      "Output": "Pupil mask and full eye-region mask",
+      "Recommended use": "Human pupillometry workflows requiring a balance between model capacity and inference speed",
+      "Package use": "MEYELens PyTorch Python API",
+      "Performance": "Intermediate-capacity model providing a balance between the faster SegFormer Light and the higher-capacity SegFormer Large"
+    },
+
+    "other_details": {
+      "Model file": "`segformer_medium_v2.pt`",
+      "Training data": "The additional LPW subset contains 4,937 frames selected and manually annotated by us. LPW includes 22 participants (9 female) spanning five reported ethnic backgrounds: 11 Indian, 6 German, 2 Pakistani, 2 Iranian, and 1 Egyptian. Eye colors include 12 brown, 5 black, 3 blue-gray, 1 blue-green, and 1 green. The dataset also includes variation relevant to eye-image analysis: 5 participants had impaired vision, 2 wore glasses, 1 wore contact lenses, and 1 wore strong eye makeup.",
+      "Dataset rationale": "LPW was designed to study pupil detection under unconstrained, real-world conditions. Its variation in participant appearance and recording conditions complements the existing MEYELens V1 training data and increases the range of real-world eye appearances represented during model training.",
+      "Citation": "When using this model, please cite both the MEYELens paper and Tonsen, Zhang, Sugano, and Bulling, **Labeled Pupils in the Wild: A Dataset for Studying Pupil Detection in Unconstrained Environments**, ETRA 2016, pp. 139–142. [DOI: 10.1145/2857491.2857520](https://doi.org/10.1145/2857491.2857520).",
+      "Notes": "Medium-capacity model recommended when a balance between segmentation capacity and inference speed is preferred. GPU execution is recommended for higher frame rates.",
+      "License": "Released under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+    }
+  },
+  {
+    "id": "segformer-large-v2",
+    "name": "SegFormer Large V2",
+    "tag": "PyTorch",
+    "badge": "New",
+    "release": "V2.0.2-LPW",
+    "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
+    "description": "A high-capacity SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training. SegFormer Large provides the highest model capacity in the V2 SegFormer family and is intended for workflows where segmentation quality is prioritized over inference speed.",
+    "image": "assets/media/segformer_v2.png",
+    "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_large_v2.pt",
+
+    "specs": {
+      "Status": "Alternative",
+      "Backend": "PyTorch",
+      "Architecture": "SegFormer MiT-B2",
+      "Species": "Human",
+      "Task": "Human eye and pupil segmentation",
+      "Training dataset": "MEYELens V1 + 4,937 manually annotated frames from the [Labeled Pupils in the Wild (LPW) dataset](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-3237)",
+      "Input": "Human eye-facing camera frames",
+      "Output": "Pupil mask and full eye-region mask",
+      "Recommended use": "Human pupillometry workflows where segmentation capacity and quality are prioritized over maximum inference speed",
+      "Package use": "MEYELens PyTorch Python API",
+      "Performance": "Highest-capacity model in the V2 SegFormer family; inference is slower than the Light and Medium variants and benefits from GPU acceleration"
+    },
+
+    "other_details": {
+      "Model file": "`segformer_large_v2.pt`",
+      "Training data": "The additional LPW subset contains 4,937 frames selected and manually annotated by us. LPW includes 22 participants (9 female) spanning five reported ethnic backgrounds: 11 Indian, 6 German, 2 Pakistani, 2 Iranian, and 1 Egyptian. Eye colors include 12 brown, 5 black, 3 blue-gray, 1 blue-green, and 1 green. The dataset also includes variation relevant to eye-image analysis: 5 participants had impaired vision, 2 wore glasses, 1 wore contact lenses, and 1 wore strong eye makeup.",
+      "Dataset rationale": "LPW was designed to study pupil detection under unconstrained, real-world conditions. Its variation in participant appearance and recording conditions complements the existing MEYELens V1 training data and increases the range of real-world eye appearances represented during model training.",
+      "Citation": "When using this model, please cite both the MEYELens paper and Tonsen, Zhang, Sugano, and Bulling, **Labeled Pupils in the Wild: A Dataset for Studying Pupil Detection in Unconstrained Environments**, ETRA 2016, pp. 139–142. [DOI: 10.1145/2857491.2857520](https://doi.org/10.1145/2857491.2857520).",
+      "Notes": "Highest-capacity model in the V2 SegFormer family. Recommended when segmentation quality is prioritized over inference speed. GPU execution is strongly recommended for practical inference performance.",
+      "License": "Released under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+    }
+  },
+  {
   "id": "segformer-light",
   "name": "SegFormer Light",
   "tag": "PyTorch",
@@ -23,7 +125,9 @@
 
   "other_details": {
     "Model file": "`segformer_light.pt`",
-    "Notes": "Recommended default model for online recordings. Use a GPU for higher frame rates; CPU execution is supported but may run at a lower frame rate."
+    "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+    "Notes": "Recommended default model for online recordings. Use a GPU for higher frame rates; CPU execution is supported but may run at a lower frame rate.",
+    "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
     }
   },
   {
@@ -50,7 +154,9 @@
 
     "other_details": {
       "Model file": "`segformer_medium.pt`",
-      "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended."
+      "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+      "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended.",
+      "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
     }
   },
   {
@@ -77,7 +183,9 @@
 
   "other_details": {
     "Model file": "`efficientformerv2_light.pt`",
-    "Notes": "Use this model when inference speed and low computational cost are priorities. It may be useful on smaller or dedicated devices where heavier models are less practical."
+    "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+    "Notes": "Use this model when inference speed and low computational cost are priorities. It may be useful on smaller or dedicated devices where heavier models are less practical.",
+    "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
   }
 },
   {
@@ -104,7 +212,9 @@
 
   "other_details": {
     "Model file": "`efficientformerv2_small.pt`",
-    "Notes": "Use this model when you need a compact EfficientFormerV2 alternative with more capacity than the light version while keeping inference practical."
+    "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+    "Notes": "Use this model when you need a compact EfficientFormerV2 alternative with more capacity than the light version while keeping inference practical.",
+    "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
   }
 },
   {
@@ -131,7 +241,9 @@
 
   "other_details": {
     "Model file": "`efficientformerv2_medium.pt`",
-    "Notes": "Use this model when you want more segmentation capacity than the light or small EfficientFormerV2 versions, while keeping inference more practical than a large model."
+    "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+    "Notes": "Use this model when you want more segmentation capacity than the light or small EfficientFormerV2 versions, while keeping inference more practical than a large model.",
+    "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
   }
 },
   {
@@ -158,15 +270,18 @@
 
   "other_details": {
     "Model file": "`efficientformerv2_large.pt`",
-    "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended."
+    "Training dataset": "[Human Eye-Region and Pupil Segmentation Dataset for MEYELens](https://zenodo.org/records/20492528)",
+    "Notes": "Use this model when segmentation robustness is more important than maximum online frame rate. GPU acceleration is recommended.",
+    "License": "Released under [GPL-3.0](https://github.com/raffaelemazziotti/MEYElens/blob/d739d6aa4eaf352b4f7839cff6c7a3b41be053ca/LICENSE-SOFTWARE)"
   }
 },
   {
     "id": "meye-pupil",
     "name": "MEYE pupil segmentation",
     "tag": "TensorFlow",
+    "badge": "Deprecated",
     "release": "2022-01-24",
-    "short_description": "(Deprecated) Default pupil mask and blink classification.",
+    "short_description": "Default pupil mask and blink classification.",
     "description": "A model for interspecies pupil segmentation, blink classification, and extraction of frame-level pupil measurements from eye-facing camera recordings.",
     "image": "https://github.com/fabiocarrara/meye/wiki/images/meye_web_demo2.gif",
     "download": "https://github.com/fabiocarrara/meye/releases/download/v0.1.1/meye-2022-01-24.h5",

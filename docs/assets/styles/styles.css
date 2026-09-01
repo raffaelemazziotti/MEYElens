@@ -864,6 +864,30 @@ figcaption {
     filter: saturate(1.08) contrast(1.04);
 }
 
+.update-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 8px;
+    border: 1px solid rgba(226, 183, 20, 0.55);
+    border-radius: 999px;
+    background: rgba(31, 35, 40, 0.82);
+    color: var(--accent);
+
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(6px);
+}
+
 .update-body {
     position: relative;
     z-index: 1;
@@ -1198,4 +1222,13 @@ pre[class*="language-"] {
 
 .site-notice strong {
     color: var(--accent);
+}
+
+@media (max-width: 760px) {
+    .update-badge {
+        top: 7px;
+        left: 7px;
+        padding: 4px 6px;
+        font-size: 9px;
+    }
 }

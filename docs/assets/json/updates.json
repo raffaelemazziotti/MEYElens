@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-09-01",
+    "title": "New SegFormer models added",
+    "summary": "New PyTorch models are available for eye and pupil segmentation across more diverse recording conditions.",
+    "tag": "Model Zoo",
+    "url": "software.html#model-zoo",
+    "button": "View models",
+    "image": "assets/media/model_zoo.png",
+    "imageAlt": "Preview image for the new MEYELens SegFormer PyTorch models"
+  },
+  {
     "date": "2026-08-21",
     "title": "MEYELens paper published",
     "summary": "Our article describing the MEYELens open-source, 3D-printable platform for affordable pupillometry and gaze tracking is now published in Behavior Research Methods.",
