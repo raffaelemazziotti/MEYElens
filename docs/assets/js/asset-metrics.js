@@ -19,6 +19,21 @@ export async function recordAssetMetric(assetKind, assetId, metric) {
     }
 }
 
+export async function loadAssetMetricCounts(assetKind, metric) {
+    const { data, error } = await supabase
+        .from('asset_metrics')
+        .select('asset_id, count')
+        .eq('asset_kind', assetKind)
+        .eq('metric', metric);
+
+    if (error) {
+        console.warn('Asset metrics could not be loaded:', error.message);
+        return new Map();
+    }
+
+    return new Map((data || []).map((item) => [item.asset_id, item.count]));
+}
+
 export function registerDownloadLink(link, assetKind, assetId) {
     if (!link || registeredLinks.has(link)) return;
 
