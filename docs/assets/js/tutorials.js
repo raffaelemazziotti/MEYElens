@@ -1,3 +1,5 @@
+import { recordAssetMetric } from "./asset-metrics.js";
+
 (() => {
     const TUTORIALS_URL = "assets/json/tutorials.json";
 
@@ -310,6 +312,10 @@
         }
 
         document.title = `MEYELens - ${tutorial.title || "Tutorial"}`;
+
+        // A tutorial has no downloadable asset at present, so this records an
+        // actual visit to its detail page instead of a fictitious download.
+        void recordAssetMetric("tutorial", tutorial.id, "view");
 
         setText("tutorial-tag", tutorial.tag || "Tutorial");
         setText("tutorial-title", tutorial.title);

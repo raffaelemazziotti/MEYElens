@@ -1,3 +1,5 @@
+import { registerDownloadLink } from "./asset-metrics.js";
+
 (() => {
     const MODEL_ZOO_URL = "assets/json/model_zoo.json";
 
@@ -367,6 +369,17 @@
          */
         setLink("model-download-top", model.download);
         setLink("model-download-side", model.download);
+
+        registerDownloadLink(
+            document.getElementById("model-download-top"),
+            "ai_model",
+            model.id
+        );
+        registerDownloadLink(
+            document.getElementById("model-download-side"),
+            "ai_model",
+            model.id
+        );
 
         /*
          * New detail-page structure.
