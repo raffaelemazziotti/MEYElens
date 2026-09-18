@@ -1,3 +1,5 @@
+import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js";
+
 (() => {
     const MODEL_ZOO_URL = "assets/json/model_zoo.json";
 
@@ -120,7 +122,18 @@
         }
     }
 
-    function createModelCard(model) {
+    function formatDownloadCount(count) {
+        const value = Number(count) || 0;
+
+        if (value >= 1000) {
+            const thousands = Math.floor(value / 1000);
+            return value % 1000 === 0 ? `${thousands}k` : `>${thousands}k`;
+        }
+
+        return String(value);
+    }
+
+    function createModelCard(model, downloadCounts) {
         const card = document.createElement("a");
 
         card.className = "model-zoo-card";
@@ -173,13 +186,21 @@
                         `
                         : ""
                 }
+
+                <!--
+                    Download counter intentionally hidden for now. Remove these
+                    HTML comment markers when the public totals are ready.
+                    <div class="model-zoo-download-count" aria-label="${escapeHtml(String(downloadCounts.get(model.id) || 0))} downloads">
+                        ${escapeHtml(formatDownloadCount(downloadCounts.get(model.id)))} downloads
+                    </div>
+                -->
             </div>
         `;
 
         return card;
     }
 
-    function renderModelZoo(models) {
+    function renderModelZoo(models, downloadCounts = new Map()) {
         const grid = document.getElementById("model-zoo-grid");
         const status = document.getElementById("model-zoo-status");
 
@@ -196,7 +217,7 @@
         }
 
         models.forEach((model) => {
-            grid.appendChild(createModelCard(model));
+            grid.appendChild(createModelCard(model, downloadCounts));
         });
 
         if (status) {
@@ -368,6 +389,17 @@
         setLink("model-download-top", model.download);
         setLink("model-download-side", model.download);
 
+        registerDownloadLink(
+            document.getElementById("model-download-top"),
+            "ai_model",
+            model.id
+        );
+        registerDownloadLink(
+            document.getElementById("model-download-side"),
+            "ai_model",
+            model.id
+        );
+
         /*
          * New detail-page structure.
          */
@@ -391,9 +423,12 @@
 
     async function initModelZoo() {
         try {
-            const models = await loadModels();
+            const [models, downloadCounts] = await Promise.all([
+                loadModels(),
+                loadAssetMetricCounts("ai_model", "download")
+            ]);
 
-            renderModelZoo(models);
+            renderModelZoo(models, downloadCounts);
             renderModelDetail(models);
         } catch (error) {
             const status = document.getElementById("model-zoo-status");

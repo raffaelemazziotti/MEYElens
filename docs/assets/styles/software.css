@@ -525,6 +525,14 @@
   overflow: hidden;
 }
 
+.page-software .model-zoo-download-count {
+  margin-top: auto;
+  padding-top: 4px;
+  color: var(--text-soft);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
 .page-software .model-zoo-status {
   margin-top: 12px;
 }
