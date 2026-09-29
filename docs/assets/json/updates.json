@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-09-29",
+    "title": "MEYELens at Maker Faire Rome 2026",
+    "summary": "MEYELens will be at Maker Faire Rome 2026, from 23 to 25 October, with live demonstrations of the open-source platform for pupillometry and gaze tracking.",
+    "tag": "Event",
+    "url": "https://makerfairerome.eu/en/",
+    "button": "Discover the event",
+    "image": "assets/media/maker-faire.png",
+    "imageAlt": "MEYELens at Maker Faire Rome 2026"
+  },
+  {
     "date": "2026-09-01",
     "title": "New SegFormer models added",
     "summary": "New PyTorch models are available for eye and pupil segmentation across more diverse recording conditions.",
