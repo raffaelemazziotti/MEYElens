@@ -1,4 +1,4 @@
-import { recordAssetMetric } from "./asset-metrics.js";
+import { loadAssetMetricCounts, recordAssetMetric } from "./asset-metrics.js";
 
 (() => {
     const TUTORIALS_URL = "assets/json/tutorials.json";
@@ -95,7 +95,8 @@ import { recordAssetMetric } from "./asset-metrics.js";
         }
     }
 
-    function createTutorialCard(tutorial) {
+    function createTutorialCard(tutorial, viewCounts = new Map()) {
+        const views = Number(viewCounts.get(tutorial.id)) || 0;
         const card = document.createElement("a");
         card.className = "tutorial-card";
         card.href = `tutorial-detail.html?id=${encodeURIComponent(tutorial.id)}`;
@@ -112,13 +113,14 @@ import { recordAssetMetric } from "./asset-metrics.js";
                 ${hasValue(tutorial.tag) ? `<div class="tutorial-type">${escapeHtml(tutorial.tag)}</div>` : ""}
                 <h3>${escapeHtml(tutorial.title || "Untitled tutorial")}</h3>
                 ${hasValue(tutorial.summary) ? `<p>${escapeHtml(tutorial.summary)}</p>` : ""}
+                <div class="tutorial-view-count">${views} ${views === 1 ? "view" : "views"}</div>
             </div>
         `;
 
         return card;
     }
 
-    function renderTutorialGallery(tutorials) {
+    function renderTutorialGallery(tutorials, viewCounts) {
         const gallery = document.getElementById("tutorial-gallery");
         const status = document.getElementById("tutorial-status");
 
@@ -134,7 +136,7 @@ import { recordAssetMetric } from "./asset-metrics.js";
         }
 
         tutorials.forEach((tutorial) => {
-            gallery.appendChild(createTutorialCard(tutorial));
+            gallery.appendChild(createTutorialCard(tutorial, viewCounts));
         });
 
         if (status) {
@@ -373,7 +375,11 @@ import { recordAssetMetric } from "./asset-metrics.js";
         try {
             const tutorials = await loadTutorials();
 
-            renderTutorialGallery(tutorials);
+            const viewCounts = document.getElementById("tutorial-gallery")
+                ? await loadAssetMetricCounts("tutorial", "view")
+                : new Map();
+
+            renderTutorialGallery(tutorials, viewCounts);
             await renderTutorialDetail(tutorials);
         } catch (error) {
             const status = document.getElementById("tutorial-status");
