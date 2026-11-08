@@ -797,7 +797,8 @@ figcaption {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 360px;
+    height: auto;
+    min-height: 360px;
     overflow: hidden;
 
     border: 1px solid var(--line);
@@ -897,6 +898,12 @@ figcaption {
     display: flex;
     flex-direction: column;
     gap: 7px;
+}
+
+@media (min-width: 761px) {
+    .update-body > * {
+        flex-shrink: 0;
+    }
 }
 
 .update-tag {
