@@ -1,4 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.119.0'
 
 const supabaseUrl = 'https://fqmatvvqllkmhtnxibgp.supabase.co'
 const supabaseKey = 'sb_publishable_bFrnywKmVo_QuSbsbcal7w_W-9ddhZl'
@@ -13,12 +13,14 @@ const allowedPaths = new Set([
   '/models.html',
   '/resources.html',
   '/contact.html',
+  '/model-detail.html',
+  '/tutorial-detail.html',
   '/privacy.html',
   '/404.html'
 ])
 
 async function recordPageView() {
-  const path = window.location.pathname
+  const path = window.location.pathname === '/index.html' ? '/' : window.location.pathname
 
   if (!allowedPaths.has(path)) {
     return
