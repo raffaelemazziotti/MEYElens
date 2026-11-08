@@ -6,7 +6,7 @@
   "level": "Beginner",
   "summary": "Select an eye ROI, run the interactive MEYELens preview, and print pupil/eye feature samples from live camera frames.",
   "description": "This tutorial shows how to open an eye-facing camera, select a region of interest, tune the MEYELens segmentation preview, and extract geometric pupil and eye features from live frames.",
-  "image": "assets/media/tutorial_preview_crop.gif",
+  "image": "assets/media/tutorial_preview_crop.mp4",
   "imageAlt": "MEYELens preview and feature extraction tutorial",
   "python_file": "assets/python/example_simple.py",
   "button": "Open tutorial",

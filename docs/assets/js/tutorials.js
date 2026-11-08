@@ -30,6 +30,28 @@ import { recordAssetMetric } from "./asset-metrics.js";
         return true;
     }
 
+    function isVideo(src) {
+
+        return /\.mp4($|\?)/i.test(src || "");
+
+    }
+
+
+    function previewMediaHtml(src, alt, attrs = "") {
+
+        if (isVideo(src)) {
+
+            const autoplay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "" : "autoplay";
+
+            return `<video src="${escapeHtml(src)}" aria-label="${escapeHtml(alt)}" ${attrs} ${autoplay} loop muted playsinline preload="metadata"></video>`;
+
+        }
+
+        return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" ${attrs}>`;
+
+    }
+
+
     function escapeHtml(value) {
         return String(value)
             .replaceAll("&", "&amp;")
@@ -81,10 +103,10 @@ import { recordAssetMetric } from "./asset-metrics.js";
 
         card.innerHTML = `
             <div class="tutorial-thumb">
-                <img
-                    src="${escapeHtml(tutorial.image || "assets/media/favicon.png")}"
-                    alt="${escapeHtml(tutorial.imageAlt || tutorial.title || "Tutorial preview")}"
-                >
+                ${previewMediaHtml(
+                    tutorial.image || "assets/media/favicon.png",
+                    tutorial.imageAlt || tutorial.title || "Tutorial preview"
+                )}
             </div>
             <div class="tutorial-body">
                 ${hasValue(tutorial.tag) ? `<div class="tutorial-type">${escapeHtml(tutorial.tag)}</div>` : ""}
@@ -258,8 +280,13 @@ import { recordAssetMetric } from "./asset-metrics.js";
             return;
         }
 
-        image.src = tutorial.image;
-        image.alt = tutorial.imageAlt || tutorial.title || "Tutorial image";
+        const imageAlt = tutorial.imageAlt || tutorial.title || "Tutorial image";
+        if (isVideo(tutorial.image)) {
+            image.outerHTML = previewMediaHtml(tutorial.image, imageAlt, 'id="tutorial-image"');
+        } else {
+            image.src = tutorial.image;
+            image.alt = imageAlt;
+        }
 
         if (imageCaption) {
             imageCaption.innerHTML = hasValue(tutorial.imageCaption)
