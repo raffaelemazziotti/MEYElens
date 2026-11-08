@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "MEYELens at Maker Faire Rome 2026",
-    "summary": "MEYELens will be at Maker Faire Rome 2026, from 23 to 25 October, with live demonstrations of the open-source platform for pupillometry and gaze tracking.",
+    "summary": "MEYELens will be at Maker Faire Rome 2026, 23–25 October, with live demos of the open-source platform.",
     "tag": "Event",
     "url": "https://makerfairerome.eu/en/",
     "button": "Discover the event",
@@ -22,7 +22,7 @@
   {
     "date": "2026-08-21",
     "title": "MEYELens paper published",
-    "summary": "Our article describing the MEYELens open-source, 3D-printable platform for affordable pupillometry and gaze tracking is now published in Behavior Research Methods.",
+    "summary": "Our MEYELens article on the open-source, 3D-printable platform is published in Behavior Research Methods.",
     "tag": "Publication",
     "url": "https://link.springer.com/article/10.3758/s13428-026-03157-z",
     "button": "Read article",
@@ -32,7 +32,7 @@
   {
     "date": "2026-06-17",
     "title": "New tutorial library available",
-    "summary": "Start from a first camera preview, then move through recording, dataset collection, experiments, and gaze calibration.",
+    "summary": "Start with a first camera preview, then move to recording, datasets, experiments and gaze calibration.",
     "tag": "Tutorials",
     "url": "resources.html#tutorials",
     "button": "Explore",
@@ -52,7 +52,7 @@
   {
     "date": "2026-06-17",
     "title": "New MEYELens version available",
-    "summary": "MEYELens now uses a PyTorch-based backend, with new models that are more flexible, efficient, and suitable for modern pupillometry workflows.",
+    "summary": "MEYELens now runs on a PyTorch backend, with more flexible and efficient models.",
     "tag": "Major Update",
     "url": "software.html",
     "button": "Discover",
@@ -62,7 +62,7 @@
   {
     "date": "2026-06-02",
     "title": "3D Models page updated",
-    "summary": "Updated the 3D Models page with printable files, individual model parts, print settings, and links to external model repositories.",
+    "summary": "The 3D Models page now lists printable files, model parts, print settings and external repositories.",
     "tag": "Update",
     "url": "models.html",
     "button": "View",
@@ -72,7 +72,7 @@
   {
     "date": "2026-03-22",
     "title": "Hardware documentation updated",
-    "summary": "Added a clearer overview of the wearable frame and expanded the hardware component table with pricing and links.",
+    "summary": "A clearer overview of the wearable frame, plus a hardware table with pricing and links.",
     "tag": "Update",
     "url": "hardware.html",
     "button": "View",
