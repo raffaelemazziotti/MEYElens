@@ -7,7 +7,7 @@
     "release": "V2.0.2-LPW",
     "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
     "description": "A lightweight SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training. SegFormer Light is optimized for fast inference and is well suited to online recordings.",
-    "image": "assets/media/segformer_v2.png",
+    "image": "assets/media/segformer_v2.webp",
     "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_light_v2.pt",
 
     "specs": {
@@ -41,7 +41,7 @@
     "release": "V2.0.2-LPW",
     "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
     "description": "A medium-capacity SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training.",
-    "image": "assets/media/segformer_v2.png",
+    "image": "assets/media/segformer_v2.webp",
     "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_medium_v2.pt",
 
     "specs": {
@@ -75,7 +75,7 @@
     "release": "V2.0.2-LPW",
     "short_description": "Human eye segmentation model trained on an expanded and more diverse MEYELens + LPW dataset.",
     "description": "A high-capacity SegFormer model for human eye and pupil segmentation. V2 was trained using the existing MEYELens V1 dataset together with 4,937 additional frames selected from the Labeled Pupils in the Wild (LPW) dataset and manually annotated with pixel-level masks for both the pupil and the full eye region. The addition of LPW substantially increases the range of participant appearances and real-world recording conditions represented during training. SegFormer Large provides the highest model capacity in the V2 SegFormer family and is intended for workflows where segmentation quality is prioritized over inference speed.",
-    "image": "assets/media/segformer_v2.png",
+    "image": "assets/media/segformer_v2.webp",
     "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/V2.0.2-LPW/segformer_large_v2.pt",
 
     "specs": {
@@ -166,7 +166,7 @@
   "release": "v2.0.2-models",
   "short_description": "Fast and lightweight PyTorch model for MEYELens eye and pupil segmentation.",
   "description": "A lightweight EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model is designed for fast inference and is suitable for online recordings, CPU-based workflows, and lower-resource systems where inference speed is important.",
-  "image": "assets/media/efficientformer.png",
+  "image": "assets/media/efficientformer.webp",
   "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_light.pt",
 
   "specs": {
@@ -195,7 +195,7 @@
   "release": "v2.0.2-models",
   "short_description": "Compact PyTorch model for MEYELens eye and pupil segmentation.",
   "description": "A compact EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides a practical balance between inference speed and segmentation capacity, making it suitable for general MEYELens workflows.",
-  "image": "assets/media/efficientformer.png",
+  "image": "assets/media/efficientformer.webp",
   "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_small.pt",
 
   "specs": {
@@ -224,7 +224,7 @@
   "release": "v2.0.2-models",
   "short_description": "Balanced PyTorch model for MEYELens eye and pupil segmentation.",
   "description": "A medium-size EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides a stronger segmentation capacity than the light and small EfficientFormerV2 versions, while remaining practical for MEYELens online and offline workflows.",
-  "image": "assets/media/efficientformer.png",
+  "image": "assets/media/efficientformer.webp",
   "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_medium.pt",
 
   "specs": {
@@ -253,7 +253,7 @@
   "release": "v2.0.2-models",
   "short_description": "High-capacity PyTorch model for MEYELens eye and pupil segmentation.",
   "description": "A large EfficientFormerV2 model for eye and pupil segmentation from eye-facing camera frames. This model provides the highest-capacity EfficientFormerV2 option in the MEYELens model zoo and is useful when segmentation quality is prioritized over inference speed.",
-  "image": "assets/media/efficientformer.png",
+  "image": "assets/media/efficientformer.webp",
   "download": "https://github.com/raffaelemazziotti/MEYElens/releases/download/v2.0.2-models/efficientformerv2_large.pt",
 
   "specs": {
