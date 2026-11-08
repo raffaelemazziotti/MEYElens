@@ -349,6 +349,14 @@
   overflow: hidden;
 }
 
+.page-resources .tutorial-view-count {
+  margin-top: auto;
+  padding-top: 4px;
+  color: var(--text-soft);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Tutorial tablet layout */
 
 @media (max-width: 1100px) {
@@ -402,6 +410,10 @@
 
   .page-resources .tutorial-type {
     font-size: 9px;
+  }
+
+  .page-resources .tutorial-view-count {
+    display: none;
   }
 
   .page-resources .tutorial-body h3 {
