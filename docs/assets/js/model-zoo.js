@@ -122,9 +122,6 @@ import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js"
         }
     }
 
-    // Counts below this are not shown, so new models do not display "0 downloads".
-    const MIN_PUBLIC_DOWNLOADS = 5;
-
     function formatDownloadCount(count) {
         const value = Number(count) || 0;
 
@@ -148,13 +145,11 @@ import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js"
         );
 
         const downloads = Number(downloadCounts.get(model.id)) || 0;
-        const downloadCountHtml = downloads >= MIN_PUBLIC_DOWNLOADS
-            ? `
-                <div class="model-zoo-download-count" aria-label="${downloads} downloads">
-                    ${escapeHtml(formatDownloadCount(downloads))} downloads
-                </div>
-            `
-            : "";
+        const downloadCountHtml = `
+            <div class="model-zoo-download-count" aria-label="${downloads} downloads">
+                ${escapeHtml(formatDownloadCount(downloads))} downloads
+            </div>
+        `;
 
         const badgeHtml = hasValue(model.badge)
             ? `
