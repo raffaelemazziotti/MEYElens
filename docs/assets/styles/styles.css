@@ -1189,24 +1189,44 @@ pre[class*="language-"] {
 
     .nav-toggle {
         display: inline-block;
+        width: 44px;
+        height: 44px;
     }
 
     .nav-menu {
         display: none;
         position: absolute;
-        top: 48px;
+        top: 54px;
         right: 0;
         flex-direction: column;
-        min-width: 200px;
-        padding: 12px;
+        gap: 2px;
+        width: min(300px, calc(100vw - 48px));
+        padding: 8px;
         background: var(--bg-soft);
         border: 1px solid var(--line);
-        border-radius: 10px;
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
         z-index: 10;
     }
 
     .nav-menu.open {
         display: flex;
+    }
+
+    /* Large, easy-to-tap rows */
+    .nav-menu a {
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 14px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:active,
+    .nav-menu a[aria-current="page"] {
+        background: rgba(255, 255, 255, 0.06);
     }
 
     .updates-grid {
