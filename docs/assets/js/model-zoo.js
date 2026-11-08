@@ -144,6 +144,13 @@ import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js"
             `Open details for ${model.name || "model"}`
         );
 
+        const downloads = Number(downloadCounts.get(model.id)) || 0;
+        const downloadCountHtml = `
+            <div class="model-zoo-download-count" aria-label="${downloads} ${downloads === 1 ? "download" : "downloads"}">
+                ${escapeHtml(formatDownloadCount(downloads))} ${downloads === 1 ? "download" : "downloads"}
+            </div>
+        `;
+
         const badgeHtml = hasValue(model.badge)
             ? `
                 <span class="model-zoo-badge">
@@ -187,13 +194,7 @@ import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js"
                         : ""
                 }
 
-                <!--
-                    Download counter intentionally hidden for now. Remove these
-                    HTML comment markers when the public totals are ready.
-                    <div class="model-zoo-download-count" aria-label="${escapeHtml(String(downloadCounts.get(model.id) || 0))} downloads">
-                        ${escapeHtml(formatDownloadCount(downloadCounts.get(model.id)))} downloads
-                    </div>
-                -->
+                ${downloadCountHtml}
             </div>
         `;
 
