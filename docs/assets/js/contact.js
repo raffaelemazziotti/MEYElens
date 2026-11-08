@@ -1,4 +1,4 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.119.0'
 
 const supabaseUrl = 'https://fqmatvvqllkmhtnxibgp.supabase.co'
 const supabaseKey = 'sb_publishable_bFrnywKmVo_QuSbsbcal7w_W-9ddhZl'

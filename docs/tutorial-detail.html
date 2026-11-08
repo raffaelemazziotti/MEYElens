@@ -10,19 +10,18 @@
     <link rel="shortcut icon" href="assets/media/favicon.png" />
     <link rel="apple-touch-icon" href="assets/media/favicon.png" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css">
     <link rel="stylesheet" href="assets/styles/styles.css" />
     <link rel="stylesheet" href="assets/styles/resources.css" />
+    <script type="module" src="assets/js/analytics.js"></script>
 </head>
-
-<script type="module" src="assets/js/analytics.js"></script>
-
 <body class="page-software page-tutorial-detail">
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <header class="site-header">
     <div class="container header-inner">
         <a class="brand" href="index.html" aria-label="MEYELens home">
-            <img src="assets/media/favicon.png" alt="MEYELens logo" class="brand-logo">
+            <img width="492" height="493" src="assets/media/favicon.png" alt="MEYELens logo" class="brand-logo">
 
             <span class="brand-text">
                 <span class="brand-name">
@@ -50,7 +49,7 @@
     </div>
 </header>
 
-<main>
+<main id="main-content">
     <section class="page-hero">
         <div class="container tutorial-hero-grid">
             <div>
@@ -64,7 +63,7 @@
             </div>
 
             <aside class="tutorial-preview-card" id="tutorial-preview-card" hidden>
-                <img id="tutorial-image" src="" alt="">
+                <img id="tutorial-image" src="" alt="" loading="lazy">
                 <div class="tutorial-preview-body">
                     <div class="tutorial-pill" id="tutorial-level"></div>
                     <p id="tutorial-image-caption"></p>
@@ -115,8 +114,8 @@
     window.Prism = window.Prism || {};
     window.Prism.manual = true;
 </script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-python.min.js"></script>
 
 <script src="assets/js/index.js"></script>
 <script type="module" src="assets/js/tutorials.js"></script>

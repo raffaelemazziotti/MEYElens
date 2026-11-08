@@ -131,22 +131,7 @@
   min-width: 84px;
 }
 
-.page-hardware .pipeline-step img {.page-hardware .bom-preview {
-  width: 56px;
-  height: 56px;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.page-hardware .data-table td:first-child,
-.page-hardware .data-table th:first-child {
-  width: 84px;
-  min-width: 84px;
-}
+.page-hardware .pipeline-step img {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
