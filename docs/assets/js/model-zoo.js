@@ -146,8 +146,8 @@ import { loadAssetMetricCounts, registerDownloadLink } from "./asset-metrics.js"
 
         const downloads = Number(downloadCounts.get(model.id)) || 0;
         const downloadCountHtml = `
-            <div class="model-zoo-download-count" aria-label="${downloads} downloads">
-                ${escapeHtml(formatDownloadCount(downloads))} downloads
+            <div class="model-zoo-download-count" aria-label="${downloads} ${downloads === 1 ? "download" : "downloads"}">
+                ${escapeHtml(formatDownloadCount(downloads))} ${downloads === 1 ? "download" : "downloads"}
             </div>
         `;
 
