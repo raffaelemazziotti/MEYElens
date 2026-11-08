@@ -66,8 +66,41 @@ function registerDeclaredDownloadLinks() {
     });
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', registerDeclaredDownloadLinks, { once: true });
-} else {
+async function showDeclaredDownloadCounts() {
+    const links = [...document.querySelectorAll('[data-asset-kind][data-asset-id][data-asset-metric="download"]')];
+    if (!links.length) return;
+
+    const countsByKind = new Map();
+    for (const kind of new Set(links.map((link) => link.dataset.assetKind))) {
+        countsByKind.set(kind, await loadAssetMetricCounts(kind, 'download'));
+    }
+
+    links.forEach((link) => {
+        const counts = countsByKind.get(link.dataset.assetKind);
+
+        // An empty result means the counts could not be loaded, so show nothing.
+        if (!counts || counts.size === 0) return;
+
+        const downloads = Number(counts.get(link.dataset.assetId)) || 0;
+        const wrapper = document.createElement('span');
+        wrapper.className = 'download-with-count';
+
+        const label = document.createElement('span');
+        label.className = 'download-count';
+        label.textContent = `${downloads} ${downloads === 1 ? 'download' : 'downloads'}`;
+
+        link.replaceWith(wrapper);
+        wrapper.append(link, label);
+    });
+}
+
+function initDeclaredDownloadLinks() {
     registerDeclaredDownloadLinks();
+    void showDeclaredDownloadCounts();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDeclaredDownloadLinks, { once: true });
+} else {
+    initDeclaredDownloadLinks();
 }
