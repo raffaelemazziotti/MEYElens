@@ -3,6 +3,8 @@
     const MEASUREMENT_ID = "G-BZ0DN84FBW";
     const STORAGE_KEY = "meyelens_cookie_consent";
     const PRIVACY_URL = "privacy.html";
+    const SETTINGS_URL = "cookie-settings.html";
+    const NO_BANNER_PAGES = ["/privacy", "/cookie-settings"];
 
     function getStoredConsent() {
         return localStorage.getItem(STORAGE_KEY);
@@ -35,6 +37,7 @@
         ensureDataLayer();
         loadGtagScript();
 
+        window[`ga-disable-${MEASUREMENT_ID}`] = false;
         window.gtag("js", new Date());
 
         // Explicitly mark consent as granted before config
@@ -53,14 +56,58 @@
     function disableAnalytics() {
         ensureDataLayer();
 
-        // Keep consent denied
-        window.gtag("consent", "default", {
+        // Stop any running tag and keep consent denied
+        window[`ga-disable-${MEASUREMENT_ID}`] = true;
+        window.gtag("consent", "update", {
             analytics_storage: "denied",
             ad_storage: "denied",
             ad_user_data: "denied",
             ad_personalization: "denied"
         });
+        clearAnalyticsCookies();
     }
+
+    function clearAnalyticsCookies() {
+        const names = ["_ga", "_gid", `_ga_${MEASUREMENT_ID.replace("G-", "")}`];
+        const host = window.location.hostname;
+        const domains = [host, `.${host}`];
+        const parts = host.split(".");
+        if (parts.length > 2) {
+            domains.push(`.${parts.slice(-2).join(".")}`);
+        }
+        names.forEach((name) => {
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+            domains.forEach((domain) => {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${domain}`;
+            });
+        });
+    }
+
+    function setConsent(accepted) {
+        setStoredConsent(accepted ? "accepted" : "declined");
+        if (accepted) {
+            enableAnalytics();
+        } else {
+            disableAnalytics();
+        }
+        removeBanner();
+    }
+
+    function injectSettingsLink() {
+        const links = document.querySelector(".footer-links");
+        if (!links || links.querySelector(`a[href="${SETTINGS_URL}"]`)) {
+            return;
+        }
+        const link = document.createElement("a");
+        link.href = SETTINGS_URL;
+        link.textContent = "Cookie settings";
+        links.appendChild(link);
+    }
+
+    window.MEYELensConsent = {
+        get: getStoredConsent,
+        set: setConsent
+    };
 
     function removeBanner() {
         const banner = document.getElementById("cookie-consent-banner");
@@ -87,8 +134,8 @@
                     </p>
                 </div>
                 <div class="cookie-consent-actions">
+                    <a class="btn" href="${SETTINGS_URL}" id="cookie-options">Options</a>
                     <button type="button" class="btn btn-primary" id="cookie-accept">Accept</button>
-                    <button type="button" class="btn" id="cookie-decline">Decline</button>
                 </div>
             </div>
         `;
@@ -165,21 +212,12 @@
         document.head.appendChild(style);
         document.body.appendChild(banner);
 
-        document.getElementById("cookie-accept")?.addEventListener("click", () => {
-            setStoredConsent("accepted");
-            enableAnalytics();
-            removeBanner();
-        });
-
-        document.getElementById("cookie-decline")?.addEventListener("click", () => {
-            setStoredConsent("declined");
-            disableAnalytics();
-            removeBanner();
-        });
+        document.getElementById("cookie-accept")?.addEventListener("click", () => setConsent(true));
     }
 
     function initConsent() {
         ensureDataLayer();
+        injectSettingsLink();
 
         // Default denied until the user makes a choice
         window.gtag("consent", "default", {
@@ -201,7 +239,9 @@
             return;
         }
 
-        injectBanner();
+        if (!NO_BANNER_PAGES.includes(window.location.pathname.replace(/\.html$/, ""))) {
+            injectBanner();
+        }
     }
 
     if (document.readyState === "loading") {

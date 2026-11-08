@@ -1264,3 +1264,56 @@ pre[class*="language-"] {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Cookie settings */
+
+.consent-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+}
+
+.consent-check {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+}
+
+.consent-label {
+    display: block;
+    cursor: pointer;
+}
+
+.consent-title {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.consent-desc {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.consent-status {
+    min-height: 1.5em;
+    margin: 12px 0 0;
+    color: var(--success);
+    font-size: 14px;
+}
