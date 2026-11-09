@@ -7,7 +7,16 @@ const supabase = createClient(
 
 const registeredLinks = new WeakSet();
 
+// Visits from a local test server or a file:// page are not real visitors.
+// Run localStorage.setItem('meyelens_count_local', '1') in the console to
+// count them anyway while testing the counters.
+const isLocal =
+    window.location.protocol === 'file:' ||
+    ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+
 export async function recordAssetMetric(assetKind, assetId, metric) {
+    if (isLocal && localStorage.getItem('meyelens_count_local') !== '1') return;
+
     const { error } = await supabase.rpc('increment_asset_metric', {
         p_asset_kind: assetKind,
         p_asset_id: assetId,

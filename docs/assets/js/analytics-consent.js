@@ -93,17 +93,6 @@
         removeBanner();
     }
 
-    function injectSettingsLink() {
-        const links = document.querySelector(".footer-links");
-        if (!links || links.querySelector(`a[href="${SETTINGS_URL}"]`)) {
-            return;
-        }
-        const link = document.createElement("a");
-        link.href = SETTINGS_URL;
-        link.textContent = "Cookie settings";
-        links.appendChild(link);
-    }
-
     window.MEYELensConsent = {
         get: getStoredConsent,
         set: setConsent
@@ -217,7 +206,6 @@
 
     function initConsent() {
         ensureDataLayer();
-        injectSettingsLink();
 
         // Default denied until the user makes a choice
         window.gtag("consent", "default", {

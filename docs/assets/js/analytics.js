@@ -19,7 +19,18 @@ const allowedPaths = new Set([
   '/404.html'
 ])
 
+// Visits from a local test server or a file:// page are not real visitors.
+// Run localStorage.setItem('meyelens_count_local', '1') in the console to
+// count them anyway while testing the counters.
+const isLocal =
+  window.location.protocol === 'file:' ||
+  ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname)
+
 async function recordPageView() {
+  if (isLocal && localStorage.getItem('meyelens_count_local') !== '1') {
+    return
+  }
+
   const path = window.location.pathname === '/index.html' ? '/' : window.location.pathname
 
   if (!allowedPaths.has(path)) {
