@@ -223,3 +223,12 @@
     transition: none;
   }
 }
+
+/* Single-column layout: do not stretch the camera picture beyond its real size */
+
+@media (max-width: 960px) {
+  .page-hardware .camera-modules-img {
+    max-width: 399px;
+    margin-inline: auto;
+  }
+}
