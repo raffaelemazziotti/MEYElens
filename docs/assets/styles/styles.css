@@ -1368,3 +1368,46 @@ pre[class*="language-"] {
     font-size: 11px;
     font-variant-numeric: tabular-nums;
 }
+
+/* Mobile touch targets and readable labels */
+
+@media (max-width: 760px) {
+    .btn {
+        min-height: 44px;
+    }
+
+    .brand {
+        min-height: 44px;
+    }
+
+    .nav-toggle {
+        flex-shrink: 0;
+    }
+
+    .footer-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 4px;
+    }
+
+    .toc a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .copy-btn {
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .update-tag {
+        font-size: 11px;
+    }
+
+    .download-count {
+        font-size: 12px;
+    }
+}

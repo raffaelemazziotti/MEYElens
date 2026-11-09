@@ -657,3 +657,34 @@
     -webkit-line-clamp: 1;
   }
 }
+
+/* Mobile: slightly larger small text */
+
+@media (max-width: 760px) {
+  .page-software .model-zoo-type {
+    font-size: 11px;
+  }
+
+  .install-row-label {
+    font-size: 12px;
+  }
+
+  .page-software .model-zoo-download-count {
+    font-size: 12px;
+  }
+}
+
+/* Very small phones: keep room for the download count line */
+
+@media (max-width: 460px) {
+  .page-software .model-zoo-card {
+    height: 108px;
+    min-height: 108px;
+  }
+
+  .page-software .model-zoo-thumb,
+  .page-software .model-zoo-image,
+  .page-software .model-zoo-body {
+    height: 108px;
+  }
+}
