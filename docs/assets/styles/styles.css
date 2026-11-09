@@ -781,6 +781,16 @@ figcaption {
     font-size: 13px;
 }
 
+.updates-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.updates-more:has(> .updates-toggle[hidden]) {
+    display: none;
+}
+
 .updates-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
