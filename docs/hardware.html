@@ -442,11 +442,19 @@
             <div class="two-up">
                 <div class="content-block">
                     <p>
-                        The illumination configuration depends on the camera module and the recording setup.
+                        The illumination configuration depends on the camera module and on the model you use.
                         If you use a camera with built-in LEDs, the <u>integrated illumination is sufficient</u>
-                        to obtain a good image of the eye. If you use the camera without the built-in LEDs external illumination is required to obtain bright and
-                        stable predictions. In this case there are several options:
+                        with the PyTorch SegFormer models, so an external illuminator is not necessary.
+                        External illumination is only required if you use a camera without built-in LEDs,
+                        or if you run the older models based on convolutional neural networks, which need bright and
+                        stable images to give reliable predictions. In these cases there are several options:
                     </p>
+
+                    <div class="note note-tip">
+                        <strong>Tip:</strong>
+                        If you use one of the SegFormer models, external illumination is not necessary: the embedded LEDs of the camera are sufficient.
+                        An external illuminator is only needed for the older models based on convolutional neural networks.
+                    </div>
 
                     <ul class="list">
                         <li>
