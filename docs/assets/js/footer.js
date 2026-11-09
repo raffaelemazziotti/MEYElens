@@ -22,6 +22,7 @@
 
         <div class="footer-links">
             ${menuLinks}
+            <a href="privacy.html">Privacy</a>
             <a href="cookie-settings.html">Cookie settings</a>
         </div>
     </div>`;

@@ -723,7 +723,8 @@ figcaption {
 .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    justify-content: flex-end;
+    gap: 8px 12px;
 }
 
 .footer-links a {
@@ -747,6 +748,10 @@ figcaption {
 
     .footer-inner {
         flex-direction: column;
+    }
+
+    .footer-links {
+        justify-content: flex-start;
     }
 
     h1 {
