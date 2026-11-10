@@ -772,3 +772,17 @@
     min-width: 52px;
   }
 }
+
+/* Mobile: slightly larger small text */
+
+@media (max-width: 760px) {
+  .page-resources .model-zoo-type,
+  .page-resources .tutorial-type {
+    font-size: 11px;
+  }
+
+  .page-resources .citation-status,
+  .page-tutorial-detail .tutorial-pill {
+    font-size: 12px;
+  }
+}

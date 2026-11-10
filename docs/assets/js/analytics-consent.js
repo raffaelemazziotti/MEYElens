@@ -93,17 +93,6 @@
         removeBanner();
     }
 
-    function injectSettingsLink() {
-        const links = document.querySelector(".footer-links");
-        if (!links || links.querySelector(`a[href="${SETTINGS_URL}"]`)) {
-            return;
-        }
-        const link = document.createElement("a");
-        link.href = SETTINGS_URL;
-        link.textContent = "Cookie settings";
-        links.appendChild(link);
-    }
-
     window.MEYELensConsent = {
         get: getStoredConsent,
         set: setConsent
@@ -194,9 +183,36 @@
             }
 
             @media (max-width: 760px) {
+                #cookie-consent-banner {
+                    left: 8px;
+                    right: 8px;
+                    bottom: 8px;
+                }
+
                 .cookie-consent-inner {
                     flex-direction: column;
                     align-items: stretch;
+                    gap: 10px;
+                    padding: 12px 14px;
+                }
+
+                .cookie-consent-copy strong {
+                    margin-bottom: 3px;
+                }
+
+                .cookie-consent-copy p {
+                    font-size: 13px;
+                    line-height: 1.4;
+                }
+
+                .cookie-consent-actions {
+                    flex-wrap: nowrap;
+                    gap: 8px;
+                }
+
+                .cookie-consent-actions .btn {
+                    min-height: 44px;
+                    padding: 8px 10px;
                 }
 
                 .cookie-consent-actions {
@@ -217,7 +233,6 @@
 
     function initConsent() {
         ensureDataLayer();
-        injectSettingsLink();
 
         // Default denied until the user makes a choice
         window.gtag("consent", "default", {

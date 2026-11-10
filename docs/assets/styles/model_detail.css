@@ -326,3 +326,12 @@
     padding-top: 4px;
   }
 }
+
+/* Mobile: slightly larger small text */
+
+@media (max-width: 760px) {
+  .page-model-detail .model-summary-label,
+  .page-model-detail .model-side-card .model-summary-label {
+    font-size: 12px;
+  }
+}
