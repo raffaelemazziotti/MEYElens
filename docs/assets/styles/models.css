@@ -196,3 +196,148 @@
     box-shadow: none;
   }
 }
+/* Tables on phones: parts as cards, print settings as stacked rows (no sideways scrolling) */
+
+@media (max-width: 760px) {
+  .page-models #parts .table-wrap,
+  .page-models #print-settings .table-wrap {
+    overflow: visible;
+    border: 0;
+    background: none;
+  }
+
+  .page-models #parts .data-table,
+  .page-models #parts .data-table tbody,
+  .page-models #print-settings .data-table,
+  .page-models #print-settings .data-table tbody {
+    display: block;
+    min-width: 0;
+  }
+
+  /* Column headers are replaced by the labels inside each card */
+  .page-models #parts .data-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  /* --- Parts: one card per part --- */
+
+  .page-models #parts .data-table tr {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    column-gap: 14px;
+    margin-bottom: 10px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+
+  .page-models #parts .data-table td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  /* Picture on the left, name and description on the right */
+  .page-models #parts .data-table td:first-child {
+    grid-row: 1 / span 2;
+    width: auto;
+    min-width: 0;
+  }
+
+  .page-models #parts .part-preview {
+    width: 72px;
+    height: 72px;
+  }
+
+  .page-models #parts .data-table td:nth-child(2) {
+    align-self: end;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .page-models #parts .data-table td:nth-child(3) {
+    align-self: start;
+    margin-top: 2px;
+  }
+
+  .page-models #parts .data-table td[data-label] {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .page-models #parts .data-table td[data-label]::before {
+    content: attr(data-label);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .page-models #parts .data-table td[data-label="Material"] {
+    margin-top: 12px;
+  }
+
+  /* Full-width, easy-to-tap download link (with its count underneath) */
+  .page-models #parts .data-table td:last-child {
+    grid-column: 1 / -1;
+    padding: 12px 0 0;
+  }
+
+  .page-models #parts .data-table td:last-child .download-with-count {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  .page-models #parts .data-table td:last-child a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* --- Print settings: label above value --- */
+
+  .page-models #print-settings .table-wrap {
+    margin-top: 14px;
+  }
+
+  .page-models #print-settings .data-table tr {
+    display: block;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+
+  .page-models #print-settings .data-table th,
+  .page-models #print-settings .data-table td {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .page-models #print-settings .data-table th {
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+}
